@@ -15,12 +15,14 @@ OwnedGame.destroy_all
 OwnedGame.create({appid: 570, name: "Dota 2", developer: "Valve"})
 OwnedGame.create({appid: 440, name: "Team Fortress 2", developer: "Valve"})
 
-game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json"
+game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json"
 game_list = URI.parse(game_list_url).read
 steam_games = JSON.parse(game_list)
 app_list = steam_games["applist"]["apps"]
 
 random_sample = app_list.sample(10)
+
+puts app_list.length
 
 random_sample.each do |game|
   appid = game["appid"]

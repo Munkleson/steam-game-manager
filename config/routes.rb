@@ -7,4 +7,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  # get "/", to: "owned_games#index"
+  # get "/search", to: "owned_games#get_games_list"
+  get "/", to: "owned_games#index", as: :home
 end
