@@ -20,7 +20,7 @@ game_list = URI.parse(game_list_url).read
 steam_games = JSON.parse(game_list)
 app_list = steam_games["applist"]["apps"]
 
-random_sample = app_list.sample(10)
+random_sample = app_list.sample(5)
 
 puts app_list.length
 

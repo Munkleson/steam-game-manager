@@ -202,5 +202,9 @@ function removeN(word) {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   //// logic for form validation here. If it is valid, then submit, else display errors
+  const game = gameList.find(game => game.name.toLowerCase() === input.value.toLowerCase());
+  const appidParam = document.querySelector("#hidden-appid");
+  appidParam.value = game.appid;
+  input.value = game.name;
   form.submit();
 });

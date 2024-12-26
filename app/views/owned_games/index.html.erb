@@ -1,13 +1,17 @@
 <%= javascript_include_tag 'searchFunction', 'data-turbo-track': 'reload', defer: true %>
 <%= stylesheet_link_tag "search_bar", "data-turbo-track": "reload" %>
 
-<form action="" id="search-form">
+<form action="/add" method="POST" id="search-form">
   <div id="search-div">
-    <input type="text" id="search-input">
+    <input type="text" id="search-input" name="name">
     <div id="search-dropdown"></div>
   </div>
   <input type="submit">
+  <%= hidden_field_tag :appid, "", id: 'hidden-appid' %>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 </form>
+
+<p><%= @params %></p>
 
 <div id="data-game-list" data-info="<%= @app_list.to_json %>"></div>
 <div id="data-alphabet-array" data-info="<%= @alphabet_array %>"></div>

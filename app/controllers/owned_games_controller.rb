@@ -11,12 +11,29 @@ class OwnedGamesController < ApplicationController
     @alphabet_array = ("a".."z").to_a
   end
 
-  # def get_games_list
-  #   game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json"
-  #   game_list = URI.parse(game_list_url).read
-  #   steam_games = JSON.parse(game_list)
-  #   app_list = steam_games["applist"]["apps"]
-  #   response.headers['Content-Type'] = 'application/json'
-  #   render json: app_list
-  # end
+  def owned_games_list
+    @owned_games = OwnedGame.all
+  end
+
+  def create
+    game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
+    game = URI.parse(game_url).read
+    game = JSON.parse(game)[params[:appid]]["data"]
+    developer = game["developers"][0]
+
+    game_details = {
+      developer:,
+      appid: params[:appid],
+      name: params[:name]
+    }
+    @game = OwnedGame.new(game_details)
+    @game.save
+    redirect_to owned_games_list_path
+  end
+
+  private
+
+  def owned_game_params
+    params.require(:owned_game).permit(:name, :appid, :developer)
+  end
 end
