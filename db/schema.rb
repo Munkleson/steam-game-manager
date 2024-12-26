@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_24_120728) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_26_134612) do
   create_table "owned_games", force: :cascade do |t|
     t.string "name"
     t.string "developer"
     t.integer "appid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_url"
   end
 
 end

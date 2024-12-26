@@ -8,6 +8,12 @@ class OwnedGamesController < ApplicationController
     game_list = URI.parse(game_list_url).read
     steam_games = JSON.parse(game_list)
     @app_list = steam_games["applist"]["apps"]
+    # .select do |game|
+    #   game_url = "https://store.steampowered.com/api/appdetails?appids=#{game["appid"]}"
+    #   game_data = URI.parse(game_url).read
+    #   game_api_data = JSON.parse(game_data)
+    #   game_api_data[game["appid"].to_s]["success"] == true
+    # end
     @alphabet_array = ("a".."z").to_a
   end
 
@@ -20,11 +26,13 @@ class OwnedGamesController < ApplicationController
     game = URI.parse(game_url).read
     game = JSON.parse(game)[params[:appid]]["data"]
     developer = game["developers"][0]
+    image_url = game["header_image"]
 
     game_details = {
-      developer:,
       appid: params[:appid],
-      name: params[:name]
+      name: params[:name],
+      developer:,
+      image_url:,
     }
     @game = OwnedGame.new(game_details)
     @game.save

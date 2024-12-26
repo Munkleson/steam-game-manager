@@ -117,6 +117,7 @@ let initialSearchResults;
 const searchDiv = document.querySelector("#search-div");
 const searchDropdown = document.querySelector("#search-dropdown");
 
+// for when I can retrieve details through the frontend, not backend
 // const gameList = fetch("http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json")
 //   .then(response => response.json())
 //   .then(data => data);
@@ -144,9 +145,13 @@ function loadGameList() {
   if (!gameList) {
     const dataGameList = document.querySelector("#data-game-list");
     gameList = JSON.parse(dataGameList.dataset.info);
+    console.log(gameList);
+
     gameList = removeDuplicates(gameList);
     // gameList = gameList.sort((a, b) => a.appid - b.appid) // sort by appid
     gameList = gameList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+    console.log(gameList);
+
   }
   const dataAlphabetArray = document.querySelector("#data-alphabet-array");
   alphabetArray = JSON.parse(dataAlphabetArray.dataset.info);
@@ -164,7 +169,7 @@ function removeDuplicates(gameList) {
 function orderedSearch(input, games) {
   const filteredList = games.filter(game => {
     if (game.name) {
-      return removeN(game.name).toLowerCase().includes(removeN(input).toLowerCase());
+      return minimalizeWord(game.name).toLowerCase().includes(minimalizeWord(input).toLowerCase());
     }
   });
   return filteredList.sort((a, b) => new Levenshtein(a.name, input) > new Levenshtein(b.name, input) ? 1 : -1)
@@ -189,11 +194,18 @@ function displayDropdown(filteredList) {
     const dropdownOption = document.createElement("div");
     dropdownOption.innerText = filteredList[index].name;
     dropdownOption.classList.add("dropdown-item");
+    // Will have to add
+    dropdownOption.addEventListener("click", (event) => selectDropdownItem(event.currentTarget));
+
     searchDropdown.append(dropdownOption)
   }
 }
 
-function removeN(word) {
+function selectDropdownItem(target) {
+  input.value = target.innerText;
+}
+
+function minimalizeWord(word) {
   const split = word.split("");
   const regex = new RegExp(/\w/);
   return split.filter(letter => regex.test(letter)).join("");
@@ -202,7 +214,7 @@ function removeN(word) {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   //// logic for form validation here. If it is valid, then submit, else display errors
-  const game = gameList.find(game => game.name.toLowerCase() === input.value.toLowerCase());
+  const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
   const appidParam = document.querySelector("#hidden-appid");
   appidParam.value = game.appid;
   input.value = game.name;
