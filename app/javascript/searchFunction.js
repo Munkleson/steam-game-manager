@@ -110,11 +110,12 @@ const input = document.querySelector("#search-input")
 const form = document.querySelector("#search-form")
 
 let gameList;
+let alphabetArray;
+let initialSearchSet = false;
+let initialSearchResults;
 
 const searchDiv = document.querySelector("#search-div");
 const searchDropdown = document.querySelector("#search-dropdown");
-
-
 
 // const gameList = fetch("http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json")
 //   .then(response => response.json())
@@ -126,20 +127,29 @@ input.addEventListener("keyup", (event) => {
   searchDropdown.innerHTML = "";
 
   let input = event.currentTarget.value;
-
-  const filteredList = filterSearchResults(input);
-  displayDropdown(filteredList);
+  if (input.length >= 3) {
+    if (!initialSearchSet) {
+      initialSearchResults = alphabetMatch(input);
+      initialSearchSet = true;
+    }
+    const orderedSearchResults = orderedSearch(input, initialSearchResults)
+    displayDropdown(orderedSearchResults);
+  } else if (input.length < 3) {
+    initialSearchResults = "";
+    initialSearchSet = false;
+  }
 });
 
 function loadGameList() {
   if (!gameList) {
-    const dataContainer = document.querySelector("#data-container");
-    gameList = JSON.parse(dataContainer.dataset.info);
+    const dataGameList = document.querySelector("#data-game-list");
+    gameList = JSON.parse(dataGameList.dataset.info);
     gameList = removeDuplicates(gameList);
-    // Sort functions needed only for dev, not live
     // gameList = gameList.sort((a, b) => a.appid - b.appid) // sort by appid
-    // gameList = gameList.sort((a, b) => a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1)
+    gameList = gameList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
   }
+  const dataAlphabetArray = document.querySelector("#data-alphabet-array");
+  alphabetArray = JSON.parse(dataAlphabetArray.dataset.info);
 }
 
 function removeDuplicates(gameList) {
@@ -151,33 +161,46 @@ function removeDuplicates(gameList) {
   })
 }
 
-function filterSearchResults(input) {
-  // const length = input.length;
-  // const index = gameList.findIndex(element => element.name.slice(0, length).toLowerCase() === input.toLowerCase())
-  // const filteredList = gameList.filter(element => element.name.slice(0, length).toLowerCase() === input.toLowerCase());
-  const filteredList = gameList.filter(game => {
+function orderedSearch(input, games) {
+  const filteredList = games.filter(game => {
     if (game.name) {
-      // return removeNonEligibleCharacters(game.name).toLowerCase() === removeNonEligibleCharacters(input).toLowerCase();
-      return removeNonEligibleCharacters(game.name).toLowerCase().includes(removeNonEligibleCharacters(input).toLowerCase());
-      // console.log(new Levenshtein(removeNonEligibleCharacters(game.name).toLowerCase(), removeNonEligibleCharacters(input).toLowerCase()).distance < 3)
-      // return new Levenshtein(removeNonEligibleCharacters(game.name).toLowerCase(), removeNonEligibleCharacters(input).toLowerCase()).distance < 3
+      return removeN(game.name).toLowerCase().includes(removeN(input).toLowerCase());
     }
   });
-  // return filteredList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
-  return filteredList.sort((a, b) => new Levenshtein(a, input) > new Levenshtein(b, input) ? 1 : -1)
-};
+  return filteredList.sort((a, b) => new Levenshtein(a.name, input) > new Levenshtein(b.name, input) ? 1 : -1)
+}
+
+function alphabetMatch(input) {
+  const startIndex = gameList.findIndex(game => game.name.slice(0, input.length).toLowerCase() === input.toLowerCase())
+  const firstLetter = input[0].toLowerCase();
+  const nextLetter = alphabetArray[alphabetArray.findIndex(letter => letter === firstLetter) + 1];
+  const endIndex = gameList.findIndex(game => {
+    if (game.name[0]) {
+      return game.name[0].toLowerCase() === nextLetter;
+    }
+    return game.name[0] === nextLetter;
+  });
+  return gameList.slice(startIndex, endIndex);
+}
 
 function displayDropdown(filteredList) {
   const maxTenResults = filteredList.length >= 10 ? 10 : filteredList.length;
   for (let index = 0; index < maxTenResults; index++) {
     const dropdownOption = document.createElement("div");
     dropdownOption.innerText = filteredList[index].name;
+    dropdownOption.classList.add("dropdown-item");
     searchDropdown.append(dropdownOption)
   }
 }
 
-function removeNonEligibleCharacters(word) {
+function removeN(word) {
   const split = word.split("");
-  const regex = new RegExp(/\S/);
+  const regex = new RegExp(/\w/);
   return split.filter(letter => regex.test(letter)).join("");
 }
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  //// logic for form validation here. If it is valid, then submit, else display errors
+  form.submit();
+});
