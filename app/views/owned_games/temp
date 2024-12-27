@@ -1,0 +1,3 @@
+<div style="background-image: url('<%= game.image_url %>')" class="card-img-background card-img-width"></div>
+
+<p><%= game.appid %></p>

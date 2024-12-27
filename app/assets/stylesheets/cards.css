@@ -1,0 +1,37 @@
+.card-height {
+  height: 15vh;
+}
+
+.card-img-holder {
+  width: 30%;
+}
+
+.card-img-width {
+  width: 30%;
+  /* height: 100%; */
+}
+/*
+.card-img-background {
+  background-size: contain;
+  background-repeat: no-repeat;
+} */
+
+.card-info-dimensions {
+  width: 70%;
+  height: 100%;
+}
+
+.card-info-item {
+  height: 50%;
+}
+
+.completed-text {
+  font-size: 0.8rem;
+}
+
+@media only screen and (max-aspect-ratio: 1) {
+  .card-img-width {
+    width: auto;
+    height: 10vh;
+  }
+}

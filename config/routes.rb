@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   get "/add", to: "owned_games#index", as: :home
 
   post "/add", to: "owned_games#create"
+
+  patch "/update", to: "owned_games#update"
 end

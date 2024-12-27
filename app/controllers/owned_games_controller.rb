@@ -39,6 +39,17 @@ class OwnedGamesController < ApplicationController
     redirect_to owned_games_list_path
   end
 
+  def update
+    puts params
+    game = OwnedGame.find(params[:id])
+
+    if game.update({completed: params[:completed]})
+      render json: { message: 'Update successful' }, status: :ok
+    else
+      render json: { error: item.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def owned_game_params
