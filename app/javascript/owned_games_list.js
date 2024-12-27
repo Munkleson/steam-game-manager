@@ -1,17 +1,32 @@
-var checkboxes = document.querySelectorAll(".completed-checkbox");
+var completedCheckboxes = document.querySelectorAll(".completed-checkbox");
+var playedCheckboxes = document.querySelectorAll(".played-checkbox");
 
 var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-checkboxes.forEach((checkbox) => {
+completedCheckboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", (event) => {
-    sendCheckboxCompletionChange(event.currentTarget)
+    sendCheckboxChange(event.currentTarget, "completed")
   })
 })
 
-function sendCheckboxCompletionChange(target) {
-  const completion = target.checked;
-  const dbId = target.id;
-  const params = {id: dbId, completed: completion};
+playedCheckboxes.forEach((checkbox) => {
+  checkbox.addEventListener("change", (event) => {
+    sendCheckboxChange(event.currentTarget, "played")
+  })
+})
+
+function sendCheckboxChange(target, type) {
+  const checkboxValue = target.checked;
+  const dbId = target.dataset.id;
+  const params = { id: dbId };
+  switch(type) {
+    case "completed":
+      params.completed = checkboxValue;
+      break;
+    case "played":
+      params.played = checkboxValue;
+      break;
+  }
 
   fetch('/update', {
     method: 'PATCH',

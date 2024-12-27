@@ -11,7 +11,7 @@
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 </form>
 
-<p><%= @params %></p>
+<%= link_to "Go to your games", owned_games_list_path, class: "btn btn-primary" %>
 
 <div id="data-game-list" data-info="<%= @app_list.to_json %>"></div>
 <div id="data-alphabet-array" data-info="<%= @alphabet_array %>"></div>

@@ -1,3 +1,7 @@
+.games-list-body-container {
+  padding-top: 1vh;
+}
+
 .card-height {
   height: 15vh;
 }
@@ -27,6 +31,10 @@
 }
 
 .completed-text {
+  font-size: 0.8rem;
+}
+
+.played-text {
   font-size: 0.8rem;
 }
 

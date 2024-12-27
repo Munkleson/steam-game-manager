@@ -40,10 +40,8 @@ class OwnedGamesController < ApplicationController
   end
 
   def update
-    puts params
     game = OwnedGame.find(params[:id])
-
-    if game.update({completed: params[:completed]})
+    if game.update(owned_game_params)
       render json: { message: 'Update successful' }, status: :ok
     else
       render json: { error: item.errors.full_messages }, status: :unprocessable_entity
@@ -61,6 +59,6 @@ class OwnedGamesController < ApplicationController
   private
 
   def owned_game_params
-    params.require(:owned_game).permit(:name, :appid, :developer)
+    params.require(:owned_game).permit(:name, :appid, :developer, :completed, :played, :image_url)
   end
 end

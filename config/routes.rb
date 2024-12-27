@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   # get "/", to: "owned_games#index"
   get "/games", to: "owned_games#owned_games_list", as: :owned_games_list
-  get "/add", to: "owned_games#index", as: :home
+  get "/add", to: "owned_games#index", as: :add_games
   get "/delete", to: "owned_games#delete", as: :delete
 
   post "/add", to: "owned_games#create"
