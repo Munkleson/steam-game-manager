@@ -114,7 +114,7 @@ let alphabetArray;
 let initialSearchSet = false;
 let initialSearchResults;
 
-const searchDiv = document.querySelector("#search-div");
+// const searchDiv = document.querySelector("#search-div");
 const searchDropdown = document.querySelector("#search-dropdown");
 
 // for when I can retrieve details through the frontend, not backend

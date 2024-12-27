@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post "/add", to: "owned_games#create"
 
   patch "/update", to: "owned_games#update"
+  patch "/update_order", to: "owned_games#update_order"
 
   delete "/delete", to: "owned_games#delete"
 end

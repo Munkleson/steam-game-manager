@@ -5,9 +5,24 @@ var gameListBodyContainer = document.querySelector(".games-list-body-container")
 new Sortable(gameListBodyContainer, {
   animation: 150,
   ghostClass: 'blue-background-class',
-  // onEnd: function(event) {
-
-  // }
+  onEnd: function() {
+    const currentGameCardsPosition = document.querySelectorAll(".game-card");
+    const params = { games: [] };
+    currentGameCardsPosition.forEach((game, index) => {
+      const id = game.dataset.id;
+      params.games.push({ id: id, order: index + 1});
+    })
+    fetch('/update_order', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken,
+      },
+      body: JSON.stringify(params)
+    }).then(response => response)
+    .then(data => data)
+    .catch(error => console.error('Error:', error));
+  },
 })
 
 var completedCheckboxes = document.querySelectorAll(".completed-checkbox");

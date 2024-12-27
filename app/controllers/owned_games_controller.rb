@@ -18,7 +18,9 @@ class OwnedGamesController < ApplicationController
   end
 
   def owned_games_list
-    @owned_games = OwnedGame.all
+    @owned_games = OwnedGame.all.sort do |a, b|
+      a[:order] <=> b[:order]
+    end
   end
 
   def create
@@ -27,12 +29,14 @@ class OwnedGamesController < ApplicationController
     game = JSON.parse(game)[params[:appid]]["data"]
     developer = game["developers"][0]
     image_url = game["header_image"]
+    order = OwnedGame.count + 1
 
     game_details = {
       appid: params[:appid],
       name: params[:name],
       developer:,
       image_url:,
+      order:,
     }
     @game = OwnedGame.new(game_details)
     @game.save
@@ -48,6 +52,15 @@ class OwnedGamesController < ApplicationController
     end
   end
 
+  def update_order
+    games = params[:games]
+    puts games
+    games.each do |item|
+      game = OwnedGame.find(item["id"])
+      game.update({ order: item["order"] })
+    end
+  end
+
   def delete
     game = OwnedGame.find(params[:id])
     game.destroy
@@ -57,6 +70,6 @@ class OwnedGamesController < ApplicationController
   private
 
   def owned_game_params
-    params.require(:owned_game).permit(:name, :appid, :developer, :completed, :played, :image_url)
+    params.require(:owned_game).permit(:name, :appid, :developer, :completed, :played, :image_url, :order)
   end
 end

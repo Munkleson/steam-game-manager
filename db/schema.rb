@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_27_090541) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_27_152531) do
   create_table "owned_games", force: :cascade do |t|
     t.string "name"
     t.string "developer"
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_27_090541) do
     t.string "image_url"
     t.boolean "completed", default: false
     t.boolean "played", default: false
+    t.integer "order", default: 0, null: false
   end
 
 end
