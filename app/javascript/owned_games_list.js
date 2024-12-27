@@ -1,34 +1,40 @@
 //= require sortable.min
+var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 var gameCards = document.querySelectorAll(".game-card");
 var gameListBodyContainer = document.querySelector(".games-list-body-container");
 new Sortable(gameListBodyContainer, {
   animation: 150,
   ghostClass: 'blue-background-class',
-  onEnd: function() {
-    const currentGameCardsPosition = document.querySelectorAll(".game-card");
-    const params = { games: [] };
-    currentGameCardsPosition.forEach((game, index) => {
-      const id = game.dataset.id;
-      params.games.push({ id: id, order: index + 1});
-    })
-    fetch('/update_order', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken,
-      },
-      body: JSON.stringify(params)
-    }).then(response => response)
-    .then(data => data)
-    .catch(error => console.error('Error:', error));
-  },
+  onEnd: function() { changeOrder() },
 })
+
+function changeOrder() {
+  const currentGameCardsPosition = document.querySelectorAll(".game-card");
+  const params = { games: [] };
+  currentGameCardsPosition.forEach((game, index) => {
+    const id = game.dataset.id;
+    params.games.push({ id: id, order: index + 1});
+  })
+  fetch('/update_order', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken,
+    },
+    body: JSON.stringify(params)
+  }).then(response => response)
+  .then(data => data)
+  .catch(error => console.error('Error:', error));
+}
+
+//// this is here when the page refreshes due to a removal of a game, the order is updated
+changeOrder();
 
 var completedCheckboxes = document.querySelectorAll(".completed-checkbox");
 var playedCheckboxes = document.querySelectorAll(".played-checkbox");
 
-var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
 
 completedCheckboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", (event) => {
