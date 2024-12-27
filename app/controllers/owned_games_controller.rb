@@ -36,7 +36,7 @@ class OwnedGamesController < ApplicationController
     }
     @game = OwnedGame.new(game_details)
     @game.save
-    redirect_to owned_games_list_path
+    # redirect_to owned_games_list_path
   end
 
   def update
@@ -48,6 +48,14 @@ class OwnedGamesController < ApplicationController
     else
       render json: { error: item.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def delete
+    game = OwnedGame.find(params[:id])
+    game.destroy
+    # redirecting here doesn't work
+    redirect_to owned_games_list_path
+    # head :no_content
   end
 
   private

@@ -17,7 +17,8 @@
 } */
 
 .card-info-dimensions {
-  width: 70%;
+  box-sizing: border-box;
+  width: 55%;
   height: 100%;
 }
 
@@ -34,4 +35,9 @@
     width: auto;
     height: 10vh;
   }
+}
+
+.delete-game-form {
+  width: 15%;
+  box-sizing: border-box;
 }

@@ -1,21 +1,17 @@
-const checkboxes = document.querySelectorAll(".completed-checkbox");
+var checkboxes = document.querySelectorAll(".completed-checkbox");
 
-const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 checkboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", (event) => {
-    console.log("hi");
-    sendChangeToBackend(event.currentTarget)
-
-
+    sendCheckboxCompletionChange(event.currentTarget)
   })
 })
 
-function sendChangeToBackend(target) {
+function sendCheckboxCompletionChange(target) {
   const completion = target.checked;
   const dbId = target.id;
   const params = {id: dbId, completed: completion};
-  console.log(params);
 
   fetch('/update', {
     method: 'PATCH',
