@@ -28,6 +28,8 @@ gem "jbuilder"
 
 gem 'ostruct'
 
+gem 'sortablejs-rails', '~> 1.10'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

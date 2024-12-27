@@ -216,6 +216,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sortablejs-rails (1.15.0)
+      rails (>= 6.0.0, < 8)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -282,6 +284,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
   selenium-webdriver
+  sortablejs-rails (~> 1.10)
   sprockets-rails
   sqlite3 (>= 1.4)
   stimulus-rails

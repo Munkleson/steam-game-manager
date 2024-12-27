@@ -11,7 +11,6 @@ Currently I have to load the list of all steam games, and then check in each gam
 
 How do I bypass the CORs issue so I can just fetch in my frontend instead of passing from backend to frontend like I am right now via data attributes
 
-Filter options at the top
 Stats on the sides
   - Completion/played rates
 Sort games by

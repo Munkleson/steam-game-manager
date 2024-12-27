@@ -1,3 +1,15 @@
+//= require sortable.min
+
+var gameCards = document.querySelectorAll(".game-card");
+var gameListBodyContainer = document.querySelector(".games-list-body-container");
+new Sortable(gameListBodyContainer, {
+  animation: 150,
+  ghostClass: 'blue-background-class',
+  // onEnd: function(event) {
+
+  // }
+})
+
 var completedCheckboxes = document.querySelectorAll(".completed-checkbox");
 var playedCheckboxes = document.querySelectorAll(".played-checkbox");
 
