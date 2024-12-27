@@ -51,9 +51,7 @@ class OwnedGamesController < ApplicationController
   def delete
     game = OwnedGame.find(params[:id])
     game.destroy
-    # redirecting here doesn't work
     redirect_to owned_games_list_path
-    # head :no_content
   end
 
   private
