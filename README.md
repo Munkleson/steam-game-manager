@@ -1,27 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This is my Rails app made to practice CRUD operations
 
 Questions to ask
 - For storing the API instead of calling it every time a page is loaded:
@@ -31,3 +10,8 @@ Questions to ask
 Currently I have to load the list of all steam games, and then check in each game's specific api if it is a success or not. What's a good way to not make loading time so bad?
 
 How do I bypass the CORs issue so I can just fetch in my frontend instead of passing from backend to frontend like I am right now via data attributes
+
+Filter options at the top
+Stats on the sides
+  - Completion/played rates
+Sort games by
