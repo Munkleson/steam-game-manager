@@ -1,6 +1,7 @@
 .games-list-body-container {
   padding-top: 1vh;
   margin-top: 11vh;
+  width: 100vw;
 }
 
 .card-height {
