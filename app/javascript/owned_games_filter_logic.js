@@ -21,11 +21,12 @@ document.addEventListener("click", (event) => {
 
 function toggleDropdownMenu() {
   if (caret.classList.contains("caret-rotate")) {
-    filterDropdown.classList.remove("opacity-0");
-    filterDropdown.classList.add("opacity-100");
+    filterDropdown.classList.remove("d-none");
+    // Leaving the opacity logic here, which would need to be changed in the erb file, if I wanted a transition time. Would need to change filter clicking logic too
+    // filterDropdown.classList.add("opacity-100");
   } else {
-    filterDropdown.classList.remove("opacity-100");
-    filterDropdown.classList.add("opacity-0");
+    // filterDropdown.classList.remove("opacity-100");
+    filterDropdown.classList.add("d-none");
   }
 }
 

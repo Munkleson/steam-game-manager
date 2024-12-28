@@ -21,6 +21,19 @@ class OwnedGamesController < ApplicationController
     @owned_games = OwnedGame.all.sort do |a, b|
       a[:order] <=> b[:order]
     end
+    @filters = ["Completed", "Not completed", "Played", "Not played", "Clear filter"]
+    number_of_games = OwnedGame.count.to_f
+    completed_count = OwnedGame.all.filter { |game| game[:completed] }.count
+    played_count = OwnedGame.all.filter { |game| game[:played] }.count
+
+    completed_rate = (completed_count / number_of_games * 100)
+    played_rate = (played_count / number_of_games * 100)
+
+    @completed_rate = completed_rate % 1 == 0 ? completed_rate.to_i : completed_rate.round(2)
+    @played_rate = played_rate % 1 == 0 ? played_rate.to_i : played_rate.round(2)
+    @rates = { completed: @completed_rate, played: @played_rate }
+    @stats = ["completed", "played"]
+    @count = { all: OwnedGame.count, completed: completed_count, played: played_count }
   end
 
   def create

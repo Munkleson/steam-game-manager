@@ -1,39 +1,6 @@
-input, label, .filter-dropdown:hover {
-  cursor: pointer;
-}
-
-.filter-dropdown {
-  transition: 0.3s;
-  width: 10vw;
-}
-
-.filter-dropdown:hover {
-  background-color: rgb(240, 242, 243);
-  transition: 0.3s;
-}
-
-.filter-dropdown-options {
-  width: 100%;
-  z-index: 100;
-  background-color: white;
-  transition: 0.3s;
-}
-
-.dropdown-options {
-  transition: 0.3s;
-}
-
-.dropdown-options-text {
-  width: 100%;
-}
-
-.dropdown-options:hover {
-  transition: 0.3s;
-  background-color: rgb(184, 182, 182);
-}
-
 .games-list-body-container {
   padding-top: 1vh;
+  margin-top: 11vh;
 }
 
 .card-height {

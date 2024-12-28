@@ -219,4 +219,5 @@ form.addEventListener("submit", (event) => {
   appidParam.value = game.appid;
   input.value = game.name;
   form.submit();
+  input.select();
 });

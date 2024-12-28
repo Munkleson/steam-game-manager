@@ -1,31 +1,37 @@
 <%= javascript_include_tag 'owned_games_list', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'owned_games_filter_logic', 'data-turbo-track': 'reload', defer: true %>
 <%= stylesheet_link_tag "cards", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "games_list_header", "data-turbo-track": "reload" %>
 
-<div class="d-flex flex-column align-items-center">
-  <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-1 mt-3 ms-2" %>
-  <div class="d-flex justify-content-center mt-3">
-    <p class="filter-by-text m-0 me-2">Filter by:</p>
-    <div class="filter-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between">
-      <p class="m-0"><i class="filter-label-text">Select your filter</i></p>
-      <p class="caret m-0"></p>
-      <div class="filter-dropdown-options position-absolute top-100 opacity-0 start-0 mt-2 card">
-        <div class="dropdown-options d-flex align-items-center">
-          <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2">Completed</p>
-        </div>
-        <div class="dropdown-options">
-          <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2">Not completed</p>
-        </div>
-        <div class="dropdown-options">
-          <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2">Played</p>
-        </div>
-        <div class="dropdown-options">
-          <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2">Not played</p>
-        </div>
-        <div class="dropdown-options">
-          <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2">Clear filter</p>
+<div class="games-list-header">
+  <div class="header-relative-container position-relative">
+    <div class="d-flex flex-column align-items-center">
+      <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-1 mt-3 ms-2" %>
+      <div class="d-flex justify-content-center mt-3">
+        <p class="filter-by-text m-0 me-2">Filter by:</p>
+        <div class="filter-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between">
+          <p class="m-0"><i class="filter-label-text">Select your filter</i></p>
+          <p class="caret m-0"></p>
+          <ul class="filter-dropdown-options position-absolute top-100 start-0 mt-2 ps-0 card d-none">
+            <% @filters.each do |filter| %>
+              <li class="dropdown-options d-flex align-items-center">
+                <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2"><%= filter %></p>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
+    </div>
+    <div class="stats-bar position-absolute top-0 d-flex flex-column justify-content-center align-items-end" data-rates="<%= @rates.to_json %>" data-count="<%= @count.to_json %>">
+      <% @stats.each do |stat| %>
+        <div class="stats-text-container d-flex flex-row justify-content-between">
+          <p>Games <%= stat %>:</p>
+          <p><strong class="<%= stat %>-percentage"><%= @rates[stat.to_sym] %>%</strong></p>
+        </div>
+        <div class="rate-bar position-relative">
+          <div class="<%= stat %>-rate position-absolute"></div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

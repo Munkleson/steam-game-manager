@@ -3,11 +3,43 @@ var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 var gameCards = document.querySelectorAll(".game-card");
 var gameListBodyContainer = document.querySelector(".games-list-body-container");
+
+var statsBar = document.querySelector(".stats-bar");
+var completedRateBar = document.querySelector(".completed-rate");
+var playedRateBar = document.querySelector(".played-rate");
+var counts = JSON.parse(statsBar.dataset.count);
+
 new Sortable(gameListBodyContainer, {
   animation: 150,
   ghostClass: 'blue-background-class',
   onEnd: function() { changeOrder() },
 })
+
+function onPageLoad() {
+//// this is here when the page refreshes due to a removal of a game, the order is updated
+changeOrder();
+populateProgressBars("onLoad");
+}
+onPageLoad();
+
+function populateProgressBars(source) {
+  const completedRate = counts.completed / counts.all * 100;
+  const completedCount = Number.isInteger(completedRate) ? completedRate : completedRate.toFixed(2);
+
+  const playedRate = counts.played / counts.all * 100;
+  const playedCount = Number.isInteger(playedRate) ? playedRate : playedRate.toFixed(2);
+
+  const currentRates = { completed: completedCount, played: playedCount};
+  const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
+  completedRateBar.style.width = `${rates.completed}%`
+  playedRateBar.style.width = `${rates.played}%`
+
+  const completedText = document.querySelector(".completed-percentage");
+  const playedText = document.querySelector(".played-percentage");
+
+  completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${rates.completed}%`;
+  playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${rates.played}%`;
+}
 
 function changeOrder() {
   const currentGameCardsPosition = document.querySelectorAll(".game-card");
@@ -28,13 +60,8 @@ function changeOrder() {
   .catch(error => console.error('Error:', error));
 }
 
-//// this is here when the page refreshes due to a removal of a game, the order is updated
-changeOrder();
-
 var completedCheckboxes = document.querySelectorAll(".completed-checkbox");
 var playedCheckboxes = document.querySelectorAll(".played-checkbox");
-
-
 
 completedCheckboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", (event) => {
@@ -47,18 +74,6 @@ completedCheckboxes.forEach((checkbox) => {
   })
 })
 
-// completedCheckboxes.forEach((checkbox) => {
-//   checkbox.addEventListener("change", (event) => {
-//     sendCheckboxChange(event.currentTarget, "completed")
-//     // if (event.currentTarget.checked) {
-//     //   const parentElement = event.target.closest(".checkboxes-container");
-//     //   const playedCheckbox = parentElement.children[1].querySelector(".played-checkbox");
-//     //   playedCheckbox.checked = true;
-//     //   sendCheckboxChange(playedCheckbox, "played");
-//     // }
-//   })
-// })
-
 playedCheckboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", (event) => {
     const parentElement = event.target.closest(".checkboxes-container");
@@ -69,12 +84,6 @@ playedCheckboxes.forEach((checkbox) => {
     sendCheckboxChange(parentElement);
   })
 })
-
-// playedCheckboxes.forEach((checkbox) => {
-//   checkbox.addEventListener("change", (event) => {
-//     sendCheckboxChange(event.currentTarget, "played")
-//   })
-// })
 
 function sendCheckboxChange(parent) {
   const completedCheckbox = parent.querySelector(".completed-checkbox");
@@ -92,29 +101,12 @@ function sendCheckboxChange(parent) {
   }).then(response => response)
   .then(data => data)
   .catch(error => console.error('Error:', error));
+  // Down here because if it isn't sent then it shouldn't update even in Frontend
+  numberOfCompletedPlayedGames();
+  populateProgressBars("change");
 }
 
-// function sendCheckboxChange(target, type) {
-//   const checkboxValue = target.checked;
-//   const dbId = target.dataset.id;
-//   const params = { id: dbId };
-//   switch(type) {
-//     case "completed":
-//       params.completed = checkboxValue;
-//       break;
-//     case "played":
-//       params.played = checkboxValue;
-//       break;
-//   }
-
-//   fetch('/update', {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'X-CSRF-Token': csrfToken,
-//     },
-//     body: JSON.stringify(params)
-//   }).then(response => response)
-//   .then(data => data)
-//   .catch(error => console.error('Error:', error));
-// }
+function numberOfCompletedPlayedGames() {
+  counts.completed = document.querySelectorAll(".completed-checkbox:checked").length;
+  counts.played = document.querySelectorAll(".played-checkbox:checked").length;
+}
