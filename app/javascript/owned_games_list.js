@@ -107,6 +107,34 @@ function sendCheckboxChange(parent) {
 }
 
 function numberOfCompletedPlayedGames() {
+  counts.all = document.querySelectorAll(".game-card").length;
   counts.completed = document.querySelectorAll(".completed-checkbox:checked").length;
   counts.played = document.querySelectorAll(".played-checkbox:checked").length;
+  console.log(document.querySelectorAll(".completed-checkbox:checked").length, document.querySelectorAll(".played-checkbox:checked").length);
+
 }
+
+var deleteGameForm = document.querySelectorAll(".delete-game-form");
+deleteGameForm.forEach((game) => {
+  game.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const id = event.target.dataset.id;
+    const params = { id: id };
+
+    fetch('/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken,
+      },
+      body: JSON.stringify(params)
+    }).then(response => response)
+    .then(data => data)
+    .catch(error => console.error('Error:', error));
+
+    const deletedGameCard = game.closest(".game-card");
+    deletedGameCard.remove();
+    numberOfCompletedPlayedGames();
+    populateProgressBars("change");
+  });
+});

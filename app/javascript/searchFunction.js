@@ -106,16 +106,16 @@
 
 }));
 
-const input = document.querySelector("#search-input")
-const form = document.querySelector("#search-form")
+var input = document.querySelector("#search-input")
+var form = document.querySelector("#search-form")
 
-let gameList;
-let alphabetArray;
-let initialSearchSet = false;
-let initialSearchResults;
+var gameList;
+var alphabetArray;
+var initialSearchSet = false;
+var initialSearchResults;
 
 // const searchDiv = document.querySelector("#search-div");
-const searchDropdown = document.querySelector("#search-dropdown");
+var searchDropdown = document.querySelector("#search-dropdown");
 
 // for when I can retrieve details through the frontend, not backend
 // const gameList = fetch("http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json")
@@ -145,13 +145,9 @@ function loadGameList() {
   if (!gameList) {
     const dataGameList = document.querySelector("#data-game-list");
     gameList = JSON.parse(dataGameList.dataset.info);
-    console.log(gameList);
-
     gameList = removeDuplicates(gameList);
     // gameList = gameList.sort((a, b) => a.appid - b.appid) // sort by appid
     gameList = gameList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
-    console.log(gameList);
-
   }
   const dataAlphabetArray = document.querySelector("#data-alphabet-array");
   alphabetArray = JSON.parse(dataAlphabetArray.dataset.info);

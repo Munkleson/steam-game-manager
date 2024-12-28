@@ -4,8 +4,14 @@ require 'open-uri'
 
 class OwnedGamesController < ApplicationController
   def index
-    game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?format=json"
-    game_list = URI.parse(game_list_url).read
+    api_key = "DE56C788F864B4D7E0192A2830F80799"
+    game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=#{api_key}&format=json"
+    # game_list = URI.parse(game_list_url).read
+    # steam_games = JSON.parse(game_list)
+    # @app_list = steam_games["applist"]["apps"]
+    game_list = Rails.cache.fetch("steam_game_list", expires_in: 24.hours) do
+      URI.parse(game_list_url).read
+    end
     steam_games = JSON.parse(game_list)
     @app_list = steam_games["applist"]["apps"]
     # .select do |game|
@@ -77,7 +83,7 @@ class OwnedGamesController < ApplicationController
   def delete
     game = OwnedGame.find(params[:id])
     game.destroy
-    redirect_to owned_games_list_path
+    # redirect_to owned_games_list_path
   end
 
   private
