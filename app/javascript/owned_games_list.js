@@ -1,128 +1,60 @@
 //= require sortable.min
-var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+function initializeOwnedGameListLogic() {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-var gameCards = document.querySelectorAll(".game-card");
-var gameListBodyContainer = document.querySelector(".games-list-body-container");
+  const gameCards = document.querySelectorAll(".game-card");
+  const gameListBodyContainer = document.querySelector(".games-list-body-container");
+  const deleteGameForm = document.querySelectorAll(".delete-game-form");
+  const completedCheckboxes = document.querySelectorAll(".completed-checkbox");
+  const playedCheckboxes = document.querySelectorAll(".played-checkbox");
 
-var statsBar = document.querySelector(".stats-bar");
-var completedRateBar = document.querySelector(".completed-rate");
-var playedRateBar = document.querySelector(".played-rate");
-var counts = JSON.parse(statsBar.dataset.count);
+  const statsBar = document.querySelector(".stats-bar");
+  const completedRateBar = document.querySelector(".completed-rate");
+  const playedRateBar = document.querySelector(".played-rate");
 
-new Sortable(gameListBodyContainer, {
-  animation: 150,
-  ghostClass: 'blue-background-class',
-  onEnd: function() { changeOrder() },
-})
+  let counts = JSON.parse(statsBar.dataset.count);
 
-function onPageLoad() {
-//// this is here when the page refreshes due to a removal of a game, the order is updated
-changeOrder();
-populateProgressBars("onLoad");
-}
-onPageLoad();
-
-function populateProgressBars(source) {
-  const completedRate = counts.completed / counts.all * 100;
-  const completedCount = Number.isInteger(completedRate) ? completedRate : completedRate.toFixed(2);
-
-  const playedRate = counts.played / counts.all * 100;
-  const playedCount = Number.isInteger(playedRate) ? playedRate : playedRate.toFixed(2);
-
-  const currentRates = { completed: completedCount, played: playedCount};
-  const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
-  completedRateBar.style.width = `${rates.completed}%`
-  playedRateBar.style.width = `${rates.played}%`
-
-  const completedText = document.querySelector(".completed-percentage");
-  const playedText = document.querySelector(".played-percentage");
-
-  completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${rates.completed}%`;
-  playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${rates.played}%`;
-}
-
-function changeOrder() {
-  const currentGameCardsPosition = document.querySelectorAll(".game-card");
-  const params = { games: [] };
-  currentGameCardsPosition.forEach((game, index) => {
-    const id = game.dataset.id;
-    params.games.push({ id: id, order: index + 1});
+  new Sortable(gameListBodyContainer, {
+    animation: 150,
+    ghostClass: 'blue-background-class',
+    onEnd: function() { changeOrder() },
   })
-  fetch('/update_order', {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': csrfToken,
-    },
-    body: JSON.stringify(params)
-  }).then(response => response)
-  .then(data => data)
-  .catch(error => console.error('Error:', error));
-}
 
-var completedCheckboxes = document.querySelectorAll(".completed-checkbox");
-var playedCheckboxes = document.querySelectorAll(".played-checkbox");
+  function onPageLoad() {
+  //// this is here when the page refreshes due to a removal of a game, the order is updated
+  changeOrder();
+  populateProgressBars("onLoad");
+  }
+  onPageLoad();
 
-completedCheckboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", (event) => {
-    const parentElement = event.target.closest(".checkboxes-container");
-    if (event.currentTarget.checked) {
-      const playedCheckbox = parentElement.querySelector(".played-checkbox");
-      playedCheckbox.checked = true;
-    }
-    sendCheckboxChange(parentElement)
-  })
-})
+  function populateProgressBars(source) {
+    const completedRate = counts.completed / counts.all * 100;
+    const completedCount = Number.isInteger(completedRate) ? completedRate : completedRate.toFixed(2);
 
-playedCheckboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", (event) => {
-    const parentElement = event.target.closest(".checkboxes-container");
-    if (!event.currentTarget.checked) {
-      const playedCheckbox = parentElement.querySelector(".completed-checkbox");
-      playedCheckbox.checked = false;
-    }
-    sendCheckboxChange(parentElement);
-  })
-})
+    const playedRate = counts.played / counts.all * 100;
+    const playedCount = Number.isInteger(playedRate) ? playedRate : playedRate.toFixed(2);
 
-function sendCheckboxChange(parent) {
-  const completedCheckbox = parent.querySelector(".completed-checkbox");
-  const playedCheckbox = parent.querySelector(".played-checkbox");
-  const dbId = completedCheckbox.dataset.id;
-  const params = { id: dbId, completed: completedCheckbox.checked, played: playedCheckbox.checked };
+    const currentRates = { completed: completedCount, played: playedCount};
+    const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
+    completedRateBar.style.width = `${rates.completed}%`
+    playedRateBar.style.width = `${rates.played}%`
 
-  fetch('/update', {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': csrfToken,
-    },
-    body: JSON.stringify(params)
-  }).then(response => response)
-  .then(data => data)
-  .catch(error => console.error('Error:', error));
-  // Down here because if it isn't sent then it shouldn't update even in Frontend
-  numberOfCompletedPlayedGames();
-  populateProgressBars("change");
-}
+    const completedText = document.querySelector(".completed-percentage");
+    const playedText = document.querySelector(".played-percentage");
 
-function numberOfCompletedPlayedGames() {
-  counts.all = document.querySelectorAll(".game-card").length;
-  counts.completed = document.querySelectorAll(".completed-checkbox:checked").length;
-  counts.played = document.querySelectorAll(".played-checkbox:checked").length;
-  console.log(document.querySelectorAll(".completed-checkbox:checked").length, document.querySelectorAll(".played-checkbox:checked").length);
+    completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${rates.completed}%`;
+    playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${rates.played}%`;
+  }
 
-}
-
-var deleteGameForm = document.querySelectorAll(".delete-game-form");
-deleteGameForm.forEach((game) => {
-  game.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const id = event.target.dataset.id;
-    const params = { id: id };
-
-    fetch('/delete', {
-      method: 'DELETE',
+  function changeOrder() {
+    const currentGameCardsPosition = document.querySelectorAll(".game-card");
+    const params = { games: [] };
+    currentGameCardsPosition.forEach((game, index) => {
+      const id = game.dataset.id;
+      params.games.push({ id: id, order: index + 1});
+    })
+    fetch('/update_order', {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': csrfToken,
@@ -131,10 +63,80 @@ deleteGameForm.forEach((game) => {
     }).then(response => response)
     .then(data => data)
     .catch(error => console.error('Error:', error));
+  }
 
-    const deletedGameCard = game.closest(".game-card");
-    deletedGameCard.remove();
+  completedCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", (event) => {
+      const parentElement = event.target.closest(".checkboxes-container");
+      if (event.currentTarget.checked) {
+        const playedCheckbox = parentElement.querySelector(".played-checkbox");
+        playedCheckbox.checked = true;
+      }
+      sendCheckboxChange(parentElement)
+    })
+  })
+
+  playedCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", (event) => {
+      const parentElement = event.target.closest(".checkboxes-container");
+      if (!event.currentTarget.checked) {
+        const playedCheckbox = parentElement.querySelector(".completed-checkbox");
+        playedCheckbox.checked = false;
+      }
+      sendCheckboxChange(parentElement);
+    })
+  })
+
+  function sendCheckboxChange(parent) {
+    const completedCheckbox = parent.querySelector(".completed-checkbox");
+    const playedCheckbox = parent.querySelector(".played-checkbox");
+    const dbId = completedCheckbox.dataset.id;
+    const params = { id: dbId, completed: completedCheckbox.checked, played: playedCheckbox.checked };
+
+    fetch('/update', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken,
+      },
+      body: JSON.stringify(params)
+    }).then(response => response)
+    .then(data => data)
+    .catch(error => console.error('Error:', error));
+    // Down here because if it isn't sent then it shouldn't update even in Frontend
     numberOfCompletedPlayedGames();
     populateProgressBars("change");
+  }
+
+  function numberOfCompletedPlayedGames() {
+    counts.all = document.querySelectorAll(".game-card").length;
+    counts.completed = document.querySelectorAll(".completed-checkbox:checked").length;
+    counts.played = document.querySelectorAll(".played-checkbox:checked").length;
+  }
+
+  deleteGameForm.forEach((game) => {
+    game.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const id = event.target.dataset.id;
+      const params = { id: id };
+
+      fetch('/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
+        },
+        body: JSON.stringify(params)
+      }).then(response => response)
+      .then(data => data)
+      .catch(error => console.error('Error:', error));
+
+      const deletedGameCard = game.closest(".game-card");
+      deletedGameCard.remove();
+      numberOfCompletedPlayedGames();
+      populateProgressBars("change");
+    });
   });
-});
+}
+
+initializeOwnedGameListLogic();

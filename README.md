@@ -14,3 +14,13 @@ How do I bypass the CORs issue so I can just fetch in my frontend instead of pas
 Stats
 - Make progress bar movemenet rather than static jumps between progress
 Sort games by
+
+Solved the var issue (where declarations happening again when a page was navigated to in the same session led to conflicts due to let and const declarations already being done, resulting in having to do them as var instead). This was done by wrapping everything in one function and calling it on the page (which should occur every time it loads?)
+- Is this good though?
+
+
+Playlist adding
+- Add one
+- Add many
+  - Creates a selection and confirm at the end
+  - Seems pointless to have add one if you have add many

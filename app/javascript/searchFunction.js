@@ -106,114 +106,118 @@
 
 }));
 
-var input = document.querySelector("#search-input")
-var form = document.querySelector("#search-form")
+function loadSearchFunctionLogic() {
+  const input = document.querySelector("#search-input")
+  const form = document.querySelector("#search-form")
 
-var gameList;
-var alphabetArray;
-var initialSearchSet = false;
-var initialSearchResults;
+  let gameList;
+  let alphabetArray;
+  let initialSearchSet = false;
+  let initialSearchResults;
 
-// const searchDiv = document.querySelector("#search-div");
-var searchDropdown = document.querySelector("#search-dropdown");
+  // const searchDiv = document.querySelector("#search-div");
+  const searchDropdown = document.querySelector("#search-dropdown");
 
-// for when I can retrieve details through the frontend, not backend
-// const gameList = fetch("http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json")
-//   .then(response => response.json())
-//   .then(data => data);
-// console.log(gameList);
+  // for when I can retrieve details through the frontend, not backend
+  // const gameList = fetch("http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=STEAMKEY&format=json")
+  //   .then(response => response.json())
+  //   .then(data => data);
+  // console.log(gameList);
 
-input.addEventListener("keyup", (event) => {
-  loadGameList();
-  searchDropdown.innerHTML = "";
+  input.addEventListener("keyup", (event) => {
+    loadGameList();
+    searchDropdown.innerHTML = "";
 
-  let input = event.currentTarget.value;
-  if (input.length >= 3) {
-    if (!initialSearchSet) {
-      initialSearchResults = alphabetMatch(input);
-      initialSearchSet = true;
-    }
-    const orderedSearchResults = orderedSearch(input, initialSearchResults)
-    displayDropdown(orderedSearchResults);
-  } else if (input.length < 3) {
-    initialSearchResults = "";
-    initialSearchSet = false;
-  }
-});
-
-function loadGameList() {
-  if (!gameList) {
-    const dataGameList = document.querySelector("#data-game-list");
-    gameList = JSON.parse(dataGameList.dataset.info);
-    gameList = removeDuplicates(gameList);
-    // gameList = gameList.sort((a, b) => a.appid - b.appid) // sort by appid
-    gameList = gameList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
-  }
-  const dataAlphabetArray = document.querySelector("#data-alphabet-array");
-  alphabetArray = JSON.parse(dataAlphabetArray.dataset.info);
-}
-
-function removeDuplicates(gameList) {
-  const seen = new Set();
-  return gameList.filter(game => {
-    const duplicate = seen.has(game.appid);
-    seen.add(game.appid);
-    return !duplicate;
-  })
-}
-
-function orderedSearch(input, games) {
-  const filteredList = games.filter(game => {
-    if (game.name) {
-      return minimalizeWord(game.name).toLowerCase().includes(minimalizeWord(input).toLowerCase());
+    let input = event.currentTarget.value;
+    if (input.length >= 3) {
+      if (!initialSearchSet) {
+        initialSearchResults = alphabetMatch(input);
+        initialSearchSet = true;
+      }
+      const orderedSearchResults = orderedSearch(input, initialSearchResults)
+      displayDropdown(orderedSearchResults);
+    } else if (input.length < 3) {
+      initialSearchResults = "";
+      initialSearchSet = false;
     }
   });
-  return filteredList.sort((a, b) => new Levenshtein(a.name, input) > new Levenshtein(b.name, input) ? 1 : -1)
-}
 
-function alphabetMatch(input) {
-  const startIndex = gameList.findIndex(game => game.name.slice(0, input.length).toLowerCase() === input.toLowerCase())
-  const firstLetter = input[0].toLowerCase();
-  const nextLetter = alphabetArray[alphabetArray.findIndex(letter => letter === firstLetter) + 1];
-  const endIndex = gameList.findIndex(game => {
-    if (game.name[0]) {
-      return game.name[0].toLowerCase() === nextLetter;
+  function loadGameList() {
+    if (!gameList) {
+      const dataGameList = document.querySelector("#data-game-list");
+      gameList = JSON.parse(dataGameList.dataset.info);
+      gameList = removeDuplicates(gameList);
+      // gameList = gameList.sort((a, b) => a.appid - b.appid) // sort by appid
+      gameList = gameList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
     }
-    return game.name[0] === nextLetter;
-  });
-  return gameList.slice(startIndex, endIndex);
-}
-
-function displayDropdown(filteredList) {
-  const maxTenResults = filteredList.length >= 10 ? 10 : filteredList.length;
-  for (let index = 0; index < maxTenResults; index++) {
-    const dropdownOption = document.createElement("div");
-    dropdownOption.innerText = filteredList[index].name;
-    dropdownOption.classList.add("dropdown-item");
-    // Will have to add
-    dropdownOption.addEventListener("click", (event) => selectDropdownItem(event.currentTarget));
-
-    searchDropdown.append(dropdownOption)
+    const dataAlphabetArray = document.querySelector("#data-alphabet-array");
+    alphabetArray = JSON.parse(dataAlphabetArray.dataset.info);
   }
+
+  function removeDuplicates(gameList) {
+    const seen = new Set();
+    return gameList.filter(game => {
+      const duplicate = seen.has(game.appid);
+      seen.add(game.appid);
+      return !duplicate;
+    })
+  }
+
+  function orderedSearch(input, games) {
+    const filteredList = games.filter(game => {
+      if (game.name) {
+        return minimalizeWord(game.name).toLowerCase().includes(minimalizeWord(input).toLowerCase());
+      }
+    });
+    return filteredList.sort((a, b) => new Levenshtein(a.name, input) > new Levenshtein(b.name, input) ? 1 : -1)
+  }
+
+  function alphabetMatch(input) {
+    const startIndex = gameList.findIndex(game => game.name.slice(0, input.length).toLowerCase() === input.toLowerCase())
+    const firstLetter = input[0].toLowerCase();
+    const nextLetter = alphabetArray[alphabetArray.findIndex(letter => letter === firstLetter) + 1];
+    const endIndex = gameList.findIndex(game => {
+      if (game.name[0]) {
+        return game.name[0].toLowerCase() === nextLetter;
+      }
+      return game.name[0] === nextLetter;
+    });
+    return gameList.slice(startIndex, endIndex);
+  }
+
+  function displayDropdown(filteredList) {
+    const maxTenResults = filteredList.length >= 10 ? 10 : filteredList.length;
+    for (let index = 0; index < maxTenResults; index++) {
+      const dropdownOption = document.createElement("div");
+      dropdownOption.innerText = filteredList[index].name;
+      dropdownOption.classList.add("dropdown-item");
+      // Will have to add
+      dropdownOption.addEventListener("click", (event) => selectDropdownItem(event.currentTarget));
+
+      searchDropdown.append(dropdownOption)
+    }
+  }
+
+  function selectDropdownItem(target) {
+    input.value = target.innerText;
+  }
+
+  function minimalizeWord(word) {
+    const split = word.split("");
+    const regex = new RegExp(/\w/);
+    return split.filter(letter => regex.test(letter)).join("");
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    //// logic for form validation here. If it is valid, then submit, else display errors
+    const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
+    const appidParam = document.querySelector("#hidden-appid");
+    appidParam.value = game.appid;
+    input.value = game.name;
+    form.submit();
+    input.select();
+  });
 }
 
-function selectDropdownItem(target) {
-  input.value = target.innerText;
-}
-
-function minimalizeWord(word) {
-  const split = word.split("");
-  const regex = new RegExp(/\w/);
-  return split.filter(letter => regex.test(letter)).join("");
-}
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  //// logic for form validation here. If it is valid, then submit, else display errors
-  const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
-  const appidParam = document.querySelector("#hidden-appid");
-  appidParam.value = game.appid;
-  input.value = game.name;
-  form.submit();
-  input.select();
-});
+loadSearchFunctionLogic();
