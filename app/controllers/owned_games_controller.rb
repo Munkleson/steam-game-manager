@@ -5,22 +5,6 @@ require 'text'
 
 class OwnedGamesController < ApplicationController
   def index
-    # game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=#{Rails.application.credentials[:api_key]}&format=json"
-    # game_list = Rails.cache.fetch("steam_game_list", expires_in: 24.hours) do
-    #   URI.parse(game_list_url).read
-    # end
-    # steam_games = JSON.parse(game_list)
-    # @app_list = steam_games["applist"]["apps"]
-
-    # @app_list = Rails.cache.fetch('all_games', expires_in: 24.hour) do
-    #   Rails.logger.info("Cache miss - fetching from DB")
-    #   Game.all
-    # end
-    # if Rails.cache.exist?('all_games')
-    #   Rails.logger.info("Cache hit - using cached data")
-    # end
-    # @app_list = Game.all
-    @alphabet_array = ("a".."z").to_a
   end
 
   def search
@@ -57,36 +41,34 @@ class OwnedGamesController < ApplicationController
   end
 
   def create
-    request.format = :json
-    puts params
     game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
-    game = URI.parse(game_url).read
-    game_data = JSON.parse(game)[params[:appid]]
+    game_read = URI.parse(game_url).read
+    game_data = JSON.parse(game_read)[params[:appid]]
     success = game_data["success"]
     if success
       game = game_data["data"]
+      name = game["name"]
       developer = game["developers"] ? game["developers"][0] : "No developer"
       image_url = game["header_image"]
       order = OwnedGame.count + 1
 
       game_details = {
         appid: params[:appid],
-        name: params[:name],
+        name:,
         developer:,
         image_url:,
         order:,
       }
+      puts game_details
       @game = OwnedGame.new(game_details)
-      @game.save
-    #   if @game.save
-    #     render json: @game, status: :created
-    #   else
-    #     render json: @game.errors, status: :unprocessable_entity
-    #   end
-    # else
-    #   render json: { error: "Game not found on Steam API" }, status: :unprocessable_entity
+      if @game.save
+        render json: @game, status: :created
+      else
+        render json: { errors: @game.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: "not found" }, status: :not_found
     end
-    redirect_to add_games_path
   end
 
   def update
@@ -94,16 +76,25 @@ class OwnedGamesController < ApplicationController
     if game.update(owned_game_params)
       render json: { message: 'Update successful' }, status: :ok
     else
-      render json: { error: item.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: game.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update_order
     games = params[:games]
-    puts games
+    errors = []
     games.each do |item|
       game = OwnedGame.find(item["id"])
-      game.update({ order: item["order"] })
+      if game.update({ order: item["order"] })  # Check if update is successful
+        next
+      else
+        errors << "Failed to update order of game with ID:#{item['id']}"
+      end
+    end
+    if errors.empty?
+      render json: { message: 'All games were successfully updated' }, status: :ok
+    else
+      render json: { error: errors }, status: :unprocessable_entity
     end
   end
 

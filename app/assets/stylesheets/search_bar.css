@@ -1,3 +1,8 @@
+.go-to-games-link {
+  top: 1%;
+  right: 1%;
+}
+
 #search-form {
   display: flex;
 }

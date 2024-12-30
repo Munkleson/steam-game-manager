@@ -61,7 +61,7 @@ function initializeOwnedGameListLogic() {
       },
       body: JSON.stringify(params)
     }).then(response => response.json())
-    .then(data => data)
+    .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
   }
 

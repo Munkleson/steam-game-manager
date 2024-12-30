@@ -10,18 +10,20 @@ function loadSearchFunctionLogic() {
 
   input.addEventListener("keyup", (event) => {
     searchDropdown.innerHTML = "";
-
     let input = event.currentTarget.value;
-    console.log(input[0] !== " ");
-
     const params = new URLSearchParams({ input: input }).toString();
     let searchRoute;
+
     if (input.length > 4) {
       searchRoute = "search";
+      fetchFromDb(searchRoute, params)
     } else if (input.length > 3) {
       searchRoute = "short_search"
+      fetchFromDb(searchRoute, params)
     }
+  });
 
+  function fetchFromDb(searchRoute, params) {
     fetch(`/${searchRoute}?${params}`, {
       method: 'GET',
       headers: {
@@ -34,11 +36,10 @@ function loadSearchFunctionLogic() {
       displayDropdown(gameList);
     })
     .catch(error => console.error('Error:', error));
-  });
+  }
 
   function displayDropdown(filteredList) {
-    const maxTenResults = filteredList.length >= 10 ? 10 : filteredList.length;
-    for (let index = 0; index < maxTenResults; index++) {
+    for (let index = 0; index < filteredList.length; index++) {
       const dropdownOption = document.createElement("div");
       dropdownOption.innerText = filteredList[index].name;
       dropdownOption.classList.add("dropdown-item");
@@ -63,11 +64,24 @@ function loadSearchFunctionLogic() {
     event.preventDefault();
     //// logic for form validation here. If it is valid, then submit, else display errors
     const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
-
     const appidParam = document.querySelector("#hidden-appid");
     appidParam.value = game.appid;
-    input.value = game.name;
-    form.submit();
+    // input.value = game.name;
+
+    const params = { appid: appidParam.value.toString() };
+
+    fetch(`/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+      },
+      body: JSON.stringify(params)
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+    // form.submit();
   });
 }
 
