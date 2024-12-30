@@ -1,0 +1,4 @@
+12/30
+
+- Hovering over a game name that is too long in the suggestions list will expand it, and when mouse leaves the area it will go back to hiding the overflow
+- Made a validation in the create that checks if a game is released or not yet, and also returns an error message saying so if it isn't

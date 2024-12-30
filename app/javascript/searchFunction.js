@@ -28,10 +28,10 @@ function loadSearchFunctionLogic() {
 
       if (input.length > 4) {
         searchRoute = "search";
-        fetchFromDb(searchRoute, params)
+        fetchFromDb(searchRoute, params);
       } else if (input.length > 3) {
-        searchRoute = "short_search"
-        fetchFromDb(searchRoute, params)
+         searchRoute = "short_search"
+        fetchFromDb(searchRoute, params);
       }
     }
 
@@ -92,22 +92,34 @@ function loadSearchFunctionLogic() {
     }).then(response => response.json())
     .then(data => {
       gameList = data;
-      // console.log(gameList);
       displayDropdown(gameList);
     })
     .catch(error => console.error('Error:', error));
   }
 
   function displayDropdown(filteredList) {
-    for (let index = 0; index < filteredList.length; index++) {
+    // Needed here as sometimes pressing keys too quickly could lead to the same list being appended twice to the dropdown
+    searchDropdown.innerHTML = "";
+    const length = filteredList.length >= 10 ? 10 : filteredList.length;
+    for (let index = 0; index < length; index++) {
       const dropdownOption = document.createElement("div");
       dropdownOption.innerText = filteredList[index].name;
       dropdownOption.classList.add("dropdown-item");
+      dropdownOption.classList.add("dropdown-item-hidden");
       dropdownOption.dataset.position = index + 1;
-
       dropdownOption.addEventListener("click", (event) => selectDropdownItem(event.currentTarget));
 
-      searchDropdown.append(dropdownOption)
+      // This seems a bit visually janky. Can always take out if needed and just keep everything as overflow for names that are too long, which should be few anyway
+      dropdownOption.addEventListener("mouseover", (event) => {
+        event.target.classList.remove("dropdown-item-hidden");
+        event.target.classList.add("dropdown-item-shown");
+        event.target.addEventListener("mouseleave", (event) => {
+          event.target.classList.remove("dropdown-item-shown");
+          event.target.classList.add("dropdown-item-hidden");
+        });
+      });
+
+      searchDropdown.append(dropdownOption);
     }
   }
 
@@ -126,11 +138,15 @@ function loadSearchFunctionLogic() {
     submitButton.disabled = true;
     //// logic for form validation here. If it is valid, then submit, else display errors
     const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
-    const appidParam = document.querySelector("#hidden-appid");
-    appidParam.value = game.appid;
-    // input.value = game.name;
 
-    const params = { appid: appidParam.value.toString() };
+    // This is here to check if input matches any game at all. Required since the logic below doesn't include this, as if it encounters this error it keeps the button disabled
+    if (!game) {
+      creationResponseDisplay({ error: "not found"});
+      submitButton.disabled = false;
+      return;
+    }
+
+    const params = { appid: game.appid.toString() };
 
     fetch(`/add`, {
       method: 'POST',
@@ -142,16 +158,14 @@ function loadSearchFunctionLogic() {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      creationResponseDisplay(data)
-      input.value = data.name
-      input.select();
+      creationResponseDisplay(data);
+      input.value = data.name;
       submitButton.disabled = false;
     })
     .catch(error => {
-      console.error('Error:', error)
+      console.error('Error:', error);
+      submitButton.disabled = false;
     });
-    // form.submit();
   });
 
   function creationResponseDisplay(response) {
@@ -159,7 +173,6 @@ function loadSearchFunctionLogic() {
     responseTextElement.classList.remove("error-text-opacity-filled");
     responseTextElement.classList.remove("text-success");
     responseTextElement.classList.remove("text-danger");
-    // const responseTextElement = document.createElement("p");
     let responseText;
     if (response.appid) {
       responseText = "Game successfully added to your library";
@@ -171,8 +184,10 @@ function loadSearchFunctionLogic() {
     } else {
       if (response.error === "not found") {
         responseText = "Game could not be found on the Steam API";
-      } else {
+      } else if (response.error === "taken") {
         responseText = "Game already exists in your library";
+      } else if (response.error === "not out") {
+        responseText = "Game is not released yet"
       }
       responseTextElement.classList.add("text-danger"); // Bootstrap class
       setTimeout(() => {
@@ -182,6 +197,7 @@ function loadSearchFunctionLogic() {
     }
     responseTextElement.innerText = responseText;
     searchInputSubmitContainer.insertAdjacentElement("afterend", responseTextElement);
+    input.select();
   }
 
 }

@@ -15,6 +15,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def short_search
+    puts params[:input].gsub(/[^a-zA-Z0-9]/, '')
     input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
     @games = Game.where("LOWER(search_name) = ?", input.downcase)
     @games = @games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, input.downcase) }.slice(0, 10)
@@ -48,6 +49,13 @@ class OwnedGamesController < ApplicationController
     if success
       game = game_data["data"]
       name = game["name"]
+
+      # Checking if the game is out yet, and ends the request and error if it isn't out
+      if game["release_date"]["coming_soon"]
+        render json: { error: "not out", name: name }, status: :unprocessable_entity
+        return
+      end
+
       developer = game["developers"] ? game["developers"][0] : "No developer"
       image_url = game["header_image"]
       order = OwnedGame.count + 1
@@ -59,7 +67,6 @@ class OwnedGamesController < ApplicationController
         image_url:,
         order:,
       }
-      puts game_details
       @game = OwnedGame.new(game_details)
       if @game.save
         render json: @game, status: :created

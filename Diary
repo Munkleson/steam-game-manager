@@ -26,3 +26,15 @@ Levenshtein calculating and sorting is now done in the backend to avoid edge cas
 Second thoughts for search algorithm:
 
 It may be the case that the search algorithm should be done by recommendations (which would require another database column and seeding) rather than Levenshtein, or a combination of both.
+
+May want to replace roman numerals with numbers in the search_name column, so if people search with Assassin's Creed 4 instead of Assassin's Creed IV, they still find it. Should prioritise other things first, as the search function works well enough for now
+
+
+User experience:
+
+Made a dropdown menu selector with up and down arrows.
+
+Decided for best UE that if the input didn't match anything on the games list, it would select the top option. This serves as a sort of autocomplete option.
+May be better if it only did it when there was one option though, I'm wondering if there would be edge cases if too janky.
+Maybe I could do an actual autocomplete where it would take the top option regardless of how many there are.
+This way, there should never be a realistic time (unless the input is under 3 or 4 characters long) where someone should submit without a full game in the input
