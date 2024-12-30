@@ -1,0 +1,2 @@
+class InvalidGame < ApplicationRecord
+end

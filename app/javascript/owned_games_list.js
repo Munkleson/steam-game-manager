@@ -60,7 +60,7 @@ function initializeOwnedGameListLogic() {
         'X-CSRF-Token': csrfToken,
       },
       body: JSON.stringify(params)
-    }).then(response => response)
+    }).then(response => response.json())
     .then(data => data)
     .catch(error => console.error('Error:', error));
   }

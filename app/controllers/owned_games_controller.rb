@@ -4,22 +4,27 @@ require 'open-uri'
 
 class OwnedGamesController < ApplicationController
   def index
-    game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=#{Rails.application.credentials[:api_key]}&format=json"
-    # game_list = URI.parse(game_list_url).read
+    # game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=#{Rails.application.credentials[:api_key]}&format=json"
+    # game_list = Rails.cache.fetch("steam_game_list", expires_in: 24.hours) do
+    #   URI.parse(game_list_url).read
+    # end
     # steam_games = JSON.parse(game_list)
     # @app_list = steam_games["applist"]["apps"]
-    game_list = Rails.cache.fetch("steam_game_list", expires_in: 24.hours) do
-      URI.parse(game_list_url).read
-    end
-    steam_games = JSON.parse(game_list)
-    @app_list = steam_games["applist"]["apps"]
-    # .select do |game|
-    #   game_url = "https://store.steampowered.com/api/appdetails?appids=#{game["appid"]}"
-    #   game_data = URI.parse(game_url).read
-    #   game_api_data = JSON.parse(game_data)
-    #   game_api_data[game["appid"].to_s]["success"] == true
+
+    # @app_list = Rails.cache.fetch('all_games', expires_in: 24.hour) do
+    #   Rails.logger.info("Cache miss - fetching from DB")
+    #   Game.all
     # end
+    # if Rails.cache.exist?('all_games')
+    #   Rails.logger.info("Cache hit - using cached data")
+    # end
+    # @app_list = Game.all
     @alphabet_array = ("a".."z").to_a
+  end
+
+  def search
+    @games = Game.where("name LIKE ?", "%#{params[:input]}%")
+    render json: @games
   end
 
   def owned_games_list
@@ -44,20 +49,24 @@ class OwnedGamesController < ApplicationController
   def create
     game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
     game = URI.parse(game_url).read
-    game = JSON.parse(game)[params[:appid]]["data"]
-    developer = game["developers"][0]
-    image_url = game["header_image"]
-    order = OwnedGame.count + 1
+    game_data = JSON.parse(game)[params[:appid]]
+    success = game_data["success"]
+    if success
+      game = game_data["data"]
+      developer = game["developers"] ? game["developers"][0] : "No developer"
+      image_url = game["header_image"]
+      order = OwnedGame.count + 1
 
-    game_details = {
-      appid: params[:appid],
-      name: params[:name],
-      developer:,
-      image_url:,
-      order:,
-    }
-    @game = OwnedGame.new(game_details)
-    @game.save
+      game_details = {
+        appid: params[:appid],
+        name: params[:name],
+        developer:,
+        image_url:,
+        order:,
+      }
+      @game = OwnedGame.new(game_details)
+      @game.save
+    end
     # redirect_to owned_games_list_path
   end
 

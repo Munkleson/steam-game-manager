@@ -24,3 +24,8 @@ Playlist adding
 - Add many
   - Creates a selection and confirm at the end
   - Seems pointless to have add one if you have add many
+
+Search function
+- Can search by just games
+- Can search by just DLC
+- Can search by both

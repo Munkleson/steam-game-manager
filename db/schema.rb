@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_12_27_152531) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_29_153331) do
+  create_table "dlcs", force: :cascade do |t|
+    t.integer "appid"
+    t.string "name"
+    t.string "image_url"
+    t.string "developer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appid"], name: "index_dlcs_on_appid", unique: true
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.integer "appid"
+    t.string "name"
+    t.string "image_url"
+    t.string "developer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appid"], name: "index_games_on_appid", unique: true
+  end
+
+  create_table "invalid_games", force: :cascade do |t|
+    t.integer "appid"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "owned_games", force: :cascade do |t|
     t.string "name"
     t.string "developer"

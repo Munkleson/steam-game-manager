@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get "/add", to: "owned_games#index", as: :add_games
   get "/delete", to: "owned_games#delete", as: :delete
 
+  get "/search", to: "owned_games#search"
+
   post "/add", to: "owned_games#create"
 
   patch "/update", to: "owned_games#update"

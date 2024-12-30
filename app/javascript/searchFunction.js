@@ -125,17 +125,33 @@ function loadSearchFunctionLogic() {
   // console.log(gameList);
 
   input.addEventListener("keyup", (event) => {
-    loadGameList();
+    // loadGameList();
     searchDropdown.innerHTML = "";
 
     let input = event.currentTarget.value;
-    if (input.length >= 3) {
-      if (!initialSearchSet) {
-        initialSearchResults = alphabetMatch(input);
-        initialSearchSet = true;
-      }
-      const orderedSearchResults = orderedSearch(input, initialSearchResults)
-      displayDropdown(orderedSearchResults);
+    if (input.length >= 4) {
+      // if (!initialSearchSet) {
+      //   initialSearchResults = alphabetMatch(input);
+      //   initialSearchSet = true;
+      // }
+      // const orderedSearchResults = orderedSearch(input, initialSearchResults)
+      // displayDropdown(orderedSearchResults);
+      // if (input[0] !== "t" && input[1] !== "h" && input[2] !== "e" && input[4] !== " "){
+
+      // }
+
+      const params = new URLSearchParams({ input: input }).toString();
+      fetch(`/search?${params}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(response => response.json())
+      .then(data => {
+        const orderedSearchResults = orderedSearch(input, data)
+        displayDropdown(orderedSearchResults);
+      })
+      .catch(error => console.error('Error:', error));
     } else if (input.length < 3) {
       initialSearchResults = "";
       initialSearchSet = false;

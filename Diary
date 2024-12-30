@@ -1,0 +1,18 @@
+Diary/Struggles/overcoming Struggles
+
+Fetching:
+
+Fetching the whole steam game list api each time you visit the search page was an issue, as the database for that is extremely large and fetching it would be slow. On top of that, filtering through it all prior to the
+
+In the end, the solution was to import them all into my database in their own tables: Games and DLC (InvalidGames was an option at the beginning, but there was an APi found that only provided games and dlc, so checking if something didn't fit that was no longer needed)
+
+To populate the Games table with game details, instead of populating it myself, whenever a user enters a game into their owned games list, which doesn't have any details in Games, then it will send an API request to the steam game API for that specific game and enter it into the database. This will reduce API calls for until someone actually uses a game.
+- Note: I will have to consider how to handle this if down the line I want users to be able to see the details of a game before adding it, though chances are those kinds of users are few, as they would already know about the games they might want to add, or have seen the details elsewhere (like on actual Steam)
+
+
+
+Now it is extremely fast in dev, as I am only searching in the database for "name LIKE input", but the issue remains that it still lags if typing too fast after reloading the page. When the amount of search results get smaller this wouldn't be an issue
+
+I already made the search results fetching and display only happen when there are more than 4 characters in the input, which reduces fetching for words that will result in too many results (although this will not work for games that have less than 4 characters, but I have an idea for a workaround there, which is when the input is less than 4 characters search for an exact match of the game. As I'm typing this out I don't even know why I'm typing it out, it would be very easy to implement).
+
+I think I need to move the searching logic and sorting (including levenshtein algorithm) to the backend to see if it fixes this issue.

@@ -1,0 +1,2 @@
+class Dlc < ApplicationRecord
+end
