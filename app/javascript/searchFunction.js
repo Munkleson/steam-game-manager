@@ -77,6 +77,7 @@ function loadSearchFunctionLogic() {
     responseTextElement.classList.remove("text-danger");
 
     const type = document.querySelector('input[name="search-type"]:checked').value;
+    console.log(type);
 
     let input = element.value;
     const params = new URLSearchParams({ input: input, type: type }).toString();

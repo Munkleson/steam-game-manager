@@ -8,3 +8,5 @@
 - Clicking on the game or dlc radio buttons will also refresh the search bar with the results for that search type, if any are to be found
 - All other minor flair things like 'game added' vs 'dlc added' has been added too
 - Adding game and dlc filter funcitonality in the owned games page can come next
+
+- Fixed a bug due to my misunderstanding of how event listeners worked for radio buttons. How it was coded before, when you clicked on the label for games or dlcs, it would trigger the event listener for clicking on a radio button twice, because the event listener was attached to the label, not the radio button itself. Moving the event listener only to the radio button would trigger the callback once whether you click on the label or the radio button. The previous bug resulted in the search dropdown list not populating correctly (sometimes dlc for games, and vice versa)
