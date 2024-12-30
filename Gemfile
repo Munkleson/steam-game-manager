@@ -32,6 +32,10 @@ gem 'sortablejs-rails', '~> 1.10'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
+gem 'levenshtein', '~> 0.2.2'
+
+gem 'text'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

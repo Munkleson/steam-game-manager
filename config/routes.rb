@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get "/delete", to: "owned_games#delete", as: :delete
 
   get "/search", to: "owned_games#search"
+  get "/short_search", to: "owned_games#short_search"
 
   post "/add", to: "owned_games#create"
 

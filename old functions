@@ -1,0 +1,42 @@
+  // function loadGameList() {
+  //   if (!gameList) {
+  //     const dataGameList = document.querySelector("#data-game-list");
+  //     gameList = JSON.parse(dataGameList.dataset.info);
+  //     gameList = removeDuplicates(gameList);
+  //     // gameList = gameList.sort((a, b) => a.appid - b.appid) // sort by appid
+  //     gameList = gameList.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+  //   }
+  //   const dataAlphabetArray = document.querySelector("#data-alphabet-array");
+  //   alphabetArray = JSON.parse(dataAlphabetArray.dataset.info);
+  // }
+
+  // function removeDuplicates(gameList) {
+  //   const seen = new Set();
+  //   return gameList.filter(game => {
+  //     const duplicate = seen.has(game.appid);
+  //     seen.add(game.appid);
+  //     return !duplicate;
+  //   })
+  // }
+
+    // function alphabetMatch(input) {
+  //   const startIndex = gameList.findIndex(game => game.name.slice(0, input.length).toLowerCase() === input.toLowerCase())
+  //   const firstLetter = input[0].toLowerCase();
+  //   const nextLetter = alphabetArray[alphabetArray.findIndex(letter => letter === firstLetter) + 1];
+  //   const endIndex = gameList.findIndex(game => {
+  //     if (game.name[0]) {
+  //       return game.name[0].toLowerCase() === nextLetter;
+  //     }
+  //     return game.name[0] === nextLetter;
+  //   });
+  //   return gameList.slice(startIndex, endIndex);
+  // }
+
+  // function orderedSearch(input, games) {
+  //   const filteredList = games.filter(game => {
+  //     if (game.name) {
+  //       return minimalizeWord(game.name).toLowerCase().includes(minimalizeWord(input).toLowerCase());
+  //     }
+  //   });
+  //   return filteredList.sort((a, b) => new Levenshtein(a.name, input) > new Levenshtein(b.name, input) ? 1 : -1).slice(0, 10);
+  // }

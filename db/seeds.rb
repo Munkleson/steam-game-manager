@@ -18,37 +18,41 @@
 require "open-uri"
 require "json"
 
-def game_validity(data)
-  return data["type"] == "game"
-end
-
-def dlc_validity(data)
-  return data["type"] == "dlc"
-end
-
-# Game.destroy_all
-# Dlc.destroy_all
-# InvalidGame.destroy_all
-
-# game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=#{Rails.application.credentials[:api_key]}&format=json"
-game_list_url = "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=645F7D3C8F80F67D096D53B9E46B57F8&include_games=true&max_results=10"
-
-game_list = URI.parse(game_list_url).read
-steam_games = JSON.parse(game_list)
-# app_list = steam_games["applist"]["apps"]
-app_list = steam_games["response"]["apps"]
-
-# app_list = app_list.select do |game|
-#   name = game["name"]
-#   !(name.match?(/\b#{Regexp.escape('Demo')}\b/i) || name.match?(/\b#{Regexp.escape('Trial')}\b/i) || name.match?(/\b#{Regexp.escape('Skin Pack')}\b/i) || name.match?(/\b#{Regexp.escape('Playtest')}\b/i) || name.match?(/\b#{Regexp.escape('Artbook')}\b/i) || name.match?(/\b#{Regexp.escape('Soundtrack')}\b/i) || name.match?(/\b#{Regexp.escape('Supporter pack')}\b/i)             )
+# Game.find_each do |game|
+#   game.update(search_name: game[:name].gsub(/[^a-zA-Z0-9]/, ''))
 # end
 
-puts app_list.count
+# def game_validity(data)
+#   return data["type"] == "game"
+# end
 
-app_list.each do |game|
-  Game.create!({ appid: game["appid"], name: game["name"]})
-end
-puts Game.count
+# def dlc_validity(data)
+#   return data["type"] == "dlc"
+# end
+
+# # Game.destroy_all
+# # Dlc.destroy_all
+# # InvalidGame.destroy_all
+
+# # game_list_url = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/?key=#{Rails.application.credentials[:api_key]}&format=json"
+# game_list_url = "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=645F7D3C8F80F67D096D53B9E46B57F8&include_games=true&max_results=10"
+
+# game_list = URI.parse(game_list_url).read
+# steam_games = JSON.parse(game_list)
+# # app_list = steam_games["applist"]["apps"]
+# app_list = steam_games["response"]["apps"]
+
+# # app_list = app_list.select do |game|
+# #   name = game["name"]
+# #   !(name.match?(/\b#{Regexp.escape('Demo')}\b/i) || name.match?(/\b#{Regexp.escape('Trial')}\b/i) || name.match?(/\b#{Regexp.escape('Skin Pack')}\b/i) || name.match?(/\b#{Regexp.escape('Playtest')}\b/i) || name.match?(/\b#{Regexp.escape('Artbook')}\b/i) || name.match?(/\b#{Regexp.escape('Soundtrack')}\b/i) || name.match?(/\b#{Regexp.escape('Supporter pack')}\b/i)             )
+# # end
+
+# puts app_list.count
+
+# app_list.each do |game|
+#   Game.create!({ appid: game["appid"], name: game["name"]})
+# end
+# puts Game.count
 
 # random_sample = app_list.sample(500)
 

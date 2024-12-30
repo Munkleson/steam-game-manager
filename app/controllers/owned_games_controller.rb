@@ -1,6 +1,7 @@
 require 'net/http'
 require 'json'
 require 'open-uri'
+require 'text'
 
 class OwnedGamesController < ApplicationController
   def index
@@ -23,7 +24,16 @@ class OwnedGamesController < ApplicationController
   end
 
   def search
-    @games = Game.where("name LIKE ?", "%#{params[:input]}%")
+    input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
+    @games = Game.where("search_name LIKE ?", "%#{input}%")
+    @games = @games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, input.downcase) }.slice(0, 10)
+    render json: @games
+  end
+
+  def short_search
+    input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
+    @games = Game.where("LOWER(search_name) = ?", input.downcase)
+    @games = @games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, input.downcase) }.slice(0, 10)
     render json: @games
   end
 
@@ -47,6 +57,8 @@ class OwnedGamesController < ApplicationController
   end
 
   def create
+    request.format = :json
+    puts params
     game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
     game = URI.parse(game_url).read
     game_data = JSON.parse(game)[params[:appid]]
@@ -66,8 +78,15 @@ class OwnedGamesController < ApplicationController
       }
       @game = OwnedGame.new(game_details)
       @game.save
+    #   if @game.save
+    #     render json: @game, status: :created
+    #   else
+    #     render json: @game.errors, status: :unprocessable_entity
+    #   end
+    # else
+    #   render json: { error: "Game not found on Steam API" }, status: :unprocessable_entity
     end
-    # redirect_to owned_games_list_path
+    redirect_to add_games_path
   end
 
   def update
