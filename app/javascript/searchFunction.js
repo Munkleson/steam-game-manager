@@ -6,6 +6,7 @@ function loadSearchFunctionLogic() {
 
   const searchDropdown = document.querySelector("#search-dropdown");
   const searchInputSubmitContainer = document.querySelector(".search-input-submit-container");
+  const submitButton = document.querySelector(".submit-button");
 
   const responseTextElement = document.querySelector(".response-text");
 
@@ -48,34 +49,38 @@ function loadSearchFunctionLogic() {
   function dropDownArrowMovement(key) {
     let previousSelected;
     let currentSelected;
-    if (key === "ArrowDown") {
-      currentArrowKeyPosition += (currentArrowKeyPosition !== gameList.length) ? 1 : 0;
-      if (currentArrowKeyPosition !== 0) {
-        previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition - 1}"]`);
-        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
-      } else {
-        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+    if (gameList) {
+      if (key === "ArrowDown") {
+        currentArrowKeyPosition += (currentArrowKeyPosition !== gameList.length) ? 1 : 0;
+        if (currentArrowKeyPosition !== 0) {
+          previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition - 1}"]`);
+          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+        } else {
+          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+        }
       }
-    }
-    if (key === "ArrowUp") {
-      if (currentArrowKeyPosition === 0) {
-        currentArrowKeyPosition = 1;
-      } else {
-        currentArrowKeyPosition -= (currentArrowKeyPosition !== 1) ? 1 : 0;
-      }
-      if (currentArrowKeyPosition !== 0) {
-        previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition + 1}"]`);
-        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+      if (key === "ArrowUp") {
+        if (currentArrowKeyPosition === 0) {
+          currentArrowKeyPosition = 1;
+        } else {
+          currentArrowKeyPosition -= (currentArrowKeyPosition !== 1) ? 1 : 0;
+        }
+        if (currentArrowKeyPosition !== 0) {
+          previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition + 1}"]`);
+          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
 
-      } else {
-        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+        } else {
+          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+        }
+      }
+      if (previousSelected && previousSelected.classList.contains("dropdown-item-selected")) {
+        previousSelected.classList.remove("dropdown-item-selected");
+      }
+      if (currentSelected) {
+        currentSelected.classList.add("dropdown-item-selected");
+        input.value = currentSelected.innerText;
       }
     }
-    if (previousSelected && previousSelected.classList.contains("dropdown-item-selected")) {
-      previousSelected.classList.remove("dropdown-item-selected");
-    }
-    currentSelected.classList.add("dropdown-item-selected");
-    input.value = currentSelected.innerText;
   }
 
   function fetchFromDb(searchRoute, params) {
@@ -118,6 +123,7 @@ function loadSearchFunctionLogic() {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    submitButton.disabled = true;
     //// logic for form validation here. If it is valid, then submit, else display errors
     const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
     const appidParam = document.querySelector("#hidden-appid");
@@ -140,6 +146,7 @@ function loadSearchFunctionLogic() {
       creationResponseDisplay(data)
       input.value = data.name
       input.select();
+      submitButton.disabled = false;
     })
     .catch(error => {
       console.error('Error:', error)
