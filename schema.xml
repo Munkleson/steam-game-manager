@@ -135,20 +135,6 @@
 <part>id</part>
 </key>
 </table>
-<table x="285" y="471" name="InvalidGames">
-<row name="id" null="1" autoincrement="1">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="appid" null="1" autoincrement="0">
-<datatype>INTEGER</datatype>
-<default>NULL</default></row>
-<row name="name" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
-<default>NULL</default></row>
-<key type="PRIMARY" name="">
-<part>id</part>
-</key>
-</table>
 <table x="286" y="290" name="Dlcs">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>

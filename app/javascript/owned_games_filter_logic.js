@@ -56,7 +56,6 @@ function loadOwnedGamesFilterLogic() {
       const completedCheckbox = game.querySelector(".completed-checkbox");
       const playedCheckbox = game.querySelector(".played-checkbox");
 
-
       switch (selection) {
         case "Completed":
           if (!completedCheckbox.checked) {
