@@ -2,26 +2,81 @@ function loadSearchFunctionLogic() {
   const input = document.querySelector("#search-input")
   const form = document.querySelector("#search-form")
 
-  input.select();
-
   let gameList;
 
   const searchDropdown = document.querySelector("#search-dropdown");
+  const searchInputSubmitContainer = document.querySelector(".search-input-submit-container");
+
+  const responseTextElement = document.querySelector(".response-text");
+
+  let currentArrowKeyPosition;
 
   input.addEventListener("keyup", (event) => {
-    searchDropdown.innerHTML = "";
-    let input = event.currentTarget.value;
-    const params = new URLSearchParams({ input: input }).toString();
-    let searchRoute;
+    if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+      currentArrowKeyPosition = 0;
+      searchDropdown.innerHTML = "";
+      responseTextElement.innerText = "";
+      responseTextElement.classList.remove("success-text-opacity-filled");
+      responseTextElement.classList.remove("error-text-opacity-filled");
+      responseTextElement.classList.remove("text-success");
+      responseTextElement.classList.remove("text-danger");
 
-    if (input.length > 4) {
-      searchRoute = "search";
-      fetchFromDb(searchRoute, params)
-    } else if (input.length > 3) {
-      searchRoute = "short_search"
-      fetchFromDb(searchRoute, params)
+      let input = event.currentTarget.value;
+      const params = new URLSearchParams({ input: input }).toString();
+      let searchRoute;
+
+      if (input.length > 4) {
+        searchRoute = "search";
+        fetchFromDb(searchRoute, params)
+      } else if (input.length > 3) {
+        searchRoute = "short_search"
+        fetchFromDb(searchRoute, params)
+      }
+    }
+
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      dropDownArrowMovement(event.key);
     }
   });
+
+  input.addEventListener("keydown", (event) => { // This is needed to stop the text position moving to the beginning or end of input
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      event.preventDefault();
+    }
+  });
+
+  function dropDownArrowMovement(key) {
+    let previousSelected;
+    let currentSelected;
+    if (key === "ArrowDown") {
+      currentArrowKeyPosition += (currentArrowKeyPosition !== gameList.length) ? 1 : 0;
+      if (currentArrowKeyPosition !== 0) {
+        previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition - 1}"]`);
+        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+      } else {
+        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+      }
+    }
+    if (key === "ArrowUp") {
+      if (currentArrowKeyPosition === 0) {
+        currentArrowKeyPosition = 1;
+      } else {
+        currentArrowKeyPosition -= (currentArrowKeyPosition !== 1) ? 1 : 0;
+      }
+      if (currentArrowKeyPosition !== 0) {
+        previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition + 1}"]`);
+        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+
+      } else {
+        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+      }
+    }
+    if (previousSelected && previousSelected.classList.contains("dropdown-item-selected")) {
+      previousSelected.classList.remove("dropdown-item-selected");
+    }
+    currentSelected.classList.add("dropdown-item-selected");
+    input.value = currentSelected.innerText;
+  }
 
   function fetchFromDb(searchRoute, params) {
     fetch(`/${searchRoute}?${params}`, {
@@ -43,6 +98,7 @@ function loadSearchFunctionLogic() {
       const dropdownOption = document.createElement("div");
       dropdownOption.innerText = filteredList[index].name;
       dropdownOption.classList.add("dropdown-item");
+      dropdownOption.dataset.position = index + 1;
 
       dropdownOption.addEventListener("click", (event) => selectDropdownItem(event.currentTarget));
 
@@ -79,10 +135,48 @@ function loadSearchFunctionLogic() {
       body: JSON.stringify(params)
     })
     .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
+    .then(data => {
+      console.log(data);
+      creationResponseDisplay(data)
+      input.value = data.name
+      input.select();
+    })
+    .catch(error => {
+      console.error('Error:', error)
+    });
     // form.submit();
   });
+
+  function creationResponseDisplay(response) {
+    responseTextElement.classList.remove("success-text-opacity-filled");
+    responseTextElement.classList.remove("error-text-opacity-filled");
+    responseTextElement.classList.remove("text-success");
+    responseTextElement.classList.remove("text-danger");
+    // const responseTextElement = document.createElement("p");
+    let responseText;
+    if (response.appid) {
+      responseText = "Game successfully added to your library";
+      responseTextElement.classList.add("text-success"); // Bootstrap class
+      setTimeout(() => {
+        searchDropdown.innerHTML = "";
+        responseTextElement.classList.add("success-text-opacity-filled");
+      }, 10);
+    } else {
+      if (response.error === "not found") {
+        responseText = "Game could not be found on the Steam API";
+      } else {
+        responseText = "Game already exists in your library";
+      }
+      responseTextElement.classList.add("text-danger"); // Bootstrap class
+      setTimeout(() => {
+        searchDropdown.innerHTML = "";
+        responseTextElement.classList.add("error-text-opacity-filled");
+      }, 10);
+    }
+    responseTextElement.innerText = responseText;
+    searchInputSubmitContainer.insertAdjacentElement("afterend", responseTextElement);
+  }
+
 }
 
 loadSearchFunctionLogic();

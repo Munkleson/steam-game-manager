@@ -2,7 +2,6 @@
 function initializeOwnedGameListLogic() {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-  const gameCards = document.querySelectorAll(".game-card");
   const gameListBodyContainer = document.querySelector(".games-list-body-container");
   const deleteGameForm = document.querySelectorAll(".delete-game-form");
   const completedCheckboxes = document.querySelectorAll(".completed-checkbox");
@@ -61,7 +60,7 @@ function initializeOwnedGameListLogic() {
       },
       body: JSON.stringify(params)
     }).then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => data)
     .catch(error => console.error('Error:', error));
   }
 

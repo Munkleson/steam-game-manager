@@ -1,20 +1,87 @@
+.search-page-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+h1 {
+  margin-top: 10%;
+}
+
+h5 {
+  margin-top: 1%;
+}
+
 .go-to-games-link {
   top: 1%;
   right: 1%;
 }
 
+.search-container {
+  margin-top: 3%;
+}
+
 #search-form {
   display: flex;
+
 }
 
 #search-div {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 25vw;
 }
 
 #search-dropdown {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.search-input-submit-container {
+  width: 100%;
+}
+
+#search-input {
+  width: 100%;
+}
+
+.dropdown-item {
+  padding-left: 4px;
+  padding-right: 4px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.dropdown-item:hover {
+  transition: 0.3s;
+  background-color: rgb(184, 182, 182);
+}
+
+.dropdown-item-selected {
+  transition: 0.3s;
+  background-color: rgb(184, 182, 182);
+}
+
+.response-text {
+  transition: 0.3s;
+}
+
+.response-text-opacity-zero {
+  transition: 0.3s;
+  opacity: 0;
+}
+
+.success-text-opacity-filled {
+  transition: 0.3s;
+  opacity: 100;
+}
+
+.error-text-opacity-filled {
+  transition: 0.3s;
+  opacity: 100;
 }

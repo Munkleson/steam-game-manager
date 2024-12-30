@@ -3,17 +3,22 @@
 
 <%= link_to "Go to your games", owned_games_list_path, class: "go-to-games-link btn btn-primary position-absolute" %>
 
-<h1>Steam Games Manager</h1>
-<h5>Manage and track your Steam games, and plan which games to play that you have never touched!</h3>
+<div class="search-page-container d-flex align-items-center flex-column">
+  <h1>Steam Games Manager</h1>
+  <h5>Manage and track your Steam games, and plan which games to play that you have never touched!</h3>
 
-<div class="search-page-container">
-  <form action="/add" method="POST" id="search-form">
-    <div id="search-div">
-      <input type="text" id="search-input" name="name" placeholder="Search for a game on Steam">
-      <div id="search-dropdown"></div>
-    </div>
-    <input type="submit">
-    <%= hidden_field_tag :appid, "", id: 'hidden-appid' %>
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  </form>
+  <div class="search-container d-flex justify-content-center">
+    <form action="/add" method="POST" id="search-form">
+      <div id="search-div">
+        <div class="search-input-submit-container d-flex">
+          <input type="text" id="search-input" name="name" placeholder="Search for a game on Steam" spellcheck="false">
+          <input type="submit">
+        </div>
+        <p class="response-text response-text-opacity-zero"></p>
+        <div id="search-dropdown"></div>
+      </div>
+      <%= hidden_field_tag :appid, "", id: 'hidden-appid' %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    </form>
+  </div>
 </div>

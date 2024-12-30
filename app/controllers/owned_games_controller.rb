@@ -64,10 +64,10 @@ class OwnedGamesController < ApplicationController
       if @game.save
         render json: @game, status: :created
       else
-        render json: { errors: @game.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: @game.errors.full_messages, name: name, error: "taken" }, status: :unprocessable_entity
       end
     else
-      render json: { error: "not found" }, status: :not_found
+      render json: { error: "not found", name: name }, status: :not_found
     end
   end
 

@@ -21,3 +21,8 @@ There were issues in creating a game in the owned games list due to logic not ha
 Refactored my search logic to only display dropdown results if the input was over 4 letters long. This would serve to cut down on retrieving database details. However, in the refactoring of my logic I needed to create a new column in games and dlc that would function as a search name, cutting out all non alphanumeric characters, so that was populated through seeding. However, they were not lower cased so the lower casing still remains in the controllers/frontend until I need to optimize it further
 
 Levenshtein calculating and sorting is now done in the backend to avoid edge cases where the transferring of data from the front to the backend and back would result in sometimes more than 10 search results displaying. Now only 10 results max are being returned from the backend. Not sure if this works faster with ruby sorting than JS sorting, but edge cases are solved here now.
+
+
+Second thoughts for search algorithm:
+
+It may be the case that the search algorithm should be done by recommendations (which would require another database column and seeding) rather than Levenshtein, or a combination of both.
