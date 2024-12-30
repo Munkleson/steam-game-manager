@@ -2,3 +2,9 @@
 
 - Hovering over a game name that is too long in the suggestions list will expand it, and when mouse leaves the area it will go back to hiding the overflow
 - Made a validation in the create that checks if a game is released or not yet, and also returns an error message saying so if it isn't
+
+- Added DLC searching functionality
+- You can now select which search method, games or dlc, via radio buttons
+- Clicking on the game or dlc radio buttons will also refresh the search bar with the results for that search type, if any are to be found
+- All other minor flair things like 'game added' vs 'dlc added' has been added too
+- Adding game and dlc filter funcitonality in the owned games page can come next

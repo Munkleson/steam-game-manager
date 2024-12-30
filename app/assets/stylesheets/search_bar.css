@@ -17,7 +17,7 @@ h5 {
 }
 
 .search-container {
-  margin-top: 3%;
+  margin-top: 2%;
 }
 
 #search-form {
@@ -94,4 +94,14 @@ h5 {
 .error-text-opacity-filled {
   transition: 0.3s;
   opacity: 100;
+}
+
+.radio-button-container {
+  width: 100%;
+}
+
+.search-radios {
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1%;
 }

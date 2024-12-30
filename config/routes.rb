@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get "/search", to: "owned_games#search"
   get "/short_search", to: "owned_games#short_search"
 
-  post "/add", to: "owned_games#create"
+  post "/add", to: "owned_games#create_game"
 
   patch "/update", to: "owned_games#update"
   patch "/update_order", to: "owned_games#update_order"

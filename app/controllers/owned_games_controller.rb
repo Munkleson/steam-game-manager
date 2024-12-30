@@ -8,16 +8,17 @@ class OwnedGamesController < ApplicationController
   end
 
   def search
+    type = params[:type] == "game" ? Game : Dlc
     input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
-    @games = Game.where("search_name LIKE ?", "%#{input}%")
+    @games = type.where("search_name LIKE ?", "%#{input}%")
     @games = @games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, input.downcase) }.slice(0, 10)
     render json: @games
   end
 
   def short_search
-    puts params[:input].gsub(/[^a-zA-Z0-9]/, '')
+    type = params[:type] == "game" ? Game : Dlc
     input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
-    @games = Game.where("LOWER(search_name) = ?", input.downcase)
+    @games = type.where("LOWER(search_name) = ?", input.downcase)
     @games = @games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, input.downcase) }.slice(0, 10)
     render json: @games
   end
@@ -41,7 +42,7 @@ class OwnedGamesController < ApplicationController
     @count = { all: OwnedGame.count, completed: completed_count, played: played_count }
   end
 
-  def create
+  def create_game
     game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
     game_read = URI.parse(game_url).read
     game_data = JSON.parse(game_read)[params[:appid]]

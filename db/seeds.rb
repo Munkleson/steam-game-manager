@@ -18,8 +18,21 @@
 require "open-uri"
 require "json"
 
+# dlc_url = "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=645F7D3C8F80F67D096D53B9E46B57F8&include_games=false&include_dlc=true&last_appid=0&max_results=50000"
+# dlc_list = URI.parse(dlc_url).read
+# steam_dlc = JSON.parse(dlc_list)
+# dlcs = steam_dlc["response"]["apps"]
+# dlcs.each do |dlc|
+#   Dlc.create!({ appid: dlc["appid"], name: dlc["name"]})
+# end
+# puts Dlc.count
+
 # Game.find_each do |game|
 #   game.update(search_name: game[:name].gsub(/[^a-zA-Z0-9]/, ''))
+# end
+
+# Dlc.find_each do |dlc|
+#   dlc.update(search_name: dlc[:name].gsub(/[^a-zA-Z0-9]/, ''))
 # end
 
 # def game_validity(data)

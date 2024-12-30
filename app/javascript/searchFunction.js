@@ -12,27 +12,11 @@ function loadSearchFunctionLogic() {
 
   let currentArrowKeyPosition;
 
+  const searchRadios = document.querySelectorAll(".search-radios");
+
   input.addEventListener("keyup", (event) => {
     if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown") {
-      currentArrowKeyPosition = 0;
-      searchDropdown.innerHTML = "";
-      responseTextElement.innerText = "";
-      responseTextElement.classList.remove("success-text-opacity-filled");
-      responseTextElement.classList.remove("error-text-opacity-filled");
-      responseTextElement.classList.remove("text-success");
-      responseTextElement.classList.remove("text-danger");
-
-      let input = event.currentTarget.value;
-      const params = new URLSearchParams({ input: input }).toString();
-      let searchRoute;
-
-      if (input.length > 4) {
-        searchRoute = "search";
-        fetchFromDb(searchRoute, params);
-      } else if (input.length > 3) {
-         searchRoute = "short_search"
-        fetchFromDb(searchRoute, params);
-      }
+      searchForGamesOrDlc(event.currentTarget)
     }
 
     if (event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -80,6 +64,30 @@ function loadSearchFunctionLogic() {
         currentSelected.classList.add("dropdown-item-selected");
         input.value = currentSelected.innerText;
       }
+    }
+  }
+
+  function searchForGamesOrDlc(element) {
+    currentArrowKeyPosition = 0;
+    searchDropdown.innerHTML = "";
+    responseTextElement.innerText = "";
+    responseTextElement.classList.remove("success-text-opacity-filled");
+    responseTextElement.classList.remove("error-text-opacity-filled");
+    responseTextElement.classList.remove("text-success");
+    responseTextElement.classList.remove("text-danger");
+
+    const type = document.querySelector('input[name="search-type"]:checked').value;
+
+    let input = element.value;
+    const params = new URLSearchParams({ input: input, type: type }).toString();
+    let searchRoute;
+
+    if (input.length > 4) {
+      searchRoute = "search";
+      fetchFromDb(searchRoute, params);
+    } else if (input.length > 3) {
+       searchRoute = "short_search"
+      fetchFromDb(searchRoute, params);
     }
   }
 
@@ -140,8 +148,10 @@ function loadSearchFunctionLogic() {
     const game = gameList.find(game => minimalizeWord(game.name.toLowerCase()) === minimalizeWord(input.value.toLowerCase()));
 
     // This is here to check if input matches any game at all. Required since the logic below doesn't include this, as if it encounters this error it keeps the button disabled
+    const type = document.querySelector('input[name="search-type"]:checked').value === "game" ? "Game" : "DLC"
+
     if (!game) {
-      creationResponseDisplay({ error: "not found"});
+      creationResponseDisplay({ error: "not found"}, type);
       submitButton.disabled = false;
       return;
     }
@@ -158,9 +168,10 @@ function loadSearchFunctionLogic() {
     })
     .then(response => response.json())
     .then(data => {
-      creationResponseDisplay(data);
+      creationResponseDisplay(data, type);
       input.value = data.name;
       submitButton.disabled = false;
+      input.select();
     })
     .catch(error => {
       console.error('Error:', error);
@@ -168,14 +179,14 @@ function loadSearchFunctionLogic() {
     });
   });
 
-  function creationResponseDisplay(response) {
+  function creationResponseDisplay(response, type) {
     responseTextElement.classList.remove("success-text-opacity-filled");
     responseTextElement.classList.remove("error-text-opacity-filled");
     responseTextElement.classList.remove("text-success");
     responseTextElement.classList.remove("text-danger");
     let responseText;
     if (response.appid) {
-      responseText = "Game successfully added to your library";
+      responseText = `${type} successfully added to your library`;
       responseTextElement.classList.add("text-success"); // Bootstrap class
       setTimeout(() => {
         searchDropdown.innerHTML = "";
@@ -183,11 +194,11 @@ function loadSearchFunctionLogic() {
       }, 10);
     } else {
       if (response.error === "not found") {
-        responseText = "Game could not be found on the Steam API";
+        responseText = `${type} could not be found on the Steam API`;
       } else if (response.error === "taken") {
-        responseText = "Game already exists in your library";
+        responseText = `${type} already exists in your library`;
       } else if (response.error === "not out") {
-        responseText = "Game is not released yet"
+        responseText = `${type} is not released yet`
       }
       responseTextElement.classList.add("text-danger"); // Bootstrap class
       setTimeout(() => {
@@ -200,6 +211,15 @@ function loadSearchFunctionLogic() {
     input.select();
   }
 
+  searchRadios.forEach((radioButton) => {
+    radioButton.addEventListener("click", (event) => {
+      const currentInput = document.querySelector("#search-input");
+      searchForGamesOrDlc(currentInput);
+      setTimeout(() => {
+        input.select();
+      }, 1);
+    });
+  });
 }
 
 loadSearchFunctionLogic();

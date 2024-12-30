@@ -29,6 +29,8 @@ It may be the case that the search algorithm should be done by recommendations (
 
 May want to replace roman numerals with numbers in the search_name column, so if people search with Assassin's Creed 4 instead of Assassin's Creed IV, they still find it. Should prioritise other things first, as the search function works well enough for now
 
+For searching dlcs and games, should keep them separate via a radio button. Putting them together would increase search time (though not by much, since DLC list would be about 30% of the games list). Would it be better for users to be able to search both at the same time?
+
 
 User experience:
 

@@ -10,6 +10,16 @@
   <div class="search-container d-flex justify-content-center">
     <form action="/add" method="POST" id="search-form">
       <div id="search-div">
+        <div class="radio-button-container d-flex justify-content-center">
+          <label for="radio-games" class="search-radios">
+            <input type="radio" id="radio-games" name="search-type" value="game" checked="checked">
+            Games
+          </label>
+          <label for="radio-dlcs" class="search-radios">
+            <input type="radio" id="radio-dlcs" name="search-type" value="dlc">
+            DLCs
+          </label>
+        </div>
         <div class="search-input-submit-container d-flex">
           <input type="text" id="search-input" name="name" placeholder="Search for a game on Steam" spellcheck="false">
           <input type="submit" class="submit-button">
