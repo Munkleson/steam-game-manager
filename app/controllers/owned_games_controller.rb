@@ -24,8 +24,17 @@ class OwnedGamesController < ApplicationController
   end
 
   def owned_games_list
-    @owned_games = OwnedGame.all.sort do |a, b|
-      a[:order] <=> b[:order]
+    # here only for testing purposes
+    user_id = 1
+    user = User.find_by("id = ?", user_id)
+    @owned_games
+    if user.nil?
+      @owned_games = []
+    else
+      @owned_games = user.owned_games.all.sort do |a, b|
+        # @owned_games = OwnedGame.all.sort do |a, b|
+          a[:order] <=> b[:order]
+        end
     end
     @filters = ["Completed", "Not completed", "Played", "Not played", "Clear filter"]
     number_of_games = OwnedGame.count.to_f
@@ -35,14 +44,31 @@ class OwnedGamesController < ApplicationController
     completed_rate = (completed_count / number_of_games * 100)
     played_rate = (played_count / number_of_games * 100)
 
-    @completed_rate = completed_rate % 1 == 0 ? completed_rate.to_i : completed_rate.round(2)
-    @played_rate = played_rate % 1 == 0 ? played_rate.to_i : played_rate.round(2)
+    @completed_rate
+    @played_rate
+
+    if completed_rate.nan?
+      @completed_rate = 0
+    else
+      @completed_rate = completed_rate % 1 == 0 ? completed_rate.to_i : completed_rate.round(2)
+    end
+    if played_rate.nan?
+      @played_rate = 0
+    else
+      @played_rate = played_rate % 1 == 0 ? played_rate.to_i : played_rate.round(2)
+    end
+
     @rates = { completed: @completed_rate, played: @played_rate }
     @stats = ["completed", "played"]
     @count = { all: OwnedGame.count, completed: completed_count, played: played_count }
   end
 
   def create_game
+    # here only for testing purposes
+    user_id = 1
+
+    user = User.find(user_id)
+
     game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
     game_read = URI.parse(game_url).read
     game_data = JSON.parse(game_read)[params[:appid]]
@@ -51,23 +77,37 @@ class OwnedGamesController < ApplicationController
       game = game_data["data"]
       name = game["name"]
 
+      # Has to be here, otherwise it can't get the name and return it for the search function
+      if user.owned_games.find_by("appid = ?", params[:appid])
+        render json: { name: name, error: "taken" }, status: :unprocessable_entity
+        return
+      end
+
       # Checking if the game is out yet, and ends the request and error if it isn't out
       if game["release_date"]["coming_soon"]
         render json: { error: "not out", name: name }, status: :unprocessable_entity
         return
       end
-
+      appid = params[:appid]
       developer = game["developers"] ? game["developers"][0] : "No developer"
       image_url = game["header_image"]
       order = OwnedGame.count + 1
 
       game_details = {
-        appid: params[:appid],
+        appid:,
         name:,
         developer:,
         image_url:,
         order:,
+        user_id:
       }
+      type = game["type"]
+      if type == "game"
+        game_details[:game_id] = Game.find_by("appid = ?", appid)[:id]
+      else
+        game_details[:dlc_id] = Dlc.find_by("appid = ?", appid)[:id]
+      end
+
       @game = OwnedGame.new(game_details)
       if @game.save
         render json: @game, status: :created
@@ -77,6 +117,7 @@ class OwnedGamesController < ApplicationController
     else
       render json: { error: "not found", name: name }, status: :not_found
     end
+
   end
 
   def update

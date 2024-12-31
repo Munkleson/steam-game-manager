@@ -22,10 +22,6 @@ function initializeOwnedGameListLogic() {
     scrollSpeed: 300,
   })
 
-  function enableScroll(event) {
-    event.stopPropagation();
-  }
-
   function onPageLoad() {
   //// this is here when the page refreshes due to a removal of a game, the order is updated
   changeOrder();
@@ -48,8 +44,17 @@ function initializeOwnedGameListLogic() {
     const completedText = document.querySelector(".completed-percentage");
     const playedText = document.querySelector(".played-percentage");
 
-    completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${rates.completed}%`;
-    playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${rates.played}%`;
+    // If the game list is empty, these will result in the texts being 0 rather than NaN
+    if (isNaN(rates.completed)) {
+      completedText.innerText = "0%";
+    } else {
+      completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${rates.completed}%`;
+    }
+    if (isNaN(rates.played)) {
+      playedText.innerText = "0%";
+    } else {
+      playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${rates.played}%`;
+    }
   }
 
   function changeOrder() {

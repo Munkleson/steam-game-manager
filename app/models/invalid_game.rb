@@ -1,2 +1,0 @@
-class InvalidGame < ApplicationRecord
-end

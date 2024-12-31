@@ -16,3 +16,4 @@
 
 - Refactored some styling code
   - The games list container element now rests below the header and scrolls well. Dragging a game also can move the screen down so you can move the game cards anywhere in the container without having to let go and scroll down first
+- Added holding key down functionality to the dropdown list logic, rather than just having to press the key each time to select a new element.
