@@ -17,7 +17,14 @@ function initializeOwnedGameListLogic() {
     animation: 150,
     ghostClass: 'blue-background-class',
     onEnd: function() { changeOrder() },
+    scroll: true,
+    scrollSensitivity: 100,
+    scrollSpeed: 300,
   })
+
+  function enableScroll(event) {
+    event.stopPropagation();
+  }
 
   function onPageLoad() {
   //// this is here when the page refreshes due to a removal of a game, the order is updated

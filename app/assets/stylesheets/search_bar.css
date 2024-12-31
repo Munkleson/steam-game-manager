@@ -51,29 +51,29 @@ h5 {
   padding-left: 4px;
   padding-right: 4px;
   width: 100%;
-  transition: 0.3s;
+  /* transition: 0.3s; */
 }
 
 .dropdown-item-hidden {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  transition: 0.3s;
+  /* transition: 0.3s; */
 }
 
 .dropdown-item-shown {
   overflow: visible;
   white-space: normal;
-  transition: 0.3s;
+  /* transition: 0.3s; */
 }
 
 .dropdown-item:hover {
-  transition: 0.3s;
+  /* transition: 0.3s; */
   background-color: rgb(184, 182, 182);
 }
 
 .dropdown-item-selected {
-  transition: 0.3s;
+  /* transition: 0.3s; */
   background-color: rgb(184, 182, 182);
 }
 

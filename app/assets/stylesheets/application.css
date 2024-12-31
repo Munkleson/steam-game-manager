@@ -20,7 +20,8 @@ p {
 
 html {
   overflow-x: hidden;
-  scrollbar-gutter: stable;
+  /* scrollbar-gutter: stable; */
+  overflow-y: hidden;
 }
 
 body {

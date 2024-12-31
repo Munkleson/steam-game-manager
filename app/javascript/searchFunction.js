@@ -18,15 +18,15 @@ function loadSearchFunctionLogic() {
     if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown") {
       searchForGamesOrDlc(event.currentTarget)
     }
-
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-      dropDownArrowMovement(event.key);
-    }
+    // if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+    //   dropDownArrowMovement(event.key);
+    // }
   });
 
   input.addEventListener("keydown", (event) => { // This is needed to stop the text position moving to the beginning or end of input
     if (event.key === "ArrowUp" || event.key === "ArrowDown") {
       event.preventDefault();
+      dropDownArrowMovement(event.key);
     }
   });
 
@@ -35,28 +35,34 @@ function loadSearchFunctionLogic() {
     let currentSelected;
     if (gameList) {
       if (key === "ArrowDown") {
-        currentArrowKeyPosition += (currentArrowKeyPosition !== gameList.length) ? 1 : 0;
-        if (currentArrowKeyPosition !== 0) {
-          previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition - 1}"]`);
-          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+        if (currentArrowKeyPosition === gameList.length) {
+          currentArrowKeyPosition = 1;
         } else {
-          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+          currentArrowKeyPosition += (currentArrowKeyPosition !== gameList.length) ? 1 : 0;
         }
+
+        if (currentArrowKeyPosition === 1) {
+          previousSelected = document.querySelector(`[data-position="${gameList.length}"]`);
+        } else if (currentArrowKeyPosition !== 0) {
+          previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition - 1}"]`);
+        }
+        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
       }
       if (key === "ArrowUp") {
-        if (currentArrowKeyPosition === 0) {
-          currentArrowKeyPosition = 1;
+        if (currentArrowKeyPosition === 0 || currentArrowKeyPosition === 1) {
+          currentArrowKeyPosition = gameList.length;
         } else {
           currentArrowKeyPosition -= (currentArrowKeyPosition !== 1) ? 1 : 0;
         }
-        if (currentArrowKeyPosition !== 0) {
-          previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition + 1}"]`);
-          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
 
-        } else {
-          currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
+        if (currentArrowKeyPosition === gameList.length) {
+          previousSelected = document.querySelector(`[data-position="1"]`);
+        } else if (currentArrowKeyPosition !== 0) {
+          previousSelected = document.querySelector(`[data-position="${currentArrowKeyPosition + 1}"]`);
         }
+        currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
       }
+
       if (previousSelected && previousSelected.classList.contains("dropdown-item-selected")) {
         previousSelected.classList.remove("dropdown-item-selected");
       }
@@ -77,7 +83,6 @@ function loadSearchFunctionLogic() {
     responseTextElement.classList.remove("text-danger");
 
     const type = document.querySelector('input[name="search-type"]:checked').value;
-    console.log(type);
 
     let input = element.value;
     const params = new URLSearchParams({ input: input, type: type }).toString();
@@ -195,7 +200,7 @@ function loadSearchFunctionLogic() {
       }, 10);
     } else {
       if (response.error === "not found") {
-        responseText = `${type} could not be found on the Steam API`;
+        responseText = `${type} details could not be found or retrieved from the Steam API`;
       } else if (response.error === "taken") {
         responseText = `${type} already exists in your library`;
       } else if (response.error === "not out") {
@@ -213,7 +218,7 @@ function loadSearchFunctionLogic() {
   }
 
   searchRadios.forEach((radioButton) => {
-    radioButton.addEventListener("click", (event) => {
+    radioButton.addEventListener("click", () => {
       const currentInput = document.querySelector("#search-input");
       searchForGamesOrDlc(currentInput);
       setTimeout(() => {

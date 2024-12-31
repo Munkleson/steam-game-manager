@@ -6,7 +6,7 @@
 <div class="games-list-header">
   <div class="header-relative-container position-relative">
     <div class="d-flex flex-column align-items-center">
-      <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-1 mt-3 ms-2" %>
+      <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-1 mt-3" %>
       <div class="d-flex justify-content-center mt-3">
         <p class="filter-by-text m-0 me-2">Filter by:</p>
         <div class="filter-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between">
@@ -36,9 +36,9 @@
   </div>
 </div>
 
-<ul class="games-list-body-container list-unstyled d-flex align-items-center justify-content-center row-12 flex-wrap">
+<ul class="games-list-body-container list-unstyled d-flex justify-content-center row-12 flex-wrap">
   <% @owned_games.each do |game| %>
-    <li class="game-card card col-md-4 col-10 d-flex flex-row m-2 p-0 align-items-center" data-id="<%= game[:id] %>">
+    <li class="game-card card col-md-4 col-10 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>">
       <img src=<%= game.image_url %> class="card-img img-fluid card-img-width" alt="...">
       <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
         <h6 class="card-info-item card-title m-0 p-0"><%= game.name %></h5>
