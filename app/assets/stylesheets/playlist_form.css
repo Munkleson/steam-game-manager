@@ -1,0 +1,23 @@
+.playlist-form {
+  padding: 1rem;
+  position: absolute;
+  top: calc(4rem + 5.7vw);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* .close-button {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  position:absolute;
+  right: 0;
+  top: 0;
+  transform: translateX(40%) translateY(-40%);
+} */
+
+.button-div {
+  --bs-gutter-x: 0 !important;
+}

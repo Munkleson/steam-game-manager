@@ -19,11 +19,22 @@ p {
 }
 
 html {
+  font-size: 0.83vw;
   overflow-x: hidden;
   /* scrollbar-gutter: stable; */
   overflow-y: hidden;
 }
 
+/* @media only screen and (max-aspect-ratio: 1) {
+  html {
+    font-size: 1vh;
+  }
+} */
+
 body {
   overflow-x: hidden;
+}
+
+input:hover {
+  cursor: text;
 }

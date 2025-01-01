@@ -5,6 +5,7 @@ function loadOwnedGamesFilterLogic() {
   const filterDropdown = document.querySelector(".filter-dropdown-options");
   const filterByText = document.querySelector(".filter-by-text");
   const dropdownOptions = document.querySelectorAll(".dropdown-options");
+  const clearFilterButton = document.querySelector(".clear-filter-button");
 
   // completed, not completed, played, not played, clear
 
@@ -34,16 +35,25 @@ function loadOwnedGamesFilterLogic() {
 
   dropdownOptions.forEach((option) => {
     option.addEventListener("click", (event) => {
-      if (event.target.innerText === "Clear filter") {
-        filterText.innerText = "Select your filter";
-        filterByText.innerText = "Filter by:"
-      } else {
-        filterText.innerText = event.target.innerText;
-        filterByText.innerText = "Filtering by:";
-      }
-      filterGames(event.target.innerText);
+      dropdownText(event);
     });
   });
+
+  clearFilterButton.addEventListener("click", (event) => {
+    event.target.blur();
+    dropdownText(event)
+  });
+
+  function dropdownText(event) {
+    if (event.target.innerText === "Clear filter") {
+      filterText.innerText = "Select your filter";
+      // filterByText.innerText = "Filter by:"
+    } else {
+      filterText.innerText = event.target.innerText;
+      filterByText.innerText = "Filtering by:";
+    }
+    filterGames(event.target.innerText);
+  }
 
   function filterGames(selection) {
     const games = document.querySelectorAll(".game-card");
@@ -81,7 +91,6 @@ function loadOwnedGamesFilterLogic() {
 
     })
   }
-
 }
 
 loadOwnedGamesFilterLogic();

@@ -37,7 +37,7 @@ class OwnedGamesController < ApplicationController
           a[:order] <=> b[:order]
         end
     end
-    @filters = ["Completed", "Not completed", "Played", "Not played", "Clear filter"]
+    @filters = ["Completed", "Not completed", "Played", "Not played"]
     number_of_games = user_owned_games.count.to_f
     completed_count = user_owned_games.all.filter { |game| game[:completed] }.count
     played_count = user_owned_games.all.filter { |game| game[:played] }.count

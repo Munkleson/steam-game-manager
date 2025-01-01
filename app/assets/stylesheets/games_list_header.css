@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  height: 12vh;
+  height: 5.7vw;
   z-index: 100;
   background-color: white;
   border-bottom: solid 1px rgba(0, 0, 0, .125);
@@ -68,4 +68,33 @@ input, label, .filter-dropdown:hover {
 .dropdown-options:hover {
   transition: 0.3s;
   background-color: rgb(184, 182, 182);
+}
+
+.clear-filter-button {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  user-select: none;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, transform .15s ease-in-out;
+  box-shadow: 0 0 0;
+  border: none;
+}
+
+.clear-filter-button:hover {
+  background-color: #89939b;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.clear-filter-button:active {
+  transform: translateY(3px);
+  transition: 0.15s;
 }

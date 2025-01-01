@@ -2,7 +2,7 @@
 function initializeOwnedGameListLogic() {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-  const gameListBodyContainer = document.querySelector(".games-list-body-container");
+  const gameListBodyContainer = document.querySelector(".main-body-container");
   const deleteGameForm = document.querySelectorAll(".delete-game-form");
   const completedCheckboxes = document.querySelectorAll(".completed-checkbox");
   const playedCheckboxes = document.querySelectorAll(".played-checkbox");

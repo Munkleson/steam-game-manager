@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   # get "/", to: "owned_games#index"
+
+  #owned games
+
   get "/games", to: "owned_games#owned_games_list", as: :owned_games_list
   get "/add", to: "owned_games#index", as: :add_games
   get "/delete", to: "owned_games#delete", as: :delete
@@ -21,4 +24,10 @@ Rails.application.routes.draw do
   patch "/update_order", to: "owned_games#update_order"
 
   delete "/delete", to: "owned_games#delete"
+
+  # playlists
+
+  get "/playlists", to: "playlists#playlists_main_page", as: :playlists
+
+  post "/create_playlist", to: "playlists#create_playlist"
 end

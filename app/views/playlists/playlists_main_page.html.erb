@@ -1,0 +1,22 @@
+<%= javascript_include_tag 'create_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= stylesheet_link_tag "playlist_form", "data-turbo-track": "reload" %>
+
+<div class="games-list-header">
+  <div class="header-relative-container position-relative">
+    <div class="d-flex flex-column align-items-center">
+      <div class="col-3 mt-3 d-flex justify-content-center">
+        <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-5" %>
+        <%= link_to "Go to your games", owned_games_list_path, class: "btn btn-primary col-5 ms-2" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-body-container d-flex align-items-center flex-column position-relative">
+  <div class="playlist-buttons-container d-flex justify-content-center mb-2">
+    <button class="create-playlist-button btn btn-primary">Create a playlist</button>
+  </div>
+  <div class="playlist-body-container">
+
+  </div>
+</div>
