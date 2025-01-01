@@ -27,19 +27,20 @@ class OwnedGamesController < ApplicationController
     # here only for testing purposes
     user_id = 1
     user = User.find_by("id = ?", user_id)
+    user_owned_games = user.owned_games
     @owned_games
     if user.nil?
       @owned_games = []
     else
-      @owned_games = user.owned_games.all.sort do |a, b|
+      @owned_games = user_owned_games.all.sort do |a, b|
         # @owned_games = OwnedGame.all.sort do |a, b|
           a[:order] <=> b[:order]
         end
     end
     @filters = ["Completed", "Not completed", "Played", "Not played", "Clear filter"]
-    number_of_games = OwnedGame.count.to_f
-    completed_count = OwnedGame.all.filter { |game| game[:completed] }.count
-    played_count = OwnedGame.all.filter { |game| game[:played] }.count
+    number_of_games = user_owned_games.count.to_f
+    completed_count = user_owned_games.all.filter { |game| game[:completed] }.count
+    played_count = user_owned_games.all.filter { |game| game[:played] }.count
 
     completed_rate = (completed_count / number_of_games * 100)
     played_rate = (played_count / number_of_games * 100)
@@ -60,7 +61,7 @@ class OwnedGamesController < ApplicationController
 
     @rates = { completed: @completed_rate, played: @played_rate }
     @stats = ["completed", "played"]
-    @count = { all: OwnedGame.count, completed: completed_count, played: played_count }
+    @count = { all: user_owned_games.count, completed: completed_count, played: played_count }
   end
 
   def create_game
@@ -68,6 +69,7 @@ class OwnedGamesController < ApplicationController
     user_id = 1
 
     user = User.find(user_id)
+    user_owned_games = user.owned_games
 
     game_url = "https://store.steampowered.com/api/appdetails?appids=#{params[:appid]}"
     game_read = URI.parse(game_url).read
@@ -79,7 +81,7 @@ class OwnedGamesController < ApplicationController
 
       # Has to be here, otherwise it can't get the name and return it for the search function
       if user.owned_games.find_by("appid = ?", params[:appid])
-        render json: { name: name, error: "taken" }, status: :unprocessable_entity
+        render json: { error: "taken", name: name }, status: :unprocessable_entity
         return
       end
 
@@ -91,7 +93,7 @@ class OwnedGamesController < ApplicationController
       appid = params[:appid]
       developer = game["developers"] ? game["developers"][0] : "No developer"
       image_url = game["header_image"]
-      order = OwnedGame.count + 1
+      order = user_owned_games.count + 1
 
       game_details = {
         appid:,
@@ -112,7 +114,7 @@ class OwnedGamesController < ApplicationController
       if @game.save
         render json: @game, status: :created
       else
-        render json: { errors: @game.errors.full_messages, name: name, error: "taken" }, status: :unprocessable_entity
+        render json: { errors: @game.errors.full_messages, error: "taken", name: name }, status: :unprocessable_entity
       end
     else
       render json: { error: "not found", name: name }, status: :not_found

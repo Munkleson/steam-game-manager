@@ -17,3 +17,9 @@
 - Refactored some styling code
   - The games list container element now rests below the header and scrolls well. Dragging a game also can move the screen down so you can move the game cards anywhere in the container without having to let go and scroll down first
 - Added holding key down functionality to the dropdown list logic, rather than just having to press the key each time to select a new element.
+
+- Added Users table
+- Created associations between all current tables
+- CRUD operations by user now works, but account features are not implemented. Only for testing purposes at the moment
+- Refactored a lot of code to make this happen, mostly in the OwnedGames controller
+- A lot of migrations for adding and removing were made for redundant code
