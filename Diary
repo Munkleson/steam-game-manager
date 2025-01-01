@@ -46,3 +46,7 @@ This way, there should never be a realistic time (unless the input is under 3 or
 
 
 Maybe most stuff like the lists should be rendered client-side? Would have to pass all the data to the frontend though, and would be much more verbose than just rendering it in erb and just having a function to add or remove the elements until page refresh (which would be SSR)
+
+
+When doing deleting queries, to prevent users deleting another person's stuff by id alone, needs to validate in the backend that the item belongs to the user
+Also, 

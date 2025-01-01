@@ -26,4 +26,8 @@
 
 1/01
 
-- Created playlist and playlist_song models as well as all associated associations for them
+- Created playlist and playlist_game models as well as all associated associations for them
+
+- Created the form for new playlist entry fully using just JS. No form submit and database posting functionality yet
+
+-

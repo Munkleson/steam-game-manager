@@ -139,13 +139,20 @@ function initializeOwnedGameListLogic() {
         },
         body: JSON.stringify(params)
       }).then(response => response)
-      .then(data => data)
+      .then(data => {
+        console.log(data)
+        if (data.ok) {
+          console.log("deleted");
+
+          const deletedGameCard = game.closest(".game-card");
+          deletedGameCard.remove();
+          numberOfCompletedPlayedGames();
+          populateProgressBars("change");
+        }
+      })
       .catch(error => console.error('Error:', error));
 
-      const deletedGameCard = game.closest(".game-card");
-      deletedGameCard.remove();
-      numberOfCompletedPlayedGames();
-      populateProgressBars("change");
+
     });
   });
 }

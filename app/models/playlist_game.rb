@@ -1,4 +1,4 @@
-class PlaylistSong < ApplicationRecord
+class PlaylistGame < ApplicationRecord
   belongs_to :owned_game
   belongs_to :playlist
 

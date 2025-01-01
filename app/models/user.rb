@@ -3,5 +3,5 @@ class User < ApplicationRecord
   has_many :games, through: :owned_games
   has_many :dlcs, through: :owned_games
   has_many :playlists
-  has_many :playlist_songs, through: :playlists
+  has_many :playlist_games, through: :playlists
 end
