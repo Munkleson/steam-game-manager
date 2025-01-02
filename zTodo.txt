@@ -1,20 +1,17 @@
-- Error messages for update and deleting failures
 
-  - Decide whether or not I want the page to refresh or not when I create a playlist
-    - Not refreshing means I have to create an element containing the details of that playlist and all associated associations
-    - May be easier to just refresh it
+- Refresh playlist games and add games list when clicking on a new playlist
 
-- Display playlists on the playlist page
+- Add deletion from playlist
+  - This should add it back to the add games list in the correct order
 
-- Add games to playlists
 
-- Display playlist games on their page
+- Add completion rate stats on the playlist tab
 
 - Add playlist ordering and auto completion
 
 
 
-
+- Change the colour of the selected playlist
 
 - Types of playlists
   - Add model and schema stuff
@@ -26,6 +23,8 @@
   - Needed if images take a while to load, as the cards will increase in size when the image is loaded, and they should all be loaded together
 - Couple with moving all the page loading logic to the frontend
 
+- Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
+
 
 Done:
 
@@ -35,3 +34,17 @@ Done:
   - Error messages are removed upon resubmission of a form
 - Remove buttons are now red
 - Created a popup div for whether a game was crud'd successfully or not
+- Error messages for update and deleting failures
+- Added scrolling capabilities for playlist sections
+- Added add game functionality to playlists
+- Added ordering entry into the database
+  - Not actually functioning since nothing is displayed yet though
+- Decide whether or not I want the page to refresh or not when I create a playlist
+  - Not refreshing means I have to create an element containing the details of that playlist and all associated associations
+  - May be easier to just refresh it
+  - ** not refreshing in the end
+- Display playlists on the playlist page
+- Added logic for changing between playlists and adding event listeners for such
+  - No displaying for anything other than the default playlist yet though
+- Filter logic for games in a playlist taken out of the add games list works
+- Clicking on a playlist will now also refresh the sections with their respective games, and will also let you add to different playlists this way

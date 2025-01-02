@@ -112,7 +112,7 @@ function initializeOwnedGameListLogic() {
         'X-CSRF-Token': csrfToken,
       },
       body: JSON.stringify(params)
-    }).then(response => response)
+    }).then(response => response.json())
     .then(data => {
       if (data.ok) {
         // createCrudMesage("Game", "updated", "success");

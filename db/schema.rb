@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_02_100908) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_02_103519) do
   create_table "dlcs", force: :cascade do |t|
     t.integer "appid"
     t.string "name"
@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_100908) do
     t.integer "owned_game_id"
     t.boolean "completed", default: false
     t.boolean "played", default: false
+    t.integer "order"
     t.index ["owned_game_id"], name: "index_playlist_games_on_owned_game_id"
     t.index ["playlist_id"], name: "index_playlist_games_on_playlist_id"
   end
@@ -65,6 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_100908) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "order"
     t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 

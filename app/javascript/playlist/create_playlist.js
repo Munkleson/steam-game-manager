@@ -7,6 +7,19 @@ function loadCreatePlaylistLogic() {
 
   createPlaylistButton.addEventListener("click", generateForm);
 
+  function addSelectionEventListeners() {
+    const allPlaylists = document.querySelectorAll(".playlist-items");
+    allPlaylists.forEach(playlistElement => playlistElement.addEventListener("click", selectPlaylist));
+  }
+  addSelectionEventListeners();
+
+  function selectPlaylist(event) {
+    const currentSelected = document.querySelector(".selected-playlist");
+    currentSelected.classList.remove("selected-playlist");
+    event.target.classList.add("selected-playlist");
+    refreshPlaylists(event.target.dataset.playlistId);
+  }
+
   function generateForm() {
     // disable form creation and removal if it is currently submitting and a response is not received yet
     if (!currentlySubmitting) {
@@ -30,6 +43,7 @@ function loadCreatePlaylistLogic() {
     const submitButton = document.querySelector(".playlist-submit-button");
     const closeButton = document.querySelector(".playlist-close-button");
     toggleButtonsDisabledState(submitButton, closeButton);
+
     const params = {};
     const nameElement = document.querySelector('input[name="name"]');
     params.name = nameElement.value;
@@ -45,12 +59,11 @@ function loadCreatePlaylistLogic() {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-
       switch (data.message) {
         case "success":
+          appendNewPlaylist(data.id, params.name);
           successfulSubmit(form, submitButton, closeButton);
-          createCrudMesage("Playlist", "created", "success")
+          createCrudMesage("Playlist", "created", "success");
           break;
         case "exists":
           unsuccessfulSubmit("This playlist already exists", nameElement, submitButton, closeButton);
@@ -63,6 +76,22 @@ function loadCreatePlaylistLogic() {
     .catch(error => {
       unsuccessfulSubmit("The playlist could not be created at this time", submitButton, submitButton, closeButton)
     });
+  }
+
+  function appendNewPlaylist(id, name) {
+    const playlistList = document.querySelector(".playlist-list");
+    const playlistElement = document.createElement("li");
+    playlistElement.classList.add("playlist-items");
+    playlistElement.classList.add("col-12");
+    playlistElement.dataset.playlistId = id;
+    playlistElement.innerText = name;
+    playlistList.append(playlistElement);
+
+    playlistElement.addEventListener("click", selectPlaylist);
+    // Automatically select the first playlist created for better UE
+    if (document.querySelectorAll(".playlist-items").length === 1) {
+      playlistElement.classList.add("selected-playlist");
+    }
   }
 
   function removeResponseTexts() {

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   # playlists
 
   get "/playlists", to: "playlists#playlists_main_page", as: :playlists
+  get "/refresh_playlists", to: "playlists#refresh_playlists"
 
   post "/create_playlist", to: "playlists#create_playlist"
   post "/add_game_to_playlist", to: "playlists#add_game_to_playlist"

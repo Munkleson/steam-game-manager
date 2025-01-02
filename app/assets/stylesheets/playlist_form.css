@@ -1,7 +1,7 @@
 .playlist-form {
   padding: 1rem;
   position: absolute;
-  top: calc(4rem + 5.7vw);
+  top: calc(6.2vw);
   left: 50%;
   transform: translateX(-50%);
   width: 25vw;

@@ -57,3 +57,16 @@
 - Can currently add games to playlist
   - Renders error and success messages based on the result
 - Games are not displayed yet in the "games in this playlist" section
+
+//
+- Finalised layout for the playlist page major sections
+- Added ordering to playlists and playlist_games
+  - Creating a new entry now correctly puts in order
+- You can now scroll down the individual sections of the playlists if it is longer than the screen height
+- Added game display in the playlist and add game section
+- Added ordering entry into the database
+  - No updating yet with SortableJS
+- Decided to render the playlist updating and creation without redirecting/refreshing the page for best UE
+- Added logic for changing between playlists and adding event listeners for such, but currently only displays the first playlists' items
+- Filter logic for games in a playlist taken out of the add games list works
+- Clicking on a playlist will now also renders the sections with their respective games, and will also let you add to different playlists this way (no removal from a playlist functionality yet)
