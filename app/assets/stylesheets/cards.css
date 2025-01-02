@@ -3,14 +3,10 @@
   margin-top: 5.7vw;
   margin-bottom: 0;
   width: 100%;
-  max-height: 94.3vh;
+  max-height: calc(100vh - 5.7vw);
   overflow: auto;
   scrollbar-width: none;
   box-sizing: border-box;
-}
-
-.card-height {
-  height: 15vh;
 }
 
 .card-img-holder {
@@ -19,6 +15,13 @@
 
 .card-img-width {
   width: 30%;
+}
+
+.card-img {
+  border-top-left-radius: 0.25em;
+  border-end-start-radius: 0.25em;
+  border-top-right-radius: 0px;
+  border-end-end-radius: 0px;
 }
 
 .card-info-dimensions {

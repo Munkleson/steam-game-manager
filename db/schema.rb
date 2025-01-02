@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_01_152708) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_02_100908) do
   create_table "dlcs", force: :cascade do |t|
     t.integer "appid"
     t.string "name"
@@ -52,10 +52,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_01_152708) do
   create_table "playlist_games", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "playlists_id"
-    t.integer "owned_games_id"
-    t.index ["owned_games_id"], name: "index_playlist_games_on_owned_games_id"
-    t.index ["playlists_id"], name: "index_playlist_games_on_playlists_id"
+    t.integer "playlist_id"
+    t.integer "owned_game_id"
+    t.boolean "completed", default: false
+    t.boolean "played", default: false
+    t.index ["owned_game_id"], name: "index_playlist_games_on_owned_game_id"
+    t.index ["playlist_id"], name: "index_playlist_games_on_playlist_id"
   end
 
   create_table "playlists", force: :cascade do |t|
@@ -75,7 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_01_152708) do
   add_foreign_key "owned_games", "dlcs"
   add_foreign_key "owned_games", "games"
   add_foreign_key "owned_games", "users"
-  add_foreign_key "playlist_games", "owned_games", column: "owned_games_id"
-  add_foreign_key "playlist_games", "playlists", column: "playlists_id"
+  add_foreign_key "playlist_games", "owned_games"
+  add_foreign_key "playlist_games", "playlists"
   add_foreign_key "playlists", "users"
 end

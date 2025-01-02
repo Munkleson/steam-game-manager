@@ -38,7 +38,6 @@ function initializeOwnedGameListLogic() {
 
     const currentRates = { completed: completedCount, played: playedCount};
     const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
-    console.log(rates);
 
     completedRateBar.style.width = !isNaN(rates.completed) ? `${rates.completed}%` : `0%`;
     playedRateBar.style.width = !isNaN(rates.played) ? `${rates.played}%` : `0%`;

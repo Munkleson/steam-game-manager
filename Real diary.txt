@@ -46,7 +46,14 @@
   - Unsure if the button sizes at the bottom should be full width of the form or smaller. Currently col-4
 - Error messages are now removed upon submission of a form (should a previous one fail)
   - Have to consider if I put a success message for completion or a dropdown box from the top (if not redirecting)
+
 - Changed the remove buttons on owned games to btn-danger rather than primary
   - Not sure if it's good yet
 - There is now a popup div which lets you know if an operation was CRUD'd successfully or not, but not for all operations at the moment
   - Will have to go along and see which operations it should be used for
+- Fixed errors for stats bar logic where if the last game in owned games was deleted, the bar colour would not reset to 0
+
+- Created most functionality, including page layout, for the playlist page
+- Can currently add games to playlist
+  - Renders error and success messages based on the result
+- Games are not displayed yet in the "games in this playlist" section

@@ -49,4 +49,6 @@ Maybe most stuff like the lists should be rendered client-side? Would have to pa
 
 
 When doing deleting queries, to prevent users deleting another person's stuff by id alone, needs to validate in the backend that the item belongs to the user
-Also, 
+
+
+Decided to make playlist and owned games completion and played separate. A person may want to play the same game multiple times over the course of multiple playlists

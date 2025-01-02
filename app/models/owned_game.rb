@@ -3,7 +3,7 @@ class OwnedGame < ApplicationRecord
   belongs_to :dlc, optional: true
   belongs_to :user
 
-  has_many :playlist_games
+  has_many :playlist_games, dependent: :destroy
 
   validates :name, presence: true
   validates :appid, presence: true

@@ -10,11 +10,15 @@
 
 - Display playlist games on their page
 
+- Add playlist ordering and auto completion
 
 
 
 
 
+- Types of playlists
+  - Add model and schema stuff
+  - How to enforce people to actually stick to their goals
 
 - Look into memory leaks
 

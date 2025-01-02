@@ -37,6 +37,7 @@ h5 {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  border-radius: .25rem;
 }
 
 .search-input-submit-container {
@@ -45,35 +46,33 @@ h5 {
 
 #search-input {
   width: 100%;
+  box-sizing: border-box !important;
 }
 
 .dropdown-item {
-  padding-left: 4px;
-  padding-right: 4px;
+  /* the calc + 1px is needed here because of some janky bootstrap border on the input */
+  padding-left: calc(.75rem + 1px);
+  padding-right: calc(.75rem + 1px);
   width: 100%;
-  /* transition: 0.3s; */
+  border-radius: .25rem;
 }
 
 .dropdown-item-hidden {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  /* transition: 0.3s; */
 }
 
 .dropdown-item-shown {
   overflow: visible;
   white-space: normal;
-  /* transition: 0.3s; */
 }
 
 .dropdown-item:hover {
-  /* transition: 0.3s; */
   background-color: rgb(184, 182, 182);
 }
 
 .dropdown-item-selected {
-  /* transition: 0.3s; */
   background-color: rgb(184, 182, 182);
 }
 

@@ -30,4 +30,5 @@ Rails.application.routes.draw do
   get "/playlists", to: "playlists#playlists_main_page", as: :playlists
 
   post "/create_playlist", to: "playlists#create_playlist"
+  post "/add_game_to_playlist", to: "playlists#add_game_to_playlist"
 end

@@ -5,19 +5,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 25vw;
+  box-shadow: 0 0 3px black;
 }
-
-/* .close-button {
-  width: 0.5em;
-  height: 0.5em;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
-  position:absolute;
-  right: 0;
-  top: 0;
-  transform: translateX(40%) translateY(-40%);
-} */
 
 .button-div-flex-container {
   width: 100%;

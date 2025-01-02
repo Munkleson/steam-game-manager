@@ -45,9 +45,12 @@ function loadCreatePlaylistLogic() {
     })
     .then(response => response.json())
     .then(data => {
+      console.log(data);
+
       switch (data.message) {
         case "success":
           successfulSubmit(form, submitButton, closeButton);
+          createCrudMesage("Playlist", "created", "success")
           break;
         case "exists":
           unsuccessfulSubmit("This playlist already exists", nameElement, submitButton, closeButton);

@@ -154,9 +154,10 @@ class OwnedGamesController < ApplicationController
   def delete
     user_id = 1
     game = OwnedGame.find(params[:id])
+    puts game.user_id == user_id
     if game.user_id == user_id
       if game.destroy
-        render json: { error: "success" }, status: :no_content
+        render json: { message: "success" }, status: :no_content
       else
         render json: { error: "failure" }, status: :no_content
       end

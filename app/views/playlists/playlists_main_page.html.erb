@@ -1,7 +1,9 @@
-<%= javascript_include_tag 'create_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/create_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/add_games_to_playlist', 'data-turbo-track': 'reload', defer: true %>
 <%= stylesheet_link_tag "playlist_form", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "playlist_body", "data-turbo-track": "reload" %>
 
-<div class="games-list-header">
+<div class="playlist-header">
   <div class="header-relative-container position-relative">
     <div class="d-flex flex-column align-items-center">
       <div class="col-3 mt-3 d-flex justify-content-center">
@@ -12,11 +14,39 @@
   </div>
 </div>
 
-<div class="main-body-container d-flex align-items-center flex-column position-relative">
+<div class="main-playlist-body-container d-flex align-items-center flex-column position-relative">
   <div class="playlist-buttons-container d-flex justify-content-center mb-2">
     <button class="create-playlist-button btn btn-primary">Create a playlist</button>
   </div>
-  <div class="playlist-body-container">
+  <div class="playlist-body-container row col-12">
+    <div class="col-4 playlist-sections">
+      <p class="playlist-section-headers text-center">My playlists</p>
+      <ul class="playlist-list col-12 row p-0">
+        <% @playlists.each do |playlist| %>
+          <li class="playlist-items col-12"><%= playlist[:name] %></li>
+        <% end %>
+      </ul>
+    </div>
 
+    <div class="col-4 playlist-sections">
+      <p class="playlist-section-headers text-center">Games in this playlist</p>
+    </div>
+
+    <div class="col-4 playlist-sections d-flex flex-column align-items-center">
+      <p class="playlist-section-headers text-center">Add games to this playlist</p>
+      <ul class="add-games-section row col-12 d-flex justify-content-center p-0 m-0">
+        <% @owned_games.each do |game| %>
+          <li class="add-game-card card col-9 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>">
+            <img src=<%= game.image_url %> class="add-game-img-width img-fluid" alt="...">
+            <div class="add-game-text-div d-flex m-0 p-0 ps-3 pe-2 flex-column justify-content-center">
+              <p class="add-game-text card-title m-0 p-0"><%= game.name %></p>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+              <%= image_tag "green-add-button.png", class: "green-add-button" %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
