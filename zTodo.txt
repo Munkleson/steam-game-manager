@@ -1,0 +1,11 @@
+- Error messages for update and deleting failures
+
+  - Decide whether or not I want the page to refresh or not when I create a playlist
+    - Not refreshing means I have to create an element containing the details of that playlist and all associated associations
+    - May be easier to just refresh it
+
+- Display playlists on the playlist page
+
+- Add games to playlists
+
+- Display playlist games on their page

@@ -4,6 +4,7 @@
   top: calc(4rem + 5.7vw);
   left: 50%;
   transform: translateX(-50%);
+  width: 25vw;
 }
 
 /* .close-button {
@@ -18,6 +19,27 @@
   transform: translateX(40%) translateY(-40%);
 } */
 
+.button-div-flex-container {
+  width: 100%;
+}
+
 .button-div {
   --bs-gutter-x: 0 !important;
+  width: 33.33%;
+}
+
+.response-text {
+  transition: 0.3s;
+  text-align: center;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.error-text-opacity-filled {
+  transition: 0.3s;
+  opacity: 100 !important;
+}
+
+.playlist-close-button, .playlist-submit-button {
+  width: 100%;
 }

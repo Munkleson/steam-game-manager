@@ -8,33 +8,33 @@ function loadCreatePlaylistLogic() {
   createPlaylistButton.addEventListener("click", generateForm);
 
   function generateForm() {
-    const currentForm = document.querySelector(".playlist-form");
     // disable form creation and removal if it is currently submitting and a response is not received yet
     if (!currentlySubmitting) {
       if (formActive) {
+        const currentForm = document.querySelector(".playlist-form");
         currentForm.remove();
       } else {
         const form = createForm();
         form.append(generateTextLabelandInput("Playlist name", "name"));
         form.append(generateButtons());
-        form.addEventListener("submit", submitPlaylistCreation);
+        form.addEventListener("submit", (event) => submitPlaylistCreation(event, form));
         document.body.append(form);
       }
       formActive = formActive ? false : true;
     }
   }
 
-  function submitPlaylistCreation(event) {
+  function submitPlaylistCreation(event, form) {
     event.preventDefault();
     // put here so the querying isn't done twice. Could put it in the actual function for code cleanliness though
-    const submitButton = document.querySelector(".submit-button");
-    const closeButton = document.querySelector(".close-button");
+    const submitButton = document.querySelector(".playlist-submit-button");
+    const closeButton = document.querySelector(".playlist-close-button");
     toggleButtonsDisabledState(submitButton, closeButton);
     const params = {};
-    const name = document.querySelector('input[name="name"]').value;
+    const nameElement = document.querySelector('input[name="name"]');
+    params.name = nameElement.value;
 
-    params.name = name;
-
+    removeResponseTexts();
     fetch('/create_playlist', {
       method: 'POST',
       headers: {
@@ -44,29 +44,77 @@ function loadCreatePlaylistLogic() {
       body: JSON.stringify(params)
     })
     .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error));
+    .then(data => {
+      switch (data.message) {
+        case "success":
+          successfulSubmit(form, submitButton, closeButton);
+          break;
+        case "exists":
+          unsuccessfulSubmit("This playlist already exists", nameElement, submitButton, closeButton);
+          break;
+        default:
+          unsuccessfulSubmit("The playlist could not be created at this time", submitButton, submitButton, closeButton);
+        break;
+      }
+    })
+    .catch(error => {
+      unsuccessfulSubmit("The playlist could not be created at this time", submitButton, submitButton, closeButton)
+    });
+  }
 
+  function removeResponseTexts() {
+    const responseTexts = document.querySelectorAll(".response-text");
+    if (responseTexts) {
+      responseTexts.forEach(element => element.remove());
+    }
+  }
+
+  function successfulSubmit(form, submitButton, closeButton) {
+    form.remove();
+    formActive = false;
+    toggleButtonsDisabledState(submitButton, closeButton);
+  }
+
+  function unsuccessfulSubmit(text, elementToAppendTo, submitButton, closeButton) {
+    const failText = document.createElement("p");
+    failText.innerText = text;
+    failText.classList.add("response-text");
+    failText.classList.add("text-danger")
+    setTimeout(() => {
+      failText.classList.add("error-text-opacity-filled");
+    }, 10);
+
+    elementToAppendTo.insertAdjacentElement("afterend", failText);
+
+    toggleButtonsDisabledState(submitButton, closeButton);
   }
 
   function toggleButtonsDisabledState(submitButton, closeButton) {
-
     submitButton.disabled = !submitButton.disabled;
     closeButton.disabled = !closeButton.disabled;
     currentlySubmitting = !currentlySubmitting;
   }
 
   function generateButtons() {
+    const buttonDivFlexContainer = document.createElement("div");
+    buttonDivFlexContainer.classList.add("d-flex");
+    buttonDivFlexContainer.classList.add("flex-column");
+    buttonDivFlexContainer.classList.add("align-items-center");
+    buttonDivFlexContainer.classList.add("justify-content-center");
+    buttonDivFlexContainer.classList.add("button-div-flex-container");
+
     const buttonDiv = document.createElement("div");
     buttonDiv.classList.add("button-div");
-    buttonDiv.classList.add("row");
-    buttonDiv.classList.add("col-12");
     buttonDiv.classList.add("d-flex");
-    buttonDiv.classList.add("d-column");
+    buttonDiv.classList.add("flex-column");
+    buttonDiv.classList.add("align-items-center");
+    buttonDiv.classList.add("justify-content-center");
 
     buttonDiv.append(generateSubmitInput());
     buttonDiv.append(generateCloseButton());
-    return buttonDiv;
+
+    buttonDivFlexContainer.append(buttonDiv);
+    return buttonDivFlexContainer;
   }
 
   function generateCloseButton() {
@@ -76,7 +124,7 @@ function loadCreatePlaylistLogic() {
     button.classList.add("btn");
     button.classList.add("btn-danger");
     button.classList.add("mt-1");
-    button.classList.add("close-button");
+    button.classList.add("playlist-close-button");
 
     button.addEventListener("click", () => {
       const currentForm = document.querySelector(".playlist-form");
@@ -102,6 +150,11 @@ function loadCreatePlaylistLogic() {
     input.spellcheck = false;
     labelInputHolder.append(input);
 
+    // SetTimeout needs to be done as the form is not really "created" yet so to speak
+    setTimeout(() => {
+      input.select();
+    }, 1);
+
     return labelInputHolder;
   }
 
@@ -112,7 +165,7 @@ function loadCreatePlaylistLogic() {
     input.classList.add("btn-success");
     input.classList.add("mt-2");
     input.classList.add("text-center");
-    input.classList.add("submit-button");
+    input.classList.add("playlist-submit-button");
     input.value = "Create playlist"
     return input;
   }

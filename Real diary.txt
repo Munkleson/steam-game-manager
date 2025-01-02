@@ -24,10 +24,25 @@
 - Refactored a lot of code to make this happen, mostly in the OwnedGames controller
 - A lot of migrations for adding and removing were made for redundant code
 
+
 1/01
 
 - Created playlist and playlist_game models as well as all associated associations for them
 
 - Created the form for new playlist entry fully using just JS. No form submit and database posting functionality yet
 
--
+- Playlist creation now works
+- Created logic for checking if a user actually owns the id before something is deleted or updated
+  - I realised that with how it is set up, a user can just change the data-id on an element and delete that id, even if it isn't their game. Given that is a major issue, had to find a way to stop that from happening, which was simply to just see if user_id of the game matches the session user (which is just hardcoded for now)
+  - There has to be significantly more verification
+  - This will obviously need to change when it becomes not user ids but tokens or however it works
+  - Still need to put a message showing if the deletion was unsuccessful
+    - Should also do for update failures and order updates
+    - Requires lots of rendering responses
+
+
+1/02
+- Created error messages and changed the layout of a form slightly (mostly widened)
+  - Unsure if the button sizes at the bottom should be full width of the form or smaller. Currently col-4
+- Error messages are now removed upon submission of a form (should a previous one fail)
+  - Have to consider if I put a success message for completion or a dropdown box from the top (if not redirecting)
