@@ -9,3 +9,25 @@
 - Add games to playlists
 
 - Display playlist games on their page
+
+
+
+
+
+
+
+- Look into memory leaks
+
+- Preload images
+  - Needed if images take a while to load, as the cards will increase in size when the image is loaded, and they should all be loaded together
+- Couple with moving all the page loading logic to the frontend
+
+
+Done:
+
+1/02
+- Error messages for playlist creation
+  - Currently name conflict and creation errors only
+  - Error messages are removed upon resubmission of a form
+- Remove buttons are now red
+- Created a popup div for whether a game was crud'd successfully or not

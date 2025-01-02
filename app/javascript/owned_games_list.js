@@ -38,8 +38,10 @@ function initializeOwnedGameListLogic() {
 
     const currentRates = { completed: completedCount, played: playedCount};
     const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
-    completedRateBar.style.width = `${rates.completed}%`
-    playedRateBar.style.width = `${rates.played}%`
+    console.log(rates);
+
+    completedRateBar.style.width = !isNaN(rates.completed) ? `${rates.completed}%` : `0%`;
+    playedRateBar.style.width = !isNaN(rates.played) ? `${rates.played}%` : `0%`;
 
     const completedText = document.querySelector(".completed-percentage");
     const playedText = document.querySelector(".played-percentage");
@@ -112,7 +114,11 @@ function initializeOwnedGameListLogic() {
       },
       body: JSON.stringify(params)
     }).then(response => response)
-    .then(data => data)
+    .then(data => {
+      if (data.ok) {
+        // createCrudMesage("Game", "updated", "success");
+      }
+    })
     .catch(error => console.error('Error:', error));
     // Down here because if it isn't sent then it shouldn't update even in Frontend
     numberOfCompletedPlayedGames();
@@ -142,12 +148,11 @@ function initializeOwnedGameListLogic() {
       .then(data => {
         console.log(data)
         if (data.ok) {
-          console.log("deleted");
-
           const deletedGameCard = game.closest(".game-card");
           deletedGameCard.remove();
           numberOfCompletedPlayedGames();
           populateProgressBars("change");
+          createCrudMesage("Game", "deleted", "success");
         }
       })
       .catch(error => console.error('Error:', error));

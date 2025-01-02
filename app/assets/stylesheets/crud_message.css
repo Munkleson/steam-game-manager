@@ -1,0 +1,24 @@
+.popup-card {
+  background-color: #fef6d5;
+  top: -1vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  opacity: 0;
+  box-shadow: 0 0 5px black;
+}
+
+.popup-drop-in {
+  top: 2vh;
+  transition: 1.5s;
+}
+
+.popup-drop-in-opacity {
+  opacity: 100;
+  transition: 0.7s;
+}
+
+.popup-fade-away {
+  transition: 1.5s;
+  opacity: 0;
+}

@@ -59,7 +59,7 @@
 
       </div>
       <form action="/delete" class="delete-game-form d-flex justify-content-center align-items-center" data-id="<%= game[:id] %>">
-        <input type="submit" value="Remove" class="btn btn-primary ps-1 pe-1 pt-1 pb-1">
+        <input type="submit" value="Remove" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
         <%= hidden_field_tag :id, game.id %>
       </form>
     </li>

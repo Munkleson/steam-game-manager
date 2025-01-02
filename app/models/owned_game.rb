@@ -1,6 +1,7 @@
 class OwnedGame < ApplicationRecord
   belongs_to :game, optional: true
   belongs_to :dlc, optional: true
+  belongs_to :user
 
   has_many :playlist_games
 

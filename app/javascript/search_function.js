@@ -181,6 +181,7 @@ function loadSearchFunctionLogic() {
     })
     .catch(error => {
       console.error('Error:', error);
+      creationResponseDisplay({ error: "connection issue" }, type);
       submitButton.disabled = false;
     });
   });
@@ -204,7 +205,9 @@ function loadSearchFunctionLogic() {
       } else if (response.error === "taken") {
         responseText = `${type} already exists in your library`;
       } else if (response.error === "not out") {
-        responseText = `${type} is not released yet`
+        responseText = `${type} is not released yet`;
+      } else {
+        responseText = `Failed to add game to your library at this time. Please check your connection and try again`;
       }
       responseTextElement.classList.add("text-danger"); // Bootstrap class
       setTimeout(() => {
