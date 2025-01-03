@@ -155,8 +155,6 @@ function initializeOwnedGameListLogic() {
         }
       })
       .catch(error => console.error('Error:', error));
-
-
     });
   });
 }

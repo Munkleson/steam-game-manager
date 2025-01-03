@@ -1,6 +1,4 @@
 
-- Refresh playlist games and add games list when clicking on a new playlist
-
 - Add deletion from playlist
   - This should add it back to the add games list in the correct order
 
@@ -9,13 +7,17 @@
 
 - Add playlist ordering and auto completion
 
+- Add delete button for playlist
+  - Delete, not remove, as you create the playlist yourself
 
+- Add sort_by stuff for owned_games list
 
-- Change the colour of the selected playlist
+- Change the colour of the selected playlist to look better and different from the hover
 
 - Types of playlists
   - Add model and schema stuff
   - How to enforce people to actually stick to their goals
+  - Ongoing games vs games that can be completed etc
 
 - Look into memory leaks
 
@@ -25,8 +27,15 @@
 
 - Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
 
+** Way down the line
+- Refactor everything
+
+
 
 Done:
+
+1/03
+- Tested destruction of all records associated to a user when a user is destroyed
 
 1/02
 - Error messages for playlist creation
@@ -48,3 +57,4 @@ Done:
   - No displaying for anything other than the default playlist yet though
 - Filter logic for games in a playlist taken out of the add games list works
 - Clicking on a playlist will now also refresh the sections with their respective games, and will also let you add to different playlists this way
+- Refresh playlist games and add games list when clicking on a new playlist

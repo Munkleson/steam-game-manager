@@ -88,4 +88,21 @@ class PlaylistsController < ApplicationController
       render json: { playlist_games: @playlist_games, owned_games: @owned_games, ok: true  }
     end
   end
+
+  def remove_game_from_playlist
+    user_id = 1
+    playlist = Playlist.find(params[:playlist_id])
+
+    if playlist.user_id != user_id
+      render json: { error: "unsuccessful" }, status: :unprocessable_entity
+      return
+    end
+
+    playlist_game_to_delete = playlist.playlist_games.find_by(owned_game_id: params[:id])
+    if playlist_game_to_delete.destroy
+      render json: { message: "success", ok: true }
+    else
+      render json: { message: "failure" }
+    end
+  end
 end

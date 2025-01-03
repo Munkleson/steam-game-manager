@@ -52,3 +52,6 @@ When doing deleting queries, to prevent users deleting another person's stuff by
 
 
 Decided to make playlist and owned games completion and played separate. A person may want to play the same game multiple times over the course of multiple playlists
+
+
+I feel how my code is set up, everything is so intertwined and confusing, and crossing over everywhere. I really really need to refactor sometime so things can be tracked more easily. Playlist logic is currently too complicated

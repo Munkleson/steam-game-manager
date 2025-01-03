@@ -58,7 +58,6 @@
   - Renders error and success messages based on the result
 - Games are not displayed yet in the "games in this playlist" section
 
-//
 - Finalised layout for the playlist page major sections
 - Added ordering to playlists and playlist_games
   - Creating a new entry now correctly puts in order
@@ -67,6 +66,13 @@
 - Added ordering entry into the database
   - No updating yet with SortableJS
 - Decided to render the playlist updating and creation without redirecting/refreshing the page for best UE
-- Added logic for changing between playlists and adding event listeners for such, but currently only displays the first playlists' items
+- Added logic for changing between playlists
 - Filter logic for games in a playlist taken out of the add games list works
 - Clicking on a playlist will now also renders the sections with their respective games, and will also let you add to different playlists this way (no removal from a playlist functionality yet)
+
+
+1/03
+- Fixed an error where clicking on the remove button on a playlist game deletes the game from the library
+  - This was due to the action being there and form.preventDefault() had not been put in
+- Removing game from a playlist now works, but needs a refresh to update the dom still
+  - Next will be to update the dom with JS to show changes

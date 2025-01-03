@@ -3,6 +3,7 @@ class OwnedGame < ApplicationRecord
   belongs_to :dlc, optional: true
   belongs_to :user
 
+  # Currently if you delete an owned game, all of that owned game in the playlist games will be too, but should it be?
   has_many :playlist_games, dependent: :destroy
 
   validates :name, presence: true

@@ -91,9 +91,11 @@ function insertGameToPlaylistBody(imageUrl, name, id) {
         </div>
       </div>
     </div>
-    <form action="/delete" class="delete-game-form d-flex justify-content-center align-items-center" data-id="${id}">
+    <form class="remove-game-from-playlist-form d-flex justify-content-center align-items-center" data-id="${id}">
       <input type="submit" value="Remove" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
     </form>
   `;
+
+  playlistGame.addEventListener("submit", removeGameFromPlaylist);
   playlistContentContainers.append(playlistGame);
 }
