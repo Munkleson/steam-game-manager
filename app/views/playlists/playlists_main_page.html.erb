@@ -38,7 +38,7 @@
 
       <ul class="playlist-content-containers playlist-games-list list-unstyled d-flex justify-content-center row-12 flex-wrap">
         <% @starting_playlist_owned_games.each do |game| %>
-          <li class="game-card card col-11 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-order="<%= game[:order] %>">
+          <li class="game-card card col-11 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-owned-game-order="<%= game[:order] %>">
             <img src=<%= game.image_url %> class="card-img img-fluid card-img-width" alt="...">
             <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
               <h6 class="card-info-item card-title m-0 p-0"><%= game.name %></h6>
@@ -67,7 +67,7 @@
       <p class="playlist-section-headers text-center">Add games to this playlist</p>
       <ul class="playlist-content-containers add-games-section row col-12 d-flex justify-content-center p-0 m-0">
         <% @owned_games.each do |game| %>
-          <li class="add-game-card card col-9 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-order="<%= game[:order] %>">
+          <li class="add-game-card card col-9 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-owned-game-order="<%= game[:order] %>">
             <img src=<%= game.image_url %> class="add-game-img-width img-fluid" alt="...">
             <div class="add-game-text-div d-flex m-0 p-0 ps-3 pe-2 flex-column justify-content-center">
               <p class="add-game-text card-title m-0 p-0"><%= game.name %></p>

@@ -145,7 +145,6 @@ function initializeOwnedGameListLogic() {
         body: JSON.stringify(params)
       }).then(response => response)
       .then(data => {
-        console.log(data)
         if (data.ok) {
           const deletedGameCard = game.closest(".game-card");
           deletedGameCard.remove();

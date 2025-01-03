@@ -17,8 +17,8 @@ function refreshPlaylists(playlistId) {
     addGamesSection.innerHTML = "";
 
     if (data.ok) {
-      beginGameInsert(data.playlist_games, "playlist");
-      beginGameInsert(data.owned_games, "owned");
+      beginGameInsert(data.playlist_games, "playlist", playlistContentContainers, addGamesSection);
+      beginGameInsert(data.owned_games, "owned", playlistContentContainers, addGamesSection);
       loadAddGamesToPlaylist();
     } else {
       createCrudMesage("the playlist's details from the database", "fetch", "failure");
@@ -27,17 +27,17 @@ function refreshPlaylists(playlistId) {
   .catch(error => console.error('Error:', error));
 }
 
-function beginGameInsert(games, type) {
+function beginGameInsert(games, type, playlistContentContainers, addGamesSection) {
   games.forEach(game => {
     const imageUrl = game.image_url;
     const name = game.name;
     const id = game.id;
-    type === "playlist" ? insertGameToPlaylistBody(imageUrl, name, id) : insertGameToPlaylistAddList(imageUrl, name, id);
+    const ownedGameOrder = game.order;
+    type === "playlist" ? playlistContentContainers.append(insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder)) : addGamesSection.append(insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder));
   });
 }
 
-function insertGameToPlaylistAddList(imageUrl, name, id) {
-  const addGamesSection = document.querySelector(".add-games-section");
+function insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder) {
   const ownedGame = document.createElement("li");
   ownedGame.classList.add("add-game-card");
   ownedGame.classList.add("card");
@@ -48,6 +48,7 @@ function insertGameToPlaylistAddList(imageUrl, name, id) {
   ownedGame.classList.add("d-flex");
   ownedGame.classList.add("flex-row");
   ownedGame.dataset.id = id;
+  ownedGame.dataset.ownedGameOrder = ownedGameOrder;
 
   ownedGame.innerHTML = `
     <img src="${imageUrl}" class="add-game-img-width img-fluid" alt="...">
@@ -58,13 +59,11 @@ function insertGameToPlaylistAddList(imageUrl, name, id) {
       <img src="/assets/green-add-button-136a90f6c4383debcf203faba144284c03a78e7b540ef3d10e2df0276d9dba67.png" class="green-add-button" alt="...">
     </div>
   `;
-  addGamesSection.append(ownedGame);
-
-  // ownedGame.querySelector(".green-add-button").addEventListener()
+  ownedGame.addEventListener("click", addGameToPlaylist);
+  return ownedGame;
 }
 
-function insertGameToPlaylistBody(imageUrl, name, id) {
-  const playlistContentContainers = document.querySelector(".playlist-games-list");
+function insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder) {
   const playlistGame = document.createElement("li");
   playlistGame.classList.add("game-card");
   playlistGame.classList.add("card");
@@ -75,6 +74,7 @@ function insertGameToPlaylistBody(imageUrl, name, id) {
   playlistGame.classList.add("d-flex");
   playlistGame.classList.add("flex-row");
   playlistGame.dataset.id = id;
+  playlistGame.dataset.ownedGameOrder = ownedGameOrder;
 
   playlistGame.innerHTML = `
     <img src="${imageUrl}" class="card-img img-fluid card-img-width" alt="...">
@@ -97,5 +97,5 @@ function insertGameToPlaylistBody(imageUrl, name, id) {
   `;
 
   playlistGame.addEventListener("submit", removeGameFromPlaylist);
-  playlistContentContainers.append(playlistGame);
+  return playlistGame;
 }

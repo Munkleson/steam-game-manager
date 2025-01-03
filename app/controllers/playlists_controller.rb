@@ -98,9 +98,11 @@ class PlaylistsController < ApplicationController
       return
     end
 
-    playlist_game_to_delete = playlist.playlist_games.find_by(owned_game_id: params[:id])
-    if playlist_game_to_delete.destroy
-      render json: { message: "success", ok: true }
+    owned_game_order = playlist.owned_games.find_by(id: params[:id]).order
+    playlist_game_to_remove = playlist.playlist_games.find_by(owned_game_id: params[:id])
+
+    if playlist_game_to_remove.destroy
+      render json: { message: "success", ok: true, owned_game_order: owned_game_order }
     else
       render json: { message: "failure" }
     end

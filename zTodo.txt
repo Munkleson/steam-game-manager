@@ -27,6 +27,8 @@
 
 - Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
 
+- Add drag and drop from add_playlist_games to the actual playlist, and be able to insert them in order
+
 ** Way down the line
 - Refactor everything
 

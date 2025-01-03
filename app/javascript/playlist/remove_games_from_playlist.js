@@ -13,16 +13,52 @@ function removeGameFromPlaylist(event) {
       'X-CSRF-Token': csrfToken,
     },
     body: JSON.stringify(params)
-  }).then(response => response)
+  }).then(response => response.json())
   .then(data => {
-    console.log(data)
     if (data.ok) {
-      // const deletedGameCard = game.closest(".game-card");
-      // deletedGameCard.remove();
-      createCrudMesage("Game", "deleted", "success");
+      const addGamesSection = document.querySelector(".add-games-section");
+      const ownedGamesList = addGamesSection.querySelectorAll(".add-game-card");
+      const ownedGamesLength = ownedGamesList.length;
+      const lastGame = ownedGamesList[ownedGamesLength - 1];
+      const lastGameOrder = lastGame.dataset.ownedGameOrder;
+      const removedGameOrder = data.owned_game_order;
+      const removedGame = event.target.closest(".game-card");
+
+      if (removedGameOrder > lastGameOrder) {
+        insertAtEndOfList(lastGame, removedGame);
+      } else {
+        insertBeforeEndOfList(removedGameOrder, removedGame, ownedGamesList);
+      }
+      createCrudMesage("Game", "removed from the playlist", "success");
+      removedGame.remove();
     }
   })
   .catch(error => console.error('Error:', error));
+}
+
+function insertAtEndOfList(lastGame, removedGame, removedGameOrder) {
+  const imageUrl = removedGame.querySelector("img").src;
+  const name = removedGame.querySelector(".card-title").innerText;
+  const id = removedGame.dataset.id;
+  lastGame.insertAdjacentElement("afterend", insertGameToPlaylistAddList(imageUrl, name, id, removedGameOrder));
+}
+
+function insertBeforeEndOfList(removedGameOrder, removedGame, ownedGamesList) {
+  const imageUrl = removedGame.querySelector("img").src;
+  const name = removedGame.querySelector(".card-title").innerText;
+  const id = removedGame.dataset.id;
+
+  const elementToInsertBefore = findElementToInsertBefore(removedGameOrder, ownedGamesList);
+  elementToInsertBefore.insertAdjacentElement("beforebegin", insertGameToPlaylistAddList(imageUrl, name, id, removedGameOrder));
+}
+
+function findElementToInsertBefore(removedGameOrder, ownedGamesList) {
+  const addGamesSection = document.querySelector(".add-games-section");
+  for (let index = 0; index < ownedGamesList.length; index++) {
+    if (removedGameOrder < ownedGamesList[index].dataset.ownedGameOrder) {
+      return addGamesSection.querySelector(`li[data-owned-game-order="${ownedGamesList[index].dataset.ownedGameOrder}"]`);
+    }
+  }
 }
 
 function addRemoveEventOnLoad() {
