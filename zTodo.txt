@@ -1,30 +1,29 @@
 - Add completion rate stats on the playlist tab
 
+- Add logic for games in the playlist to have completion and started boxes ticked when being put in the playlist
+
 - Add playlist auto completion
 
 - Add sort_by stuff for owned_games list
 
 - Add sort_by stuff for add_playlist_games list
 
-
+- Edit playlist details
 
 - Change the colour of the selected playlist to look better and different from the hover
-
 
 - Types of playlists
   - Add model and schema stuff
   - How to enforce people to actually stick to their goals
   - Ongoing games vs games that can be completed etc
+  - Start games from scratch playlist
+    - Completed and started needs to be unticked for this playlist ONLY
+    - Maybe a new table for just games that fit this condition?
 
-- Look into memory leaks
-
-- Preload images
-  - Needed if images take a while to load, as the cards will increase in size when the image is loaded, and they should all be loaded together
-- Couple with moving all the page loading logic to the frontend
 
 - Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
 
-- Add drag and drop from add_playlist_games to the actual playlist, and be able to insert them in order
+
 
 - Find out how to use strong params when you may need to add things to the params
   - Pretty much how do you add to params is the question
@@ -36,6 +35,10 @@
 - Custom confirm popup for confirmation requests like deletion
 - Decide if I want to have confirmation message for owned game deletion
   - Could make a selection tool to delete multiple games at once instead so the confirmation message isn't so bad?
+- Preload images
+  - Needed if images take a while to load, as the cards will increase in size when the image is loaded, and they should all be loaded together
+- Add drag and drop from add_playlist_games to the actual playlist, and be able to insert them in order
+- Look into memory leaks
 
 
 
@@ -49,6 +52,7 @@ COMPLETED:
 - Add delete button for playlist
   - Delete, not remove, as you create the playlist yourself
 - Dom content is fully updated dynamically with user interactions now (creating, sorting, and deleting playlists, and adding and removing games from playlists)
+- Added sorting to playlist games
 
 1/02
 - Error messages for playlist creation

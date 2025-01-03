@@ -84,3 +84,6 @@
 - Dom content is fully updated dynamically with user interactions now (creating, sorting, and deleting playlists, and adding and removing games from playlists)
 - Added playlist deletion functionality
 - Sorting playlist with dragging also works
+
+- Added sorting to playlist games
+- Fixed some issues with ordering of the games in playlists, as well as games appearing in other lists if the game was in more than one list

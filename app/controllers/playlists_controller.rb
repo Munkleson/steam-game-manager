@@ -43,7 +43,7 @@ class PlaylistsController < ApplicationController
     user = User.find(user_id)
 
     owned_game_id = params[:owned_game_id]
-    game = user.owned_games.find(owned_game_id)
+    owned_game = user.owned_games.find(owned_game_id)
     begin
       playlist = user.playlists.find_by!("id = ?", params[:playlist_id])
     rescue ActiveRecord::RecordNotFound
@@ -52,15 +52,16 @@ class PlaylistsController < ApplicationController
     end
     current_playlist_owned_games = playlist.owned_games
 
-    if game.user_id != user_id
+    if owned_game.user_id != user_id
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
 
     if !current_playlist_owned_games.exists?(owned_game_id)
       new_playlist_game = playlist.playlist_games.new({ owned_game_id: owned_game_id, order: current_playlist_owned_games.count + 1 })
+
       if new_playlist_game.save
-        render json: { message: "success", ok: true, id: new_playlist_game.id }, status: :created
+        render json: { message: "success", ok: true, id: new_playlist_game.id, completed: owned_game[:completed], played: owned_game[:played] }, status: :created
       else
         render json: { error: new_playlist_game.errors.full_messages, message: "unsuccessful" }, status: :unprocessable_entity
       end

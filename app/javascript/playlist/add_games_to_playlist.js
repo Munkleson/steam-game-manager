@@ -31,8 +31,10 @@ function addGameToPlaylist(event) {
       const ownedGameOrder = game.dataset.ownedGameOrder;
 
       const playlistContentContainers = document.querySelector(".playlist-games-list");
-      playlistContentContainers.append(insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder));
-
+      const newPlaylistGame = insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder);
+      newPlaylistGame.querySelector(".completed-checkbox").checked = data.completed;
+      newPlaylistGame.querySelector(".played-checkbox").checked = data.played;
+      playlistContentContainers.append(newPlaylistGame);
       game.remove(); // removes the element that was added to the playlist
     } else {
       createCrudMesage("to playlist", "add game", "failure");
