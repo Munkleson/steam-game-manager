@@ -5,6 +5,7 @@ class OwnedGame < ApplicationRecord
 
   # Currently if you delete an owned game, all of that owned game in the playlist games will be too, but should it be?
   has_many :playlist_games, dependent: :destroy
+  has_many :playlists, through: :playlist_games
 
   validates :name, presence: true
   validates :appid, presence: true

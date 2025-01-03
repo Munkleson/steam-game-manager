@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 
   get "/games", to: "owned_games#owned_games_list", as: :owned_games_list
   get "/add", to: "owned_games#index", as: :add_games
-  # get "/delete", to: "owned_games#delete", as: :delete
 
   get "/search", to: "owned_games#search"
   get "/short_search", to: "owned_games#short_search"
@@ -34,6 +33,7 @@ Rails.application.routes.draw do
   post "/add_game_to_playlist", to: "playlists#add_game_to_playlist"
 
   patch "/update_playlist_order", to: "playlists#update_playlist_order"
+  patch "/update_playlist_games_order", to: "playlists#update_playlist_games_order"
 
   delete "/remove_game_from_playlist", to: "playlists#remove_game_from_playlist"
   delete "/delete_playlist", to: "playlists#delete_playlist"

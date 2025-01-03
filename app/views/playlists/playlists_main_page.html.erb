@@ -43,7 +43,7 @@
       <p class="playlist-section-headers text-center">Games in this playlist</p>
 
       <ul class="playlist-content-containers playlist-games-list list-unstyled d-flex justify-content-center row-12 flex-wrap">
-        <% @starting_playlist_owned_games.each do |game| %>
+        <% @starting_playlist_games.each do |game| %>
           <li class="game-card card col-11 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-owned-game-order="<%= game[:order] %>">
             <img src=<%= game.image_url %> class="card-img img-fluid card-img-width" alt="...">
             <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
