@@ -1,18 +1,15 @@
-
-- Add deletion from playlist
-  - This should add it back to the add games list in the correct order
-
-
 - Add completion rate stats on the playlist tab
 
-- Add playlist ordering and auto completion
-
-- Add delete button for playlist
-  - Delete, not remove, as you create the playlist yourself
+- Add playlist auto completion
 
 - Add sort_by stuff for owned_games list
 
+- Add sort_by stuff for add_playlist_games list
+
+
+
 - Change the colour of the selected playlist to look better and different from the hover
+
 
 - Types of playlists
   - Add model and schema stuff
@@ -29,15 +26,29 @@
 
 - Add drag and drop from add_playlist_games to the actual playlist, and be able to insert them in order
 
+- Find out how to use strong params when you may need to add things to the params
+  - Pretty much how do you add to params is the question
+
 ** Way down the line
 - Refactor everything
+- How to use data attributes without them being seen really, or more so refactor them all so there's no vulnerabilities with user injections
+  - Is it even possible for them to do so without directly accessing the database?
+- Custom confirm popup for confirmation requests like deletion
+- Decide if I want to have confirmation message for owned game deletion
+  - Could make a selection tool to delete multiple games at once instead so the confirmation message isn't so bad?
 
 
 
-Done:
+COMPLETED:
 
 1/03
 - Tested destruction of all records associated to a user when a user is destroyed
+- Add deletion from playlist
+  - This should add it back to the add games list in the correct order
+- Add playlist ordering via SortableJS
+- Add delete button for playlist
+  - Delete, not remove, as you create the playlist yourself
+- Dom content is fully updated dynamically with user interactions now (creating, sorting, and deleting playlists, and adding and removing games from playlists)
 
 1/02
 - Error messages for playlist creation

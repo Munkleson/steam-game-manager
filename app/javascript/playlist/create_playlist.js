@@ -14,10 +14,15 @@ function loadCreatePlaylistLogic() {
   addSelectionEventListeners();
 
   function selectPlaylist(event) {
-    const currentSelected = document.querySelector(".selected-playlist");
-    currentSelected.classList.remove("selected-playlist");
-    event.target.classList.add("selected-playlist");
-    refreshPlaylists(event.target.dataset.playlistId);
+    // Don't want the change playlist to trigger on form deletion press
+    if (event.target.tagName !== "FORM" && event.target.tagName !== "INPUT") {
+      const currentSelected = document.querySelector(".selected-playlist");
+      if (currentSelected) {
+        currentSelected.classList.remove("selected-playlist");
+      }
+      event.target.classList.add("selected-playlist");
+      refreshPlaylists(event.target.dataset.playlistId);
+    }
   }
 
   function generateForm() {
@@ -83,9 +88,22 @@ function loadCreatePlaylistLogic() {
     const playlistElement = document.createElement("li");
     playlistElement.classList.add("playlist-items");
     playlistElement.classList.add("col-12");
+    playlistElement.classList.add("d-flex");
+    playlistElement.classList.add("align-items-center");
+    playlistElement.classList.add("justify-content-between");
     playlistElement.dataset.playlistId = id;
     playlistElement.innerText = name;
     playlistList.append(playlistElement);
+
+    playlistElement.innerHTML = `
+      <p>${name}</p>
+      <form class="delete-playlist-form d-flex justify-content-center align-items-center">
+        <input type="submit" value="Delete playlist" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
+      </form>
+    `;
+
+    playlistDeleteForm = playlistElement.querySelector("form");
+    playlistDeleteForm.addEventListener("submit", deletePlaylist);
 
     playlistElement.addEventListener("click", selectPlaylist);
     // Automatically select the first playlist created for better UE

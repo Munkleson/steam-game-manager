@@ -133,6 +133,11 @@ function initializeOwnedGameListLogic() {
   deleteGameForm.forEach((game) => {
     game.addEventListener("submit", (event) => {
       event.preventDefault();
+      // confirmation messasge disabled for now until I decide if it's user-friendly enough to have to confirm for every single message
+      // if (!confirm("Are you sure you would like to remove this game from your library?")) {
+      //   return;
+      // }
+
       const id = event.target.dataset.id;
       const params = { id: id };
 

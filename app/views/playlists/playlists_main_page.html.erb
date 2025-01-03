@@ -1,8 +1,9 @@
 <%= javascript_include_tag 'playlist/refresh_playlists', 'data-turbo-track': 'reload', defer: true %>
-
+<%= javascript_include_tag 'playlist/delete_playlist', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'playlist/create_playlist', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'playlist/add_games_to_playlist', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'playlist/remove_games_from_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/playlist_sortable', 'data-turbo-track': 'reload', defer: true %>
 
 <%= stylesheet_link_tag "playlist_form", "data-turbo-track": "reload" %>
 <%= stylesheet_link_tag "playlist_body", "data-turbo-track": "reload" %>
@@ -28,7 +29,12 @@
       <p class="playlist-section-headers text-center">My playlists</p>
       <ul class="playlist-content-containers playlist-list col-12 row p-0">
         <% @playlists.each_with_index do |playlist, index| %>
-          <li class="playlist-items col-12 <%= index == 0 ? "selected-playlist" : "" %>" data-playlist-id="<%= playlist[:id] %>"><%= playlist[:name] %></li>
+          <li class="playlist-items col-12 <%= index == 0 ? "selected-playlist" : "" %> d-flex align-items-center justify-content-between" data-playlist-id="<%= playlist[:id] %>">
+            <p><%= playlist[:name] %></p>
+            <form class="delete-playlist-form d-flex justify-content-center align-items-center">
+              <input type="submit" value="Delete playlist" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
+            </form>
+          </li>
         <% end %>
       </ul>
     </div>

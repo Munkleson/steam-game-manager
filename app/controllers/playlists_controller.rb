@@ -4,9 +4,8 @@ class PlaylistsController < ApplicationController
     user = User.find(user_id)
 
     # Also an ERB variable, but needs to be above the one below
-    @playlists = user.playlists
-    starting_playlist = @playlists.order(:order).first
-
+    @playlists = user.playlists.order(:order)
+    starting_playlist = @playlists.first
     if !starting_playlist.nil?
       # ERB variables
       @starting_playlist_owned_games = starting_playlist.owned_games # Games in current playlist
@@ -106,5 +105,50 @@ class PlaylistsController < ApplicationController
     else
       render json: { message: "failure" }
     end
+  end
+
+  def delete_playlist
+    user_id = 1
+    playlist = Playlist.find(params[:playlist_id])
+
+    if playlist.user_id != user_id
+      render json: { error: "unsuccessful" }, status: :unprocessable_entity
+      return
+    end
+
+    if playlist.destroy
+      render json: { message: "success", ok: true }
+    else
+      render json: { message: "failure" }
+    end
+
+    update_playlist_order_after_deletion(user_id)
+  end
+
+  def update_playlist_order_after_deletion(user_id)
+    playlists = User.find(user_id).playlists
+    playlists.sort_by{ |game| game[:order] }.each_with_index do |playlist, index|
+      playlist.update(order: index + 1)
+    end
+  end
+
+  def update_playlist_order
+    user_id = 1
+    playlists = User.find(user_id).playlists
+
+    if playlists[0].user_id != user_id
+      render json: { error: "unsuccessful" }, status: :unprocessable_entity
+      return
+    end
+    response = { success: 0, failure: 0 }
+    params[:games].each do |item|
+      game = playlists.find(item["playlist_id"])
+      if game.update({ order: item["order"] })
+        response[:success] += 1
+      else
+        response[:failure] += 1
+      end
+    end
+    render json: { result: response }
   end
 end

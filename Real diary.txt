@@ -76,5 +76,12 @@
   - This was due to the action being there and form.preventDefault() had not been put in
 - Removing game from a playlist now works, but needs a refresh to update the dom still
   - Next will be to update the dom with JS to show changes
-- Made removing game functionality functional. Removing a game from a playlist now not only removes the game from the games in this playlist section, but also puts it back in the add games to this playlist section
+- Made removing game from a playlist functionality functional. Removing a game from a playlist now not only removes the game from the games in this playlist section, but also puts it back in the add games to this playlist section
   - Inserts it to the correct order too
+
+- Fixed a coding error where navigating between pages would not refresh the event listeners for all of the games on the default playlist, as it was tied to domcontentloaded event listener rather than just called every time
+
+//
+- Dom content is fully updated dynamically with user interactions now (creating, sorting, and deleting playlists, and adding and removing games from playlists)
+- Added playlist deletion functionality
+- Sorting playlist with dragging also works

@@ -19,7 +19,6 @@ function refreshPlaylists(playlistId) {
     if (data.ok) {
       beginGameInsert(data.playlist_games, "playlist", playlistContentContainers, addGamesSection);
       beginGameInsert(data.owned_games, "owned", playlistContentContainers, addGamesSection);
-      loadAddGamesToPlaylist();
     } else {
       createCrudMesage("the playlist's details from the database", "fetch", "failure");
     }

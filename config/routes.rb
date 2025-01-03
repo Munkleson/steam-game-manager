@@ -33,5 +33,8 @@ Rails.application.routes.draw do
   post "/create_playlist", to: "playlists#create_playlist"
   post "/add_game_to_playlist", to: "playlists#add_game_to_playlist"
 
+  patch "/update_playlist_order", to: "playlists#update_playlist_order"
+
   delete "/remove_game_from_playlist", to: "playlists#remove_game_from_playlist"
+  delete "/delete_playlist", to: "playlists#delete_playlist"
 end
