@@ -76,3 +76,5 @@
   - This was due to the action being there and form.preventDefault() had not been put in
 - Removing game from a playlist now works, but needs a refresh to update the dom still
   - Next will be to update the dom with JS to show changes
+- Made removing game functionality functional. Removing a game from a playlist now not only removes the game from the games in this playlist section, but also puts it back in the add games to this playlist section
+  - Inserts it to the correct order too

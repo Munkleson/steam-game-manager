@@ -64,10 +64,9 @@ function findElementToInsertBefore(removedGameOrder, ownedGamesList) {
 function addRemoveEventOnLoad() {
   const currentRemoveForms = document.querySelectorAll(".remove-game-from-playlist-form");
   currentRemoveForms.forEach((button) => {
+    button.removeEventListener("submit", removeGameFromPlaylist);
     button.addEventListener("submit", removeGameFromPlaylist);
   })
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  addRemoveEventOnLoad();
-})
+addRemoveEventOnLoad();
