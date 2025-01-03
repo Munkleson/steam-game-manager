@@ -11,6 +11,8 @@ function refreshPlaylists(playlistId) {
   })
   .then(response => response.json())
   .then(data => {
+    console.log(data);
+
     const playlistContentContainers = document.querySelector(".playlist-games-list");
     const addGamesSection = document.querySelector(".add-games-section");
     playlistContentContainers.innerHTML = "";
@@ -32,7 +34,15 @@ function beginGameInsert(games, type, playlistContentContainers, addGamesSection
     const name = game.name;
     const id = game.id;
     const ownedGameOrder = game.order;
-    type === "playlist" ? playlistContentContainers.append(insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder)) : addGamesSection.append(insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder));
+    if (type === "playlist") {
+      const playlistGame = insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder);
+      playlistGame.querySelector(".completed-checkbox").checked = game.completed;
+      playlistGame.querySelector(".played-checkbox").checked = game.played;
+      playlistContentContainers.append(playlistGame);
+    } else {
+      addGamesSection.append(insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder));
+    }
+    // type === "playlist" ? playlistContentContainers.append(insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder)) : addGamesSection.append(insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder));
   });
 }
 

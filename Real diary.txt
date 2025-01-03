@@ -87,3 +87,7 @@
 
 - Added sorting to playlist games
 - Fixed some issues with ordering of the games in playlists, as well as games appearing in other lists if the game was in more than one list
+
+- When adding games to a playlist, it now autochecks the completed and started boxes
+
+- Refactored logic to fix a coding error where when you click on a new playlist, which refreshes the playlist games section, the completed and started checkboxes would not be ticked even if true

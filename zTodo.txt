@@ -1,7 +1,5 @@
 - Add completion rate stats on the playlist tab
 
-- Add logic for games in the playlist to have completion and started boxes ticked when being put in the playlist
-
 - Add playlist auto completion
 
 - Add sort_by stuff for owned_games list
@@ -44,6 +42,9 @@
 
 COMPLETED:
 
+1/04
+
+
 1/03
 - Tested destruction of all records associated to a user when a user is destroyed
 - Add deletion from playlist
@@ -53,6 +54,7 @@ COMPLETED:
   - Delete, not remove, as you create the playlist yourself
 - Dom content is fully updated dynamically with user interactions now (creating, sorting, and deleting playlists, and adding and removing games from playlists)
 - Added sorting to playlist games
+- Add logic for games in the playlist to have completion and started boxes ticked when being put in the playlist
 
 1/02
 - Error messages for playlist creation
