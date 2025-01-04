@@ -1,5 +1,3 @@
-- Add game count to the playlist
-
 - Add sort_by and search_by stuff for owned_games list
 
 - Add search_by stuff for add_playlist_games list
@@ -67,6 +65,7 @@ COMPLETED:
 - Moved selecting playlist invocation when dragging a playlist to the onStart function rather than onEnd in sortableJS
 - Add completion rate stats on the playlist tab
 - Adding a new playlist also sets the stats (default 0% of course)
+- Add game count to the playlist
 
 
 1/03

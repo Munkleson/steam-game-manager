@@ -114,8 +114,10 @@
 
 - Refatored crud message creation to adhere to SRP better
 
-//
 - Removed an issue where potential malicious script could be injected via innerHTML
 - Modularised all the playlist logic, as I needed to call upon them in other files too often
   - There may still be some bugs I haven't caught
 - In my quest to modularise and refactor code, massive bugs were raised such as when adding or removing a game for a playlist, two would appear in its place, and both would be entered into the database. Those bugs have been fixed seemingly
+- Added game count to the playlist. This is updated upon adding and removing games from the playlist
+
+- Fixed missing code where if the add games section in playlist was empty, removing a game from a playlist wouldn't appear in the add games section

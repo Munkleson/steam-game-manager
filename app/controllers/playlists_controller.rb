@@ -107,7 +107,7 @@ class PlaylistsController < ApplicationController
       return
     end
 
-    owned_game_order = playlist.owned_games.find_by(id: params[:id]).order
+    owned_game_order = playlist.owned_games.find_by(id: params[:id])&.order
     playlist_game_to_remove = playlist.playlist_games.find_by(owned_game_id: params[:id])
 
     puts "hi"

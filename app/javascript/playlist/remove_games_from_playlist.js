@@ -22,15 +22,20 @@ function removeGameFromPlaylist(event) {
       const addGamesSection = document.querySelector(".add-games-section");
       const ownedGamesList = addGamesSection.querySelectorAll(".add-game-card");
       const ownedGamesLength = ownedGamesList.length;
-      const lastGame = ownedGamesList[ownedGamesLength - 1];
-      const lastGameOrder = lastGame.dataset.ownedGameOrder;
+
       const removedGameOrder = data.owned_game_order;
       const removedGame = event.target.closest(".game-card");
 
-      if (removedGameOrder > lastGameOrder) {
-        insertAtEndOfList(lastGame, removedGame, removedGameOrder);
+      if (ownedGamesLength === 0) {
+        insertAtBeginningOfList(removedGame, removedGameOrder);
       } else {
-        insertBeforeEndOfList(removedGameOrder, removedGame, ownedGamesList);
+        const lastGame = ownedGamesList[ownedGamesLength - 1];
+        const lastGameOrder = lastGame.dataset.ownedGameOrder;
+        if (removedGameOrder > lastGameOrder) {
+          insertAtEndOfList(lastGame, removedGame, removedGameOrder);
+        } else {
+          insertBeforeEndOfList(removedGameOrder, removedGame, ownedGamesList);
+        }
       }
       createCrudMessage("Game removed from playlist");
       removedGame.remove();
@@ -39,6 +44,13 @@ function removeGameFromPlaylist(event) {
     }
   })
   .catch(error => console.error('Error:', error));
+}
+
+function insertAtBeginningOfList(removedGame, removedGameOrder) {
+  const imageUrl = removedGame.querySelector("img").src;
+  const name = removedGame.querySelector(".card-title").innerText;
+  const id = removedGame.dataset.id;
+  document.querySelector(".add-games-section").append(insertGameToPlaylistAddList(imageUrl, name, id, removedGameOrder));
 }
 
 function insertAtEndOfList(lastGame, removedGame, removedGameOrder) {
