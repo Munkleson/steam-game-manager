@@ -11,8 +11,6 @@ function refreshPlaylists(playlistId) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-
     const playlistContentContainers = document.querySelector(".playlist-games-list");
     const addGamesSection = document.querySelector(".add-games-section");
     playlistContentContainers.innerHTML = "";

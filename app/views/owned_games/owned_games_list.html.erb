@@ -1,5 +1,5 @@
-<%= javascript_include_tag 'owned_games_list', 'data-turbo-track': 'reload', defer: true %>
-<%= javascript_include_tag 'owned_games_filter_logic', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'library/owned_games_list', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'library/owned_games_filter_logic', 'data-turbo-track': 'reload', defer: true %>
 <%= stylesheet_link_tag "cards", "data-turbo-track": "reload" %>
 <%= stylesheet_link_tag "games_list_header", "data-turbo-track": "reload" %>
 
@@ -8,7 +8,7 @@
     <div class="d-flex flex-column align-items-center">
       <div class="col-3 mt-3 d-flex justify-content-center">
         <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-5" %>
-        <%= link_to "Go to your playlists", playlists_path, class: "btn btn-primary col-5 ms-2"%>
+        <%= link_to "Go to your playlists", playlists_path, class: "btn btn-primary col-5 ms-2" %>
       </div>
       <div class="d-flex justify-content-between mt-3">
         <p class="filter-by-text m-0 me-2">Filtering by:</p>
@@ -46,7 +46,8 @@
       <img src=<%= game.image_url %> class="card-img img-fluid card-img-width" alt="...">
       <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
         <h6 class="card-info-item card-title m-0 p-0"><%= game.name %></h6>
-        <div class="checkboxes-container d-flex justify-content-between mt-2">
+
+        <div class="checkboxes-container d-flex justify-content-between mt-2" data-id="<%= game[:id] %>">
           <div class="d-flex align-items-center card-info-item" >
             <label for="completed<%= game[:id] %>" class="m-0 completed-text">Completed?</label>
             <%= check_box_tag "completed#{game[:id]}", "t", game[:completed], class: "completed-checkbox ms-2", data: { id: game[:id] } %>

@@ -4,8 +4,7 @@ function initializeOwnedGameListLogic() {
 
   const gameListBodyContainer = document.querySelector(".main-body-container");
   const deleteGameForm = document.querySelectorAll(".delete-game-form");
-  const completedCheckboxes = document.querySelectorAll(".completed-checkbox");
-  const playedCheckboxes = document.querySelectorAll(".played-checkbox");
+  const checkboxContainers = document.querySelectorAll(".checkboxes-container");
 
   const statsBar = document.querySelector(".stats-bar");
   const completedRateBar = document.querySelector(".completed-rate");
@@ -49,12 +48,12 @@ function initializeOwnedGameListLogic() {
     if (isNaN(rates.completed)) {
       completedText.innerText = "0%";
     } else {
-      completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${rates.completed}%`;
+      completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${parseFloat(rates.completed)}%`;
     }
     if (isNaN(rates.played)) {
       playedText.innerText = "0%";
     } else {
-      playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${rates.played}%`;
+      playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${parseFloat(rates.played)}%`;
     }
   }
 
@@ -77,52 +76,63 @@ function initializeOwnedGameListLogic() {
     .catch(error => console.error('Error:', error));
   }
 
-  completedCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", (event) => {
-      const parentElement = event.target.closest(".checkboxes-container");
-      if (event.currentTarget.checked) {
-        const playedCheckbox = parentElement.querySelector(".played-checkbox");
-        playedCheckbox.checked = true;
-      }
-      sendCheckboxChange(parentElement)
+  checkboxContainers.forEach((container) => {
+    container.addEventListener("change", () => {
+      numberOfCompletedPlayedGames();
+      populateProgressBars("change");
     })
   })
 
-  playedCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", (event) => {
-      const parentElement = event.target.closest(".checkboxes-container");
-      if (!event.currentTarget.checked) {
-        const playedCheckbox = parentElement.querySelector(".completed-checkbox");
-        playedCheckbox.checked = false;
-      }
-      sendCheckboxChange(parentElement);
-    })
-  })
+  // completedCheckboxes.forEach((checkbox) => {
+  //   checkbox.addEventListener("change", (event) => {
+  //     const parentElement = event.target.closest(".checkboxes-container");
+  //     if (event.currentTarget.checked) {
+  //       const playedCheckbox = parentElement.querySelector(".played-checkbox");
+  //       playedCheckbox.checked = true;
+  //     }
+  //     sendCheckboxChange(parentElement)
+  //     numberOfCompletedPlayedGames();
+  //     populateProgressBars("change");
+  //   })
+  // })
 
-  function sendCheckboxChange(parent) {
-    const completedCheckbox = parent.querySelector(".completed-checkbox");
-    const playedCheckbox = parent.querySelector(".played-checkbox");
-    const dbId = completedCheckbox.dataset.id;
-    const params = { id: dbId, completed: completedCheckbox.checked, played: playedCheckbox.checked };
+  // playedCheckboxes.forEach((checkbox) => {
+  //   checkbox.addEventListener("change", (event) => {
+  //     const parentElement = event.target.closest(".checkboxes-container");
+  //     if (!event.currentTarget.checked) {
+  //       const playedCheckbox = parentElement.querySelector(".completed-checkbox");
+  //       playedCheckbox.checked = false;
+  //     }
+  //     sendCheckboxChange(parentElement);
+  //     numberOfCompletedPlayedGames();
+  //     populateProgressBars("change");
+  //   })
+  // })
 
-    fetch('/update', {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken,
-      },
-      body: JSON.stringify(params)
-    }).then(response => response.json())
-    .then(data => {
-      if (data.ok) {
-        // createCrudMesage("Game", "updated", "success");
-      }
-    })
-    .catch(error => console.error('Error:', error));
-    // Down here because if it isn't sent then it shouldn't update even in Frontend
-    numberOfCompletedPlayedGames();
-    populateProgressBars("change");
-  }
+  // function sendCheckboxChange(parent) {
+  //   const completedCheckbox = parent.querySelector(".completed-checkbox");
+  //   const playedCheckbox = parent.querySelector(".played-checkbox");
+  //   const dbId = completedCheckbox.dataset.id;
+  //   const params = { id: dbId, completed: completedCheckbox.checked, played: playedCheckbox.checked };
+
+  //   fetch('/update', {
+  //     method: 'PATCH',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'X-CSRF-Token': csrfToken,
+  //     },
+  //     body: JSON.stringify(params)
+  //   }).then(response => response.json())
+  //   .then(data => {
+  //     if (data.ok) {
+  //       // createCrudMesage("Game", "updated", "success");
+  //     }
+  //   })
+  //   .catch(error => console.error('Error:', error));
+  //   // Down here because if it isn't sent then it shouldn't update even in Frontend
+  //   numberOfCompletedPlayedGames();
+  //   populateProgressBars("change");
+  // }
 
   function numberOfCompletedPlayedGames() {
     counts.all = document.querySelectorAll(".game-card").length;

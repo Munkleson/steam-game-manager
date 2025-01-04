@@ -1,3 +1,5 @@
+- Add functionality to update completed and played from the playlists page
+
 - Add completion rate stats on the playlist tab
 
 - Add playlist auto completion

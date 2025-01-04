@@ -232,3 +232,8 @@ function loadSearchFunctionLogic() {
 }
 
 loadSearchFunctionLogic();
+
+function sayHi() {
+  console.log("hi");
+
+}

@@ -48,14 +48,14 @@
             <img src=<%= game.image_url %> class="card-img img-fluid card-img-width" alt="...">
             <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
               <h6 class="card-info-item card-title m-0 p-0"><%= game.name %></h6>
-              <div class="checkboxes-container d-flex mt-2">
+              <div class="checkboxes-container d-flex mt-2" data-id="<%= game[:id] %>">
                 <div class="d-flex align-items-center card-info-item" >
                   <label for="completed<%= game[:id] %>" class="m-0 completed-text">Completed?</label>
-                  <%= check_box_tag "completed#{game[:id]}", "t", game[:completed], class: "completed-checkbox ms-2 me-5", data: { id: game[:id] } %>
+                  <%= check_box_tag "completed#{game[:id]}", "t", game[:completed], class: "completed-checkbox ms-2 me-5"%>
                 </div>
                 <div class="d-flex align-items-center card-info-item ">
                   <label for="played<%= game[:id] %>" class="m-0 played-text">Started?</label>
-                  <%= check_box_tag "played#{game[:id]}", "t", game[:played], class: "played-checkbox ms-2", data: { id: game[:id] } %>
+                  <%= check_box_tag "played#{game[:id]}", "t", game[:played], class: "played-checkbox ms-2" %>
                 </div>
               </div>
             </div>
