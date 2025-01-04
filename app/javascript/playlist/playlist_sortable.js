@@ -4,8 +4,10 @@ import { selectPlaylist } from './select_playlist';
 new Sortable(document.querySelector(".playlist-list"), {
   animation: 150,
   ghostClass: 'blue-background-class',
-  onEnd: function(event) {
+  onStart: function(event) {
     selectPlaylist(event.item);
+  },
+  onEnd: function() {
     changePlaylistOrder();
   },
   scroll: true,

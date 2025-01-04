@@ -24,7 +24,7 @@
 </div>
 
 <div class="main-playlist-body-container d-flex align-items-center flex-column position-relative">
-
+  <%# Playlists %>
   <div class="playlist-body-container row col-12">
     <div class="col-4 playlist-sections">
       <p class="playlist-section-headers text-center">My playlists</p>
@@ -32,6 +32,21 @@
         <% @playlists.each_with_index do |playlist, index| %>
           <li class="playlist-items col-12 <%= index == 0 ? "selected-playlist" : "" %> d-flex align-items-center justify-content-between" data-playlist-id="<%= playlist[:id] %>">
             <p><%= playlist[:name] %></p>
+
+            <div class="playlist-stats-container ms-auto me-5">
+              <div class="stats-bar playlist-stats-bar d-flex flex-column justify-content-center align-items-end" data-rates="<%= @rates.to_json %>" data-count="<%= @count.to_json %>">
+                <% @progress_type.each do |progress_type| %>
+                  <div class="stats-text-container d-flex flex-row justify-content-between">
+                    <p>Games <%= progress_type %>:</p>
+                    <p><strong class="<%= progress_type %>-percentage"><%= @playlists_stats[index][progress_type.to_sym] %>%</strong></p>
+                  </div>
+                  <div class="rate-bar position-relative">
+                    <div class="<%= progress_type %>-rate position-absolute"></div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
             <form class="delete-playlist-form d-flex justify-content-center align-items-center">
               <input type="submit" value="Delete playlist" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
             </form>
@@ -39,10 +54,9 @@
         <% end %>
       </ul>
     </div>
-
+    <%# Playlist games %>
     <div class="col-4 playlist-sections">
       <p class="playlist-section-headers text-center">Games in this playlist</p>
-
       <ul class="playlist-content-containers playlist-games-list list-unstyled d-flex justify-content-center row-12 flex-wrap">
         <% @starting_playlist_games.each do |game| %>
           <li class="game-card card col-11 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-owned-game-order="<%= game[:order] %>">
@@ -67,9 +81,8 @@
           </li>
         <% end %>
       </ul>
-
     </div>
-
+    <%# Owned games %>
     <div class="col-4 playlist-sections d-flex flex-column align-items-center">
       <p class="playlist-section-headers text-center">Add games to this playlist</p>
       <ul class="playlist-content-containers add-games-section row col-12 d-flex justify-content-center p-0 m-0">

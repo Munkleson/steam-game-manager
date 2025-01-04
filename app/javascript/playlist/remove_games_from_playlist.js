@@ -31,6 +31,7 @@ function removeGameFromPlaylist(event) {
       }
       createCrudMesage("Game", "removed from the playlist", "success");
       removedGame.remove();
+      refreshStats();
     }
   })
   .catch(error => console.error('Error:', error));

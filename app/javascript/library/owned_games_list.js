@@ -24,38 +24,39 @@ function initializeOwnedGameListLogic() {
   function onPageLoad() {
   //// this is here when the page refreshes due to a removal of a game, the order is updated
   changeOrder();
-  populateProgressBars("onLoad");
+  // populateProgressBars("onLoad");
+  // refreshStats();
   }
   onPageLoad();
 
-  function populateProgressBars(source) {
-    const completedRate = counts.completed / counts.all * 100;
-    const completedCount = Number.isInteger(completedRate) ? completedRate : completedRate.toFixed(2);
+  // function populateProgressBars(source) {
+  //   const completedRate = counts.completed / counts.all * 100;
+  //   const completedCount = Number.isInteger(completedRate) ? completedRate : completedRate.toFixed(2);
 
-    const playedRate = counts.played / counts.all * 100;
-    const playedCount = Number.isInteger(playedRate) ? playedRate : playedRate.toFixed(2);
+  //   const playedRate = counts.played / counts.all * 100;
+  //   const playedCount = Number.isInteger(playedRate) ? playedRate : playedRate.toFixed(2);
 
-    const currentRates = { completed: completedCount, played: playedCount};
-    const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
+  //   const currentRates = { completed: completedCount, played: playedCount};
+  //   const rates = (source === "onLoad") ? JSON.parse(statsBar.dataset.rates) : currentRates;
 
-    completedRateBar.style.width = !isNaN(rates.completed) ? `${rates.completed}%` : `0%`;
-    playedRateBar.style.width = !isNaN(rates.played) ? `${rates.played}%` : `0%`;
+  //   completedRateBar.style.width = !isNaN(rates.completed) ? `${rates.completed}%` : `0%`;
+  //   playedRateBar.style.width = !isNaN(rates.played) ? `${rates.played}%` : `0%`;
 
-    const completedText = document.querySelector(".completed-percentage");
-    const playedText = document.querySelector(".played-percentage");
+  //   const completedText = document.querySelector(".completed-percentage");
+  //   const playedText = document.querySelector(".played-percentage");
 
-    // If the game list is empty, these will result in the texts being 0 rather than NaN
-    if (isNaN(rates.completed)) {
-      completedText.innerText = "0%";
-    } else {
-      completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${parseFloat(rates.completed)}%`;
-    }
-    if (isNaN(rates.played)) {
-      playedText.innerText = "0%";
-    } else {
-      playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${parseFloat(rates.played)}%`;
-    }
-  }
+  //   // If the game list is empty, these will result in the texts being 0 rather than NaN
+  //   if (isNaN(rates.completed)) {
+  //     completedText.innerText = "0%";
+  //   } else {
+  //     completedText.innerText = Number.isInteger(rates.completed) ? `${Math.round(rates.completed)}%` : `${parseFloat(rates.completed)}%`;
+  //   }
+  //   if (isNaN(rates.played)) {
+  //     playedText.innerText = "0%";
+  //   } else {
+  //     playedText.innerText = Number.isInteger(rates.played) ? `${Math.round(rates.played)}%` : `${parseFloat(rates.played)}%`;
+  //   }
+  // }
 
   function changeOrder() {
     const currentGameCardsPosition = document.querySelectorAll(".game-card");
@@ -80,7 +81,8 @@ function initializeOwnedGameListLogic() {
     container.addEventListener("change", () => {
       setTimeout(() => {
         numberOfCompletedPlayedGames();
-        populateProgressBars("change");
+        refreshStats();
+        // populateProgressBars("change");
       }, 1);
 
     })
@@ -167,7 +169,8 @@ function initializeOwnedGameListLogic() {
           const deletedGameCard = game.closest(".game-card");
           deletedGameCard.remove();
           numberOfCompletedPlayedGames();
-          populateProgressBars("change");
+          // populateProgressBars("change");
+          refreshStats();
           createCrudMesage("Game", "deleted", "success");
         }
       })

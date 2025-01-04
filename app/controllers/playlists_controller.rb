@@ -18,6 +18,11 @@ class PlaylistsController < ApplicationController
       @starting_playlist_games = []
       @owned_games = user.owned_games
     end
+
+    @progress_type = ["completed", "played"]
+    @playlists_stats = playlist_rates(@playlists)
+    # @count = { all: user_owned_games.count, completed: completed_count, played: played_count }
+    puts @playlists_stats
   end
 
   def create_playlist
@@ -169,5 +174,20 @@ class PlaylistsController < ApplicationController
       end
     end
     render json: { result: response }
+  end
+
+  private
+
+  def playlist_rates(playlists)
+    array_of_playlists_data = []
+    playlists.each do |playlist|
+      games_in_playlist = playlist.owned_games
+      completed_rate = GameRateCalculator.calculate_rates(games_in_playlist, :completed)
+      played_rate = GameRateCalculator.calculate_rates(games_in_playlist, :played)
+      completed_rate = GameRateCalculator.format_rates(completed_rate)
+      played_rate = GameRateCalculator.format_rates(played_rate)
+      array_of_playlists_data << { number_of_games: games_in_playlist.count, completed: completed_rate, played: played_rate }
+    end
+    return array_of_playlists_data
   end
 end

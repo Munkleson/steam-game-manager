@@ -26,7 +26,7 @@
         <button class="clear-filter-button pt-0 pb-0">Clear filter</button>
       </div>
     </div>
-    <div class="stats-bar position-absolute top-0 d-flex flex-column justify-content-center align-items-end" data-rates="<%= @rates.to_json %>" data-count="<%= @count.to_json %>">
+    <div class="stats-bar library-stats-bar position-absolute top-0 d-flex flex-column justify-content-center align-items-end" data-rates="<%= @rates.to_json %>" data-count="<%= @count.to_json %>">
       <% @stats.each do |stat| %>
         <div class="stats-text-container d-flex flex-row justify-content-between">
           <p>Games <%= stat %>:</p>

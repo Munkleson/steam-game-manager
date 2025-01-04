@@ -42,6 +42,8 @@ function addGameToPlaylist(event) {
 
       playlistContentContainers.append(newPlaylistGame);
       game.remove(); // removes the element that was added to the playlist
+
+      refreshStats();
     } else {
       createCrudMesage("to playlist", "add game", "failure");
     }

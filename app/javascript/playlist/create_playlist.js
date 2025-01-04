@@ -69,6 +69,7 @@ function loadCreatePlaylistLogic() {
       }
     })
     .catch(error => {
+      console.error(error);
       unsuccessfulSubmit("The playlist could not be created at this time", submitButton, submitButton, closeButton)
     });
   }
@@ -87,12 +88,30 @@ function loadCreatePlaylistLogic() {
 
     playlistElement.innerHTML = `
       <p>${name}</p>
+      <div class="playlist-stats-container ms-auto me-5">
+        <div class="stats-bar playlist-stats-bar d-flex flex-column justify-content-center align-items-end">
+          <div class="stats-text-container d-flex flex-row justify-content-between">
+            <p>Games completed:</p>
+            <p><strong class="completed-percentage">0%</strong></p>
+          </div>
+          <div class="rate-bar position-relative">
+            <div class="completed-rate position-absolute"></div>
+          </div>
+          <div class="stats-text-container d-flex flex-row justify-content-between">
+            <p>Games played:</p>
+            <p><strong class="played-percentage">0%</strong></p>
+          </div>
+          <div class="rate-bar position-relative">
+            <div class="played-rate position-absolute"></div>
+          </div>
+        </div>
+      </div>
       <form class="delete-playlist-form d-flex justify-content-center align-items-center">
         <input type="submit" value="Delete playlist" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
       </form>
     `;
 
-    playlistDeleteForm = playlistElement.querySelector("form");
+    const playlistDeleteForm = playlistElement.querySelector("form");
     playlistDeleteForm.addEventListener("submit", deletePlaylist);
 
     playlistElement.addEventListener("click", selectPlaylist);
@@ -218,4 +237,9 @@ function loadCreatePlaylistLogic() {
   }
 }
 
-loadCreatePlaylistLogic();
+// logic here checks the path so it doesn't load on another page that it shouldn't, like library
+document.addEventListener("turbo:load", () => {
+  if (window.location.pathname === '/playlists') {
+    loadCreatePlaylistLogic();
+  }
+});

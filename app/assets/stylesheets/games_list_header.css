@@ -15,6 +15,9 @@
 
 .stats-bar {
   height: 100%;
+}
+
+.library-stats-bar {
   width: 16%;
   left: 3%;
 }

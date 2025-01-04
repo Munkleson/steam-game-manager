@@ -22,6 +22,7 @@ function refreshPlaylists(playlistId) {
     if (data.ok) {
       beginGameInsert(data.playlist_games, "playlist", playlistContentContainers, addGamesSection);
       beginGameInsert(data.owned_games, "owned", playlistContentContainers, addGamesSection);
+      addEventListenersToCheckBoxesInitializer();
     } else {
       createCrudMesage("the playlist's details from the database", "fetch", "failure");
     }
@@ -90,7 +91,7 @@ function insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder) {
     <img src="${imageUrl}" class="card-img img-fluid card-img-width" alt="...">
     <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
       <h6 class="card-info-item card-title m-0 p-0">${name}</h6>
-      <div class="checkboxes-container d-flex mt-2">
+      <div class="checkboxes-container d-flex mt-2" data-id=${id}>
         <div class="d-flex align-items-center card-info-item" >
           <label for="completed${id}" class="m-0 completed-text">Completed?</label>
           <input type="checkbox" name="completed${id}" id="completed${id}" value="t" class="completed-checkbox ms-2 me-5" data-id="${id}">

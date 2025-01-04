@@ -1,9 +1,9 @@
 export function selectPlaylist(item) {
   // Don't want the change playlist to trigger on form deletion press
-  const target = checkEventOrTarget(item)
-  console.log(target);
+  const clickedElement = checkEventOrTarget(item);
 
-  if (target.tagName !== "FORM" && target.tagName !== "INPUT") {
+  if (clickedElement.tagName !== "FORM" && clickedElement.tagName !== "INPUT") {
+    const target = clickedElement.closest(".playlist-items");
     const currentSelected = document.querySelector(".selected-playlist");
     if (currentSelected) {
       currentSelected.classList.remove("selected-playlist");

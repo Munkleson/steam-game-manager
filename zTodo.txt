@@ -1,14 +1,22 @@
 - Add completion rate stats on the playlist tab
 
+- Adding a new playlist also sets the stats (default 0% of course)
+
 - Add playlist auto completion
 
-- Add sort_by stuff for owned_games list
+- Add sort_by and search_by stuff for owned_games list
 
-- Add sort_by stuff for add_playlist_games list
+- Add search_by stuff for add_playlist_games list
 
+- Add sort_by completion rate for playlists
+  - And other sort_by options
+
+- Expand playlist details
 - Edit playlist details
 
 - Change the colour of the selected playlist to look better and different from the hover
+
+- Playlist selection is saved even when you leave the page
 
 - Types of playlists
   - Add model and schema stuff
@@ -18,16 +26,17 @@
     - Completed and started needs to be unticked for this playlist ONLY
     - Maybe a new table for just games that fit this condition?
 
+- Mobile-responsive
 
 - Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
-
-
 
 - Find out how to use strong params when you may need to add things to the params
   - Pretty much how do you add to params is the question
 
+
 ** Way down the line
 - Refactor everything
+  - Make EVERYTHING follow the SRP
 - How to use data attributes without them being seen really, or more so refactor them all so there's no vulnerabilities with user injections
   - Is it even possible for them to do so without directly accessing the database?
 - Custom confirm popup for confirmation requests like deletion
@@ -37,14 +46,17 @@
   - Needed if images take a while to load, as the cards will increase in size when the image is loaded, and they should all be loaded together
 - Add drag and drop from add_playlist_games to the actual playlist, and be able to insert them in order
 - Look into memory leaks
+- Rewrite all rails DB searching stuff to the actual SQL queries
 
+- There is a bug where the page below the header shifts up in the playlist page. Not sure what causes it, but if I can figure it out it's #1 priority
+  - Leaving the page and coming back resets it of course
 
 
 COMPLETED:
 
 1/04
 - Add functionality to update completed and played from the playlists page
-- Fix the issues with statistics changing in the owned_games page
+- Moved selecting playlist invocation when dragging a playlist to the onStart function rather than onEnd in sortableJS
 
 1/03
 - Tested destruction of all records associated to a user when a user is destroyed

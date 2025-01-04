@@ -98,3 +98,11 @@
   transition: 0.15s;
   transform: scale(1.2, 1.2);
 }
+
+.playlist-stats-container {
+  width: 35%;
+}
+
+.playlist-stats-bar {
+  width: 100%;
+}
