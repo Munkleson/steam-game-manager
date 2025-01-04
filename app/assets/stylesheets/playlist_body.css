@@ -106,3 +106,7 @@
 .playlist-stats-bar {
   width: 100%;
 }
+
+.playlist-name-container {
+  width: 40%;
+}

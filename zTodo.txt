@@ -1,4 +1,4 @@
-- Add playlist auto completion
+- Add game count to the playlist
 
 - Add sort_by and search_by stuff for owned_games list
 
@@ -21,13 +21,25 @@
   - Start games from scratch playlist
     - Completed and started needs to be unticked for this playlist ONLY
     - Maybe a new table for just games that fit this condition?
+  * Categorization playlists and to-commit-to playlists
+
+- Completed playlists section
+  - Kind of like "past" playlists like on Meetup for events
 
 - Mobile-responsive
+
+- Add playlist auto completion
 
 - Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
 
 - Find out how to use strong params when you may need to add things to the params
   - Pretty much how do you add to params is the question
+
+- Add "hours clocked" to owned_games.
+  - Users would have to manually input it in until I link their account to the site
+
+- Change everything to rem
+- Also look into how things can zoom in as well. Using rem based on a vw/vh fontsize means you can't really zoom in since it all scales to vw
 
 
 ** Way down the line

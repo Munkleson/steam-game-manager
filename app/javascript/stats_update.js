@@ -1,4 +1,8 @@
 function refreshStats() {
+  // this is here to check if the page navigated to does not have stats
+  if (!checkStatsLocation()) {
+    return;
+  }
   const statsContainers = document.querySelectorAll(".stats-bar");
   updateStats();
   updateRateBarWidths(statsContainers);
@@ -18,14 +22,20 @@ function modifyText(rates) {
 
 function getRates() {
   const gamesCount = document.querySelectorAll(".game-card").length;
-  const completedCount = checkedCount("completed") / gamesCount * 100;
-  const playedCount = checkedCount("played") / gamesCount * 100;
-  return { completed: completedCount, played: playedCount };
+  const completedRate = checkedCount("completed") / gamesCount * 100;
+  const playedRate = checkedCount("played") / gamesCount * 100;
+  return { completed: completedRate, played: playedRate };
 }
 
 function formatRates(rates) {
   Object.keys(rates).forEach((progressType) => {
-    rates[progressType] = Number.isInteger(rates[progressType]) ? `${Math.round(rates[progressType])}%` : `${parseFloat(rates[progressType].toFixed(2))}%`;
+    // isNaN is needed for when playlist is empty
+    if (isNaN(rates[progressType])) {
+      rates[progressType] = "0%";
+    } else {
+      rates[progressType] = Number.isInteger(rates[progressType]) ? `${Math.round(rates[progressType])}%` : `${parseFloat(rates[progressType].toFixed(2))}%`;
+    }
+
   })
 }
 

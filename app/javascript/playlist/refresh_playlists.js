@@ -1,7 +1,7 @@
+import { addGameToPlaylist } from "./add_games_to_playlist";
+import { removeGameFromPlaylist } from "./remove_games_from_playlist";
+
 function refreshPlaylists(playlistId) {
-
-  console.log(playlistId);
-
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   const params = new URLSearchParams({ playlist_id: playlistId }).toString();
 
@@ -70,7 +70,9 @@ function insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder) {
       <img src="/assets/green-add-button-136a90f6c4383debcf203faba144284c03a78e7b540ef3d10e2df0276d9dba67.png" class="green-add-button" alt="...">
     </div>
   `;
-  ownedGame.addEventListener("click", addGameToPlaylist);
+  const ownedGameButton = ownedGame.querySelector(".green-add-button");
+  ownedGameButton.dataset.hasEvent = true;
+  ownedGameButton.addEventListener("click", addGameToPlaylist);
   return ownedGame;
 }
 
@@ -106,7 +108,11 @@ function insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder) {
       <input type="submit" value="Remove" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
     </form>
   `;
+  const playlistGameForm = playlistGame.querySelector(".remove-game-from-playlist-form");
+  playlistGameForm.dataset.hasEvent = true;
+  playlistGameForm.addEventListener("submit", removeGameFromPlaylist);
 
-  playlistGame.addEventListener("submit", removeGameFromPlaylist);
   return playlistGame;
 }
+
+export { insertGameToPlaylistAddList, insertGameToPlaylistBody, refreshPlaylists }

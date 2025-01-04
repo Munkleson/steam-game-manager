@@ -87,7 +87,7 @@ function loadCreatePlaylistLogic() {
     playlistList.append(playlistElement);
 
     playlistElement.innerHTML = `
-      <p>${name}</p>
+      <p class="playlist-name-container pe-2"><span class="playlist-name"></span>&nbsp;<span class="games-count text-primary">(0)</span></p>
       <div class="playlist-stats-container ms-auto me-5">
         <div class="stats-bar playlist-stats-bar d-flex flex-column justify-content-center align-items-end">
           <div class="stats-text-container d-flex flex-row justify-content-between">
@@ -110,6 +110,9 @@ function loadCreatePlaylistLogic() {
         <input type="submit" value="Delete playlist" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
       </form>
     `;
+
+    // This is done here instead of above to sanitize from any XSS vulnerabilities
+    playlistElement.querySelector(".playlist-name").innerText = name;
 
     const playlistDeleteForm = playlistElement.querySelector("form");
     playlistDeleteForm.addEventListener("submit", deletePlaylist);

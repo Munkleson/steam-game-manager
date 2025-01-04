@@ -1,3 +1,5 @@
+import { refreshPlaylists } from "./refresh_playlists";
+
 export function selectPlaylist(item) {
   // Don't want the change playlist to trigger on form deletion press
   const clickedElement = checkEventOrTarget(item);

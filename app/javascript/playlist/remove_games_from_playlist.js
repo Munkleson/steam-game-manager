@@ -1,3 +1,6 @@
+import { insertGameToPlaylistAddList } from "./refresh_playlists";
+import updatePlaylistGamesCount from "./update_playlist_games_count";
+
 function removeGameFromPlaylist(event) {
   event.preventDefault();
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
@@ -25,13 +28,14 @@ function removeGameFromPlaylist(event) {
       const removedGame = event.target.closest(".game-card");
 
       if (removedGameOrder > lastGameOrder) {
-        insertAtEndOfList(lastGame, removedGame);
+        insertAtEndOfList(lastGame, removedGame, removedGameOrder);
       } else {
         insertBeforeEndOfList(removedGameOrder, removedGame, ownedGamesList);
       }
       createCrudMessage("Game removed from playlist");
       removedGame.remove();
       refreshStats();
+      updatePlaylistGamesCount();
     }
   })
   .catch(error => console.error('Error:', error));
@@ -66,8 +70,13 @@ function addRemoveEventOnLoad() {
   const currentRemoveForms = document.querySelectorAll(".remove-game-from-playlist-form");
   currentRemoveForms.forEach((button) => {
     button.removeEventListener("submit", removeGameFromPlaylist);
-    button.addEventListener("submit", removeGameFromPlaylist);
+    if (!button.dataset.hasEvent) {
+      button.dataset.hasEvent = true;
+      button.addEventListener("submit", removeGameFromPlaylist);
+    }
+
   })
 }
+document.addEventListener("turbo:load", addRemoveEventOnLoad);
 
-addRemoveEventOnLoad();
+export { removeGameFromPlaylist }

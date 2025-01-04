@@ -6,7 +6,7 @@ class PlaylistsController < ApplicationController
     # Also an ERB variable, but needs to be above the one below
     @playlists = user.playlists.order(:order)
     starting_playlist = @playlists.first
-
+    @games_count = @playlists.map { |playlist| playlist.playlist_games.count }
     owned_games = user.owned_games
 
     if !starting_playlist.nil?
@@ -109,6 +109,10 @@ class PlaylistsController < ApplicationController
 
     owned_game_order = playlist.owned_games.find_by(id: params[:id]).order
     playlist_game_to_remove = playlist.playlist_games.find_by(owned_game_id: params[:id])
+
+    puts "hi"
+    puts owned_game_order
+    puts playlist.playlist_games
 
     if playlist_game_to_remove.destroy
       render json: { message: "success", ok: true, owned_game_order: owned_game_order }

@@ -1,10 +1,11 @@
-<%= javascript_include_tag 'playlist/refresh_playlists', 'data-turbo-track': 'reload', defer: true %>
-<%= javascript_include_tag 'playlist/delete_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/refresh_playlists', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
+<%= javascript_include_tag 'playlist/delete_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
 <%= javascript_include_tag 'playlist/create_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
-<%= javascript_include_tag 'playlist/add_games_to_playlist', 'data-turbo-track': 'reload', defer: true %>
-<%= javascript_include_tag 'playlist/remove_games_from_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/add_games_to_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
+<%= javascript_include_tag 'playlist/remove_games_from_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
 <%= javascript_include_tag 'playlist/playlist_sortable', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
 <%= javascript_include_tag 'playlist/select_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
+<%= javascript_include_tag 'playlist/update_playlist_games_count', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
 
 <%= stylesheet_link_tag "playlist_form", "data-turbo-track": "reload" %>
 <%= stylesheet_link_tag "playlist_body", "data-turbo-track": "reload" %>
@@ -31,8 +32,7 @@
       <ul class="playlist-content-containers playlist-list col-12 row p-0">
         <% @playlists.each_with_index do |playlist, index| %>
           <li class="playlist-items col-12 <%= index == 0 ? "selected-playlist" : "" %> d-flex align-items-center justify-content-between" data-playlist-id="<%= playlist[:id] %>">
-            <p><%= playlist[:name] %></p>
-
+            <p class="playlist-name-container pe-2"><span class="playlist-name"><%= playlist[:name] %></span>&nbsp;<span class="games-count text-primary">(<%= @games_count[index] %>)</span></p>
             <div class="playlist-stats-container ms-auto me-5">
               <div class="stats-bar playlist-stats-bar d-flex flex-column justify-content-center align-items-end" data-rates="<%= @rates.to_json %>" data-count="<%= @count.to_json %>">
                 <% @progress_type.each do |progress_type| %>

@@ -1,7 +1,7 @@
-function sendCheckboxChange(game, completed, played) {
+function sendCheckboxChange(checkboxContainer, completed, played) {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-  const dbId = game.dataset.id;
+  const dbId = checkboxContainer.dataset.id;
   const params = { id: dbId, completed: completed, played: played };
 
   fetch('/update', {

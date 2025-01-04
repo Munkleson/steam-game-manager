@@ -32,7 +32,7 @@ function changePlaylistOrder() {
     },
     body: JSON.stringify(params)
   }).then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => data)
   .catch(error => console.error('Error:', error));
 }
 
