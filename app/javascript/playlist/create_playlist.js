@@ -1,3 +1,5 @@
+import { selectPlaylist } from './select_playlist';
+
 function loadCreatePlaylistLogic() {
   const createPlaylistButton = document.querySelector(".create-playlist-button");
 
@@ -12,18 +14,6 @@ function loadCreatePlaylistLogic() {
     allPlaylists.forEach(playlistElement => playlistElement.addEventListener("click", selectPlaylist));
   }
   addSelectionEventListeners();
-
-  function selectPlaylist(event) {
-    // Don't want the change playlist to trigger on form deletion press
-    if (event.target.tagName !== "FORM" && event.target.tagName !== "INPUT") {
-      const currentSelected = document.querySelector(".selected-playlist");
-      if (currentSelected) {
-        currentSelected.classList.remove("selected-playlist");
-      }
-      event.target.classList.add("selected-playlist");
-      refreshPlaylists(event.target.dataset.playlistId);
-    }
-  }
 
   function generateForm() {
     // disable form creation and removal if it is currently submitting and a response is not received yet

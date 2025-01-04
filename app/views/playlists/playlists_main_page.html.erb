@@ -1,9 +1,10 @@
 <%= javascript_include_tag 'playlist/refresh_playlists', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'playlist/delete_playlist', 'data-turbo-track': 'reload', defer: true %>
-<%= javascript_include_tag 'playlist/create_playlist', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/create_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
 <%= javascript_include_tag 'playlist/add_games_to_playlist', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'playlist/remove_games_from_playlist', 'data-turbo-track': 'reload', defer: true %>
-<%= javascript_include_tag 'playlist/playlist_sortable', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'playlist/playlist_sortable', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
+<%= javascript_include_tag 'playlist/select_playlist', 'data-turbo-track': 'reload', defer: true, type: 'module' %>
 
 <%= stylesheet_link_tag "playlist_form", "data-turbo-track": "reload" %>
 <%= stylesheet_link_tag "playlist_body", "data-turbo-track": "reload" %>

@@ -1,10 +1,8 @@
-function sendCheckboxChange(game, playedCheckbox, completedCheckbox) {
+function sendCheckboxChange(game, completed, played) {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-  // const completedCheckbox = game.querySelector(".completed-checkbox");
-  // const playedCheckbox = game.querySelector(".played-checkbox");
   const dbId = game.dataset.id;
-  const params = { id: dbId, completed: completedCheckbox.checked, played: playedCheckbox.checked };
+  const params = { id: dbId, completed: completed, played: played };
 
   fetch('/update', {
     method: 'PATCH',
@@ -19,23 +17,21 @@ function sendCheckboxChange(game, playedCheckbox, completedCheckbox) {
 }
 
 function checkCheckboxes(target, checkboxContainer) {
-  const playedCheckbox = checkboxContainer.querySelector(".played-checkbox");
   const completedCheckbox = checkboxContainer.querySelector(".completed-checkbox");
-  if (target === playedCheckbox) {
-    if (!playedCheckbox.checked) {
-      completedCheckbox.checked = false;
-    }
-  } else {
+  const playedCheckbox = checkboxContainer.querySelector(".played-checkbox");
+  if (target === completedCheckbox) {
     if (completedCheckbox.checked) {
       playedCheckbox.checked = true;
     }
+  } else {
+    if (!playedCheckbox.checked) {
+      completedCheckbox.checked = false;
+    }
   }
-  sendCheckboxChange(checkboxContainer, playedCheckbox, completedCheckbox);
+  sendCheckboxChange(checkboxContainer, completedCheckbox.checked, playedCheckbox.checked);
 }
 
 function addEventListenersToCheckBoxesInitializer() {
-  console.log("hi");
-
   document.querySelectorAll(".checkboxes-container").forEach((checkboxContainer) => {
     if (!checkboxContainer.dataset.hasEvent) {
       checkboxContainer.dataset.hasEvent = true;

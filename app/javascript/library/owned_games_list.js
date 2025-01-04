@@ -78,8 +78,11 @@ function initializeOwnedGameListLogic() {
 
   checkboxContainers.forEach((container) => {
     container.addEventListener("change", () => {
-      numberOfCompletedPlayedGames();
-      populateProgressBars("change");
+      setTimeout(() => {
+        numberOfCompletedPlayedGames();
+        populateProgressBars("change");
+      }, 1);
+
     })
   })
 

@@ -1,9 +1,13 @@
 //= require sortable.min
+import { selectPlaylist } from './select_playlist';
 
 new Sortable(document.querySelector(".playlist-list"), {
   animation: 150,
   ghostClass: 'blue-background-class',
-  onEnd: function() { changePlaylistOrder() },
+  onEnd: function(event) {
+    selectPlaylist(event.item);
+    changePlaylistOrder();
+  },
   scroll: true,
   scrollSensitivity: 100,
   scrollSpeed: 300,

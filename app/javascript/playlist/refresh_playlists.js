@@ -1,4 +1,7 @@
 function refreshPlaylists(playlistId) {
+
+  console.log(playlistId);
+
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   const params = new URLSearchParams({ playlist_id: playlistId }).toString();
 
