@@ -24,7 +24,7 @@ function addGameToPlaylist(event) {
   .then(response => response.json())
   .then(data => {
     if (data.ok) {
-      createCrudMesage("Game", "added to playlist", "success");
+      createCrudMessage("Game added to playlist");
       const imageUrl = game.querySelector("img").src;
       const name = game.querySelector(".add-game-text").innerText;
       const id = game.dataset.id; // Game's id in database
@@ -45,10 +45,10 @@ function addGameToPlaylist(event) {
 
       refreshStats();
     } else {
-      createCrudMesage("to playlist", "add game", "failure");
+      createCrudMessage("Failed to add game to your playlist");
     }
   })
   .catch(error => () => {
-    createCrudMesage("to playlist", "add game", "failure")
+    createCrudMessage("Failed to add game to your playlist")
   });
 }

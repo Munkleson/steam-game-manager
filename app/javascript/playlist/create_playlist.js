@@ -58,7 +58,7 @@ function loadCreatePlaylistLogic() {
         case "success":
           appendNewPlaylist(data.id, params.name);
           successfulSubmit(form, submitButton, closeButton);
-          createCrudMesage("Playlist", "created", "success");
+          createCrudMessage("Playlist created");
           break;
         case "exists":
           unsuccessfulSubmit("This playlist already exists", nameElement, submitButton, closeButton);

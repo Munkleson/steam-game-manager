@@ -28,10 +28,10 @@ function deletePlaylist(event) {
   }).then(response => response.json())
   .then(data => {
     if (data.ok) {
-      createCrudMesage("Playlist", "deleted", data.message);
+      createCrudMessage("Playlist deleted");
       playlist.remove();
     } else {
-      createCrudMesage("Playlist", "delete", "fail");
+      createCrudMessage("Failed to delete playlist");
     }
   })
   .catch(error => console.error('Error:', error));

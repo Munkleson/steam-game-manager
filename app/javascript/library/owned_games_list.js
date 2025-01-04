@@ -130,7 +130,7 @@ function initializeOwnedGameListLogic() {
   //   }).then(response => response.json())
   //   .then(data => {
   //     if (data.ok) {
-  //       // createCrudMesage("Game", "updated", "success");
+  //       // createCrudMessage("Game", "updated", "success");
   //     }
   //   })
   //   .catch(error => console.error('Error:', error));
@@ -171,7 +171,7 @@ function initializeOwnedGameListLogic() {
           numberOfCompletedPlayedGames();
           // populateProgressBars("change");
           refreshStats();
-          createCrudMesage("Game", "deleted", "success");
+          createCrudMessage("Game removed from your library");
         }
       })
       .catch(error => console.error('Error:', error));

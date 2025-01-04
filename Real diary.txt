@@ -109,6 +109,7 @@
 - Fixed an issue with the create playlist form not working due to a variable initialized without declaration
 - Moved selecting playlist invocation when dragging a playlist to the onStart function rather than onEnd in sortableJS
 
-//
 - Added fully functional stats bars to playlists
 - Refactored stats percentage and progress bar logic to be reusable regardless of page
+
+- Refatored crud message creation to adhere to SRP better

@@ -29,7 +29,7 @@ function removeGameFromPlaylist(event) {
       } else {
         insertBeforeEndOfList(removedGameOrder, removedGame, ownedGamesList);
       }
-      createCrudMesage("Game", "removed from the playlist", "success");
+      createCrudMessage("Game removed from playlist");
       removedGame.remove();
       refreshStats();
     }

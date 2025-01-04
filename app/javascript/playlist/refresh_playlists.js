@@ -24,7 +24,7 @@ function refreshPlaylists(playlistId) {
       beginGameInsert(data.owned_games, "owned", playlistContentContainers, addGamesSection);
       addEventListenersToCheckBoxesInitializer();
     } else {
-      createCrudMesage("the playlist's details from the database", "fetch", "failure");
+      createCrudMessage("Failed to fetch this playlist's details from the database");
     }
   })
   .catch(error => console.error('Error:', error));
