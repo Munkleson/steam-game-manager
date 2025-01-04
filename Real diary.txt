@@ -97,7 +97,6 @@
 - Added checkbox completion functionality to games in the playlist page
 - Did major refactoring and optimization of code for checkbox marking
 
-//
 - Fixed a minor issue of stats not being updated correctly when a checkbox was marked on the owned_games_list page
   - This was due to the code being refactored and pulled into a globally imported script rather than local to owned_games_list
   - Not complete, the fix was done by doing a setTimeout of 1 millisecond to the functions that control the stats, but is minor and will do for now. May not have a major impact at any scale of the app anyway
@@ -105,3 +104,5 @@
     - Probably has to be done by moving stats stuff to their own global script
 - Modularised selecting the playlist
 - Dragging a playlist to change the order also selects it after dropping it
+
+- Fixed a minor issue where newly added games would not have the checkbox completion functionality

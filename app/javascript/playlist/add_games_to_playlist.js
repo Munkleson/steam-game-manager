@@ -34,6 +34,12 @@ function addGameToPlaylist(event) {
       const newPlaylistGame = insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder);
       newPlaylistGame.querySelector(".completed-checkbox").checked = data.completed;
       newPlaylistGame.querySelector(".played-checkbox").checked = data.played;
+
+      const checkboxContainer = newPlaylistGame.querySelector(".checkboxes-container");
+      checkboxContainer.dataset.id = id;
+      checkboxContainer.dataset.hasEvent = true;
+      checkboxContainer.addEventListener("change", (event) => checkCheckboxes(event.target, checkboxContainer));
+
       playlistContentContainers.append(newPlaylistGame);
       game.remove(); // removes the element that was added to the playlist
     } else {
