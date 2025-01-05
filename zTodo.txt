@@ -53,6 +53,8 @@
 - Add drag and drop from add_playlist_games to the actual playlist, and be able to insert them in order
 - Look into memory leaks
 - Rewrite all rails DB searching stuff to the actual SQL queries
+- Pointer style looks very janky when moving between clickable/draggable elements quickly
+  - Figure out a better way to make it look good while indicating that something is clickable
 
 - There is a bug where the page below the header shifts up in the playlist page. Not sure what causes it, but if I can figure it out it's #1 priority
   - Leaving the page and coming back resets it of course

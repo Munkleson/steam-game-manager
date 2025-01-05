@@ -14,17 +14,15 @@ function updateStats() {
   modifyText(rates);
 }
 
-function modifyText(rates) {
-  const container = document.querySelector(checkStatsLocation());
-  container.querySelector(".completed-percentage").innerText = rates.completed;
-  container.querySelector(".played-percentage").innerText = rates.played;
-}
-
 function getRates() {
   const gamesCount = document.querySelectorAll(".game-card").length;
   const completedRate = checkedCount("completed") / gamesCount * 100;
   const playedRate = checkedCount("played") / gamesCount * 100;
   return { completed: completedRate, played: playedRate };
+}
+
+function checkedCount(progressType) {
+  return document.querySelectorAll(`.${progressType}-checkbox:checked`).length;
 }
 
 function formatRates(rates) {
@@ -39,8 +37,10 @@ function formatRates(rates) {
   })
 }
 
-function checkedCount(progressType) {
-  return document.querySelectorAll(`.${progressType}-checkbox:checked`).length;
+function modifyText(rates) {
+  const container = document.querySelector(checkStatsLocation());
+  container.querySelector(".completed-percentage").innerText = rates.completed;
+  container.querySelector(".played-percentage").innerText = rates.played;
 }
 
 function updateRateBarWidths(containers) {

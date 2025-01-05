@@ -9,12 +9,6 @@ function loadCreatePlaylistLogic() {
 
   createPlaylistButton.addEventListener("click", generateForm);
 
-  function addSelectionEventListeners() {
-    const allPlaylists = document.querySelectorAll(".playlist-items");
-    allPlaylists.forEach(playlistElement => playlistElement.addEventListener("click", selectPlaylist));
-  }
-  addSelectionEventListeners();
-
   function generateForm() {
     // disable form creation and removal if it is currently submitting and a response is not received yet
     if (!currentlySubmitting) {

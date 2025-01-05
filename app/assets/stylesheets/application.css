@@ -38,3 +38,15 @@ body {
 input:hover {
   cursor: text;
 }
+
+.game-card, .playlist-items {
+  cursor: grab !important;
+}
+
+.game-card:active, .playlist-items:active {
+  cursor: grabbing !important;
+}
+
+.completed-checkbox, .played-checkbox {
+  cursor: pointer !important;
+}
