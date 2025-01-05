@@ -18,9 +18,6 @@ function loadSearchFunctionLogic() {
     if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown") {
       searchForGamesOrDlc(event.currentTarget)
     }
-    // if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-    //   dropDownArrowMovement(event.key);
-    // }
   });
 
   input.addEventListener("keydown", (event) => { // This is needed to stop the text position moving to the beginning or end of input
@@ -77,17 +74,14 @@ function loadSearchFunctionLogic() {
     currentArrowKeyPosition = 0;
     searchDropdown.innerHTML = "";
     responseTextElement.innerText = "";
-    responseTextElement.classList.remove("success-text-opacity-filled");
-    responseTextElement.classList.remove("error-text-opacity-filled");
-    responseTextElement.classList.remove("text-success");
-    responseTextElement.classList.remove("text-danger");
+    responseTextElement.classList.remove("success-text-opacity-filled", "error-text-opacity-filled", "text-success", "text-danger");
 
     const type = document.querySelector('input[name="search-type"]:checked').value;
 
     let input = element.value;
     const params = new URLSearchParams({ input: input, type: type }).toString();
-    let searchRoute;
 
+    let searchRoute;
     if (input.length > 4) {
       searchRoute = "search";
       fetchFromDb(searchRoute, params);

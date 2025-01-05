@@ -1,9 +1,18 @@
-- Add sort_by and search_by stuff for owned_games list
+- Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
+- Figure out what's causing the add games to playlist header section so weirdly when I add the search bar
+  **** Ask teachers
+  - Currently if I set a max height, it's fine, but if I just do the same thing but with a static height, the size of the elements go everywhere
+  - When asking them, set the max-height to height instead and you'll see what I mean
 
-- Add search_by stuff for add_playlist_games list
+
+- Add sort_by for owned_games list
+  - Logic is done. Just need to first figure out what it should sort by
 
 - Add sort_by completion rate for playlists
   - And other sort_by options
+
+- Expand playlist games
+  - This will remove the "add games section" essentially until you either navigate out of the page, or to another playlist, or when you decide to click the same button to make the playlist games the original size
 
 - Expand playlist details
 - Edit playlist details
@@ -28,7 +37,7 @@
 
 - Add playlist auto completion
 
-- Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
+
 
 - Find out how to use strong params when you may need to add things to the params
   - Pretty much how do you add to params is the question
@@ -55,12 +64,18 @@
 - Rewrite all rails DB searching stuff to the actual SQL queries
 - Pointer style looks very janky when moving between clickable/draggable elements quickly
   - Figure out a better way to make it look good while indicating that something is clickable
+- Consider debouncing search functions
 
 - There is a bug where the page below the header shifts up in the playlist page. Not sure what causes it, but if I can figure it out it's #1 priority
   - Leaving the page and coming back resets it of course
 
 
 COMPLETED:
+
+1/05
+- Add search_by stuff for add_playlist_games list
+- Add search_by stuff for owned_games list
+
 
 1/04
 - Add functionality to update completed and played from the playlists page

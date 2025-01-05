@@ -24,8 +24,9 @@
 </div>
 
 <div class="main-playlist-body-container d-flex align-items-center flex-column position-relative">
-  <%# Playlists %>
   <div class="playlist-body-container row col-12">
+
+    <%# Playlists %>
     <div class="col-4 playlist-sections">
       <p class="playlist-section-headers text-center">My playlists</p>
       <ul class="playlist-content-containers playlist-list col-12 row p-0">
@@ -45,7 +46,6 @@
                 <% end %>
               </div>
             </div>
-
             <form class="delete-playlist-form d-flex justify-content-center align-items-center">
               <input type="submit" value="Delete playlist" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
             </form>
@@ -83,7 +83,14 @@
     </div>
     <%# Owned games %>
     <div class="col-4 playlist-sections d-flex flex-column align-items-center">
-      <p class="playlist-section-headers text-center">Add games to this playlist</p>
+      <div class="add-games-header playlist-section-headers d-flex align-items-center justify-content-center">
+        <p class="text-center">Add games to this playlist</p>
+        <div class="search-bar-container d-flex ms-4 justify-content-end align-items-center">
+          <input type="text" class="add-games-search-bar search-bar form-control me-2 pt-0 pb-0" placeholder="Search games" spellcheck="false">
+          <button class="add-games-clear-search-button clear-filter-button pt-0 pb-0">Clear search</button>
+        </div>
+      </div>
+
       <ul class="playlist-content-containers add-games-section row col-12 d-flex justify-content-center p-0 m-0">
         <% @owned_games.each do |game| %>
           <li class="add-game-card card col-9 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-owned-game-order="<%= game[:order] %>">

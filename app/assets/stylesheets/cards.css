@@ -9,6 +9,11 @@
   box-sizing: border-box;
 }
 
+.search-bar {
+  width: 60%;
+  box-sizing: border-box;
+}
+
 .card-img-holder {
   width: 30%;
 }

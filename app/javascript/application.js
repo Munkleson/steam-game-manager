@@ -3,4 +3,6 @@ import "@hotwired/turbo-rails"
 import "controllers"
 //= require sortable.min
 import "./onload_event_listeners";
-import "./load_sortables"
+import "./load_sortables";
+import "./sort_function";
+import "./search_games";

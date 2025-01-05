@@ -1,3 +1,4 @@
+import { deletePlaylist } from './delete_playlist';
 import { selectPlaylist } from './select_playlist';
 
 function loadCreatePlaylistLogic() {
@@ -109,7 +110,10 @@ function loadCreatePlaylistLogic() {
     playlistElement.querySelector(".playlist-name").innerText = name;
 
     const playlistDeleteForm = playlistElement.querySelector("form");
-    playlistDeleteForm.addEventListener("submit", deletePlaylist);
+    if (!playlistDeleteForm.dataset.hasEvent) {
+      playlistDeleteForm.dataset.hasEvent = true;
+      playlistDeleteForm.addEventListener("submit", deletePlaylist);
+    }
 
     playlistElement.addEventListener("click", selectPlaylist);
     // Automatically select the first playlist created for better UE
@@ -235,8 +239,12 @@ function loadCreatePlaylistLogic() {
 }
 
 // logic here checks the path so it doesn't load on another page that it shouldn't, like library
-document.addEventListener("turbo:load", () => {
-  if (window.location.pathname === '/playlists') {
-    loadCreatePlaylistLogic();
-  }
-});
+// document.addEventListener("turbo:load", () => {
+//   console.log("hi");
+
+//   if (window.location.pathname === '/playlists') {
+//     loadCreatePlaylistLogic();
+//   }
+// });
+
+export { loadCreatePlaylistLogic }

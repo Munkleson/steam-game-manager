@@ -121,3 +121,13 @@
 - Added game count to the playlist. This is updated upon adding and removing games from the playlist
 
 - Fixed missing code where if the add games section in playlist was empty, removing a game from a playlist wouldn't appear in the add games section
+
+
+ 1/05
+
+- Moved more shared code to their own modules, which included major refactoring
+- Fixed the bugs that came along with refactoring, such as scripts not loading upon page changes, or loading where they shouldn't be
+- Adding window path checks fixed some issues"
+
+- Created a search function in owned games and the playlist that displays games that match the search parameters
+- Searching is done regardless of case and special character/spaces

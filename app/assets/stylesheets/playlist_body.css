@@ -110,3 +110,24 @@
 .playlist-name-container {
   width: 40%;
 }
+
+.add-games-to-playlist-header {
+  width: 100%;
+}
+
+.add-games-to-playlist-header-title {
+  width: auto !important;
+}
+
+/* .add-games-header {
+  padding: 0.25vw;
+} */
+
+.add-games-search-bar {
+  /* height: 80%; */
+  font-size: 0.8rem;
+}
+
+.add-games-clear-search-button {
+  width: 40%;
+}

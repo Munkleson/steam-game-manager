@@ -2,7 +2,10 @@ function addEventToDeletePlaylistForms() {
   const deletePlaylistForms = document.querySelectorAll(".delete-playlist-form");
 
   deletePlaylistForms.forEach((form) => {
-    form.addEventListener("submit", deletePlaylist);
+    if (!form.dataset.hasEvent) {
+      form.dataset.hasEvent = true;
+      form.addEventListener("submit", deletePlaylist);
+    }
   });
 }
 
@@ -38,3 +41,5 @@ function deletePlaylist(event) {
 }
 
 addEventToDeletePlaylistForms();
+
+export { deletePlaylist, addEventToDeletePlaylistForms }
