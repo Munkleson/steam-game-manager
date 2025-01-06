@@ -29,18 +29,19 @@ function formatRates(rates) {
   Object.keys(rates).forEach((progressType) => {
     // isNaN is needed for when playlist is empty
     if (isNaN(rates[progressType])) {
-      rates[progressType] = "0%";
+      rates[progressType] = 0;
     } else {
-      rates[progressType] = Number.isInteger(rates[progressType]) ? `${Math.round(rates[progressType])}%` : `${parseFloat(rates[progressType].toFixed(2))}%`;
+      rates[progressType] = Number.isInteger(rates[progressType]) ? Math.round(rates[progressType]) : parseFloat(rates[progressType].toFixed(2));
     }
-
   })
 }
 
 function modifyText(rates) {
+  console.log(rates);
+
   const container = document.querySelector(checkStatsLocation());
-  container.querySelector(".completed-percentage").innerText = rates.completed;
-  container.querySelector(".played-percentage").innerText = rates.played;
+  container.querySelector(".completed-percentage").innerText = `${rates.completed}%`;
+  container.querySelector(".played-percentage").innerText = `${rates.played}%`;
 }
 
 function updateRateBarWidths(containers) {
@@ -51,7 +52,8 @@ function updateSingleContainerBars(container) {
   ["completed", "played"].forEach((progressType) => {
     const progressPercentage = container.querySelector(`.${progressType}-percentage`).innerText;
     const progressBar = container.querySelector(`.${progressType}-rate`);
-    progressBar.style.width = progressPercentage;
+    // progressBar.style.width = progressPercentage;
+    statsBarAnimateUpdate(progressBar, progressPercentage);
   })
 }
 

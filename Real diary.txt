@@ -131,3 +131,9 @@
 
 - Created a search function in owned games and the playlist that displays games that match the search parameters
 - Searching is done regardless of case and special character/spaces
+
+
+1/06
+
+- Progress bars update visuals at a static speed
+- Fixed a lot of visual and css issues in the playlists page and rearranged the headers to be in their own divs away from the playlist content

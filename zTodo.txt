@@ -1,10 +1,3 @@
-- Figure out how to have the vertical lines on the playlist page go all the way down the page rather than stopping at the border of the last element
-- Figure out what's causing the add games to playlist header section so weirdly when I add the search bar
-  **** Ask teachers
-  - Currently if I set a max height, it's fine, but if I just do the same thing but with a static height, the size of the elements go everywhere
-  - When asking them, set the max-height to height instead and you'll see what I mean
-
-
 - Add sort_by for owned_games list
   - Logic is done. Just need to first figure out what it should sort by
 
@@ -37,6 +30,9 @@
 
 - Add playlist auto completion
 
+- Move the game and dlc details (like image_url and developer) to the actual Games and DLCs table, not the owned games
+  - Will have to refactor all the backend code
+  - May be best to do this when you can expand on game details
 
 
 - Find out how to use strong params when you may need to add things to the params
@@ -71,6 +67,11 @@
 
 
 COMPLETED:
+
+1/06
+- Progress bars animate
+  - No accelration yet though
+
 
 1/05
 - Add search_by stuff for add_playlist_games list

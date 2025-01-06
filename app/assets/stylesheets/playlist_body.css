@@ -9,11 +9,17 @@
   box-shadow: 0 0 2px black;
 }
 
+.playlist-section-headers-container {
+  height: 2.5vw;
+  margin: 0;
+  margin-top: 5.7vw;
+  width: 100vw;
+}
+
 .main-playlist-body-container {
   /* overflow: hidden; */
-  margin-top: 5.7vw;
+  /* margin-top: 5.7vw; */
   margin-bottom: 0;
-  width: 100%;
   scrollbar-width: none;
   box-sizing: border-box;
   /* height: calc(100vh - 5.7vw); */
@@ -26,20 +32,21 @@
 }
 
 .playlist-content-containers {
-  max-height: calc(100vh - 7.5vw);
+  max-height: calc(100vh - 8.2vw);
   overflow-y: auto;
   scrollbar-width: none;
 }
 
 .playlist-sections {
-  border: solid 1px rgba(0, 0, 0, .125);
+  border-right: solid 1px rgba(0, 0, 0, .125);
   padding: 0;
   overflow-y: auto;
 }
 
 .playlist-section-headers {
-  border-bottom: solid 1px rgba(0, 0, 0, .125);
-  width: 100%;
+  border-right: solid 1px rgba(0, 0, 0, .125);
+  height: 100%;
+  /* width: 100%; */
   font-weight: bold;
   padding: 0.3vw;
 }
@@ -125,7 +132,7 @@
 
 .add-games-search-bar {
   /* height: 80%; */
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .add-games-clear-search-button {
