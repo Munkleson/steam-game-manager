@@ -71,6 +71,7 @@ COMPLETED:
 1/06
 - Progress bars animate
   - No accelration yet though
+- Added clear search functionality
 
 
 1/05

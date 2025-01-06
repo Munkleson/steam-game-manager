@@ -37,8 +37,6 @@ function formatRates(rates) {
 }
 
 function modifyText(rates) {
-  console.log(rates);
-
   const container = document.querySelector(checkStatsLocation());
   container.querySelector(".completed-percentage").innerText = `${rates.completed}%`;
   container.querySelector(".played-percentage").innerText = `${rates.played}%`;

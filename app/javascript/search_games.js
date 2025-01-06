@@ -1,9 +1,17 @@
 function addSearchGamesFunctionality() {
+  // if conditions are to check if it is on a page with this script's functions or not
   const searchBar = document.querySelector(".search-bar");
-  searchBar.addEventListener("keyup", (event) => startGamesSearch(searchBar, event));
+  if (searchBar) {
+    searchBar.addEventListener("keyup", (event) => startGamesSearch(searchBar, event));
+  }
+  const clearSearchButton = document.querySelector(".clear-search-button");
+  if (clearSearchButton) {
+    clearSearchButton.addEventListener("click", () => clearSearch(searchBar));
+  }
 }
 
 function startGamesSearch(searchBar, event) {
+  if (!checkValidKey(event.key)) return;
   const games = getSearchGamesCards();
   const input = regexifySearchParameters(searchBar.value.toLowerCase());
   if (input.length > 0) {
@@ -11,6 +19,10 @@ function startGamesSearch(searchBar, event) {
   } else {
     removeAllFilters(games);
   }
+}
+
+function checkValidKey(key) {
+  return key.length === 1 || key === "Backspace";
 }
 
 function filterGames(games, input) {
@@ -26,7 +38,7 @@ function filterGames(games, input) {
 }
 
 function regexifySearchParameters(input) {
-  const regex = /[^a-zA-Z0-9]/gi
+  const regex = /[^a-zA-Z0-9]/gi;
   return input.replaceAll(regex, "");
 }
 
@@ -41,6 +53,13 @@ function getSearchGamesCards() {
     case "/playlists":
       return document.querySelectorAll(".add-game-card");
   }
+}
+
+function clearSearch(searchBar) {
+  const games = getSearchGamesCards();
+  games.forEach(game => game.classList.remove("d-none"));
+  searchBar.select();
+  searchBar.value = "";
 }
 
 document.addEventListener("turbo:load", addSearchGamesFunctionality);

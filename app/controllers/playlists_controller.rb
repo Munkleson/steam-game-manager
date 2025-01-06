@@ -1,22 +1,24 @@
 class PlaylistsController < ApplicationController
+
+
   def playlists_main_page
-    user_id = 1
-    user = User.find(user_id)
+    # user_id = 1
+    # user = User.find(user_id)
 
     # Also an ERB variable, but needs to be above the one below
-    @playlists = user.playlists.order(:order)
+    @playlists = @user.playlists.order(:order)
     starting_playlist = @playlists.first
     @games_count = @playlists.map { |playlist| playlist.playlist_games.count }
-    owned_games = user.owned_games
+    owned_games = @user.owned_games
 
     if !starting_playlist.nil?
       # Both below work
       # @starting_playlist_games = starting_playlist.playlist_games.sort_by { |playlist_game| playlist_game.order }.map { |playlist_game| playlist_game.owned_game }
       @starting_playlist_games = owned_games.joins(:playlist_games).where("playlist_games.playlist_id = ?", starting_playlist.id).order('playlist_games."order" ASC')
-      @owned_games = user.owned_games.reject { |game| @starting_playlist_games.include?(game) }.sort_by { |game| game[:order] } # Games in add games to playlist list
+      @owned_games = @user.owned_games.reject { |game| @starting_playlist_games.include?(game) }.sort_by { |game| game[:order] } # Games in add games to playlist list
     else
       @starting_playlist_games = []
-      @owned_games = user.owned_games
+      @owned_games = @user.owned_games
     end
 
     @progress_type = ["completed", "played"]
@@ -26,10 +28,10 @@ class PlaylistsController < ApplicationController
   end
 
   def create_playlist
-    user_id = 1
-    user = User.find(user_id)
+    # user_id = 1
+    # user = User.find(@user_id)
 
-    playlists = user.playlists
+    playlists = @user.playlists
 
     if playlists.where("LOWER(name) = ?", params[:name].downcase).exists?
       render json: { message: "exists" }, status: :conflict
@@ -44,8 +46,8 @@ class PlaylistsController < ApplicationController
   end
 
   def add_game_to_playlist
-    user_id = 1
-    user = User.find(user_id)
+    # user_id = 1
+    # user = User.find(@user_id)
 
     owned_game_id = params[:owned_game_id]
     owned_game = user.owned_games.find(owned_game_id)
@@ -57,7 +59,7 @@ class PlaylistsController < ApplicationController
     end
     current_playlist_owned_games = playlist.owned_games
 
-    if owned_game.user_id != user_id
+    if owned_game.user_id != @user_id
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
@@ -76,10 +78,10 @@ class PlaylistsController < ApplicationController
   end
 
   def refresh_playlists
-    user_id = 1
-    user = User.find(user_id)
+    # user_id = 1
+    # @user = User.find(user_id)
     playlist = user.playlists.find(params[:playlist_id])
-    if playlist.user_id != user_id
+    if playlist.user_id != @user_id
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
@@ -89,20 +91,20 @@ class PlaylistsController < ApplicationController
     if !playlist.nil?
       # ERB variables
       @playlist_games = owned_games.joins(:playlist_games).where("playlist_games.playlist_id = ?", playlist.id).order('playlist_games."order" ASC') # Games in current playlist
-      @owned_games = user.owned_games.reject { |game| @playlist_games.include?(game) }.sort_by { |game| game[:order] } # Games in add games to playlist list
+      @owned_games = @user.owned_games.reject { |game| @playlist_games.include?(game) }.sort_by { |game| game[:order] } # Games in add games to playlist list
       render json: { playlist_games: @playlist_games, owned_games: @owned_games, ok: true }
     else
       @playlist_games = []
-      @owned_games = user.owned_games.sort_by { |game| game[:order] }
+      @owned_games = @user.owned_games.sort_by { |game| game[:order] }
       render json: { playlist_games: @playlist_games, owned_games: @owned_games, ok: true  }
     end
   end
 
   def remove_game_from_playlist
-    user_id = 1
+    # user_id = 1
     playlist = Playlist.find(params[:playlist_id])
 
-    if playlist.user_id != user_id
+    if playlist.user_id != @user_id
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
@@ -122,10 +124,10 @@ class PlaylistsController < ApplicationController
   end
 
   def delete_playlist
-    user_id = 1
+    # user_id = 1
     playlist = Playlist.find(params[:playlist_id])
 
-    if playlist.user_id != user_id
+    if playlist.user_id != @user_id
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
@@ -140,21 +142,21 @@ class PlaylistsController < ApplicationController
   end
 
   def update_playlist_order_after_deletion(user_id)
-    playlists = User.find(user_id).playlists
+    playlists = User.find(@user_id).playlists
     playlists.sort_by{ |game| game[:order] }.each_with_index do |playlist, index|
       playlist.update(order: index + 1)
     end
   end
 
   def update_playlist_order
-    user_id = 1
+    # user_id = 1
     playlists = User.find(user_id).playlists
 
     response = { success: 0, failure: 0 }
     params[:playlists].each do |item|
       playlist = playlists.find(item["playlist_id"])
       # checking user id of the playlist is here for edge cases where a user inserted a playlist that wasn't theirs by modifying data attributes
-      if playlist.user_id == user_id && playlist.update({ order: item["order"] })
+      if playlist.user_id == @user_id && playlist.update({ order: item["order"] })
         response[:success] += 1
       else
         response[:failure] += 1
@@ -164,14 +166,14 @@ class PlaylistsController < ApplicationController
   end
 
   def update_playlist_games_order
-    user_id = 1
+    # user_id = 1
     playlist = Playlist.find(params[:playlist_id])
     playlist_games = playlist.playlist_games
 
     response = { success: 0, failure: 0 }
     params[:playlist_games].each do |item|
       playlist_game = playlist_games.find_by(owned_game_id: item["playlist_game_id"])
-      if playlist_game.owned_game.user_id == user_id && playlist_game.update({ order: item["order"] })
+      if playlist_game.owned_game.user_id == @user_id && playlist_game.update({ order: item["order"] })
         response[:success] += 1
       else
         response[:failure] += 1

@@ -137,3 +137,5 @@
 
 - Progress bars update visuals at a static speed
 - Fixed a lot of visual and css issues in the playlists page and rearranged the headers to be in their own divs away from the playlist content
+
+- Refined the logic for searching within your library better for key presses like arrow keys, which shouldn't trigger a filter again (which was more an issue after clearing the search via the button)
