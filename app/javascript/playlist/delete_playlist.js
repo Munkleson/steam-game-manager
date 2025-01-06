@@ -1,3 +1,5 @@
+import { selectPlaylistAfterDeletion } from "./select_playlist";
+
 function addEventToDeletePlaylistForms() {
   const deletePlaylistForms = document.querySelectorAll(".delete-playlist-form");
 
@@ -33,6 +35,7 @@ function deletePlaylist(event) {
     if (data.ok) {
       createCrudMessage("Playlist deleted");
       playlist.remove();
+      selectPlaylistAfterDeletion();
     } else {
       createCrudMessage("Failed to delete playlist");
     }

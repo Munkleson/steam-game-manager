@@ -1,9 +1,10 @@
 function refreshStats() {
   // this is here to check if the page navigated to does not have stats
-  if (!checkStatsLocation()) {
-    return;
-  }
+  if (!checkStatsLocation()) return;
+
   const statsContainers = document.querySelectorAll(".stats-bar");
+  // checks if there are no playlists in the first place
+  if (statsContainers.length === 0) return;
   updateStats();
   updateRateBarWidths(statsContainers);
 }

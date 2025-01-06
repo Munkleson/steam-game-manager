@@ -25,7 +25,7 @@ class OwnedGamesController < ApplicationController
 
   def owned_games_list
     # here only for testing purposes
-    user_id = 1
+    user_id = 2
     user = User.find_by("id = ?", user_id)
     user_owned_games = user.owned_games
     @owned_games
@@ -66,7 +66,7 @@ class OwnedGamesController < ApplicationController
 
   def create_game
     # here only for testing purposes
-    user_id = 1
+    user_id = 2
 
     user = User.find(user_id)
     user_owned_games = user.owned_games
@@ -123,7 +123,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def update
-    user_id = 1
+    user_id = 2
     game = OwnedGame.find(params[:id])
     if game.user_id == user_id && game.update(owned_game_params)
       render json: { message: 'Update successful' }, status: :ok
@@ -133,7 +133,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def update_order
-    user_id = 1
+    user_id = 2
     games = params[:games]
     errors = []
     games.each do |item|
@@ -152,7 +152,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def delete
-    user_id = 1
+    user_id = 2
     game = OwnedGame.find(params[:id])
     puts game.user_id == user_id
     if game.user_id == user_id

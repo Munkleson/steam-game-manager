@@ -1,6 +1,6 @@
 import { refreshPlaylists } from "./refresh_playlists";
 
-export function selectPlaylist(item) {
+function selectPlaylist(item) {
   // Don't want the change playlist to trigger on form deletion press
   const clickedElement = checkEventOrTarget(item);
   if (clickedElement.tagName !== "FORM" && clickedElement.tagName !== "INPUT") {
@@ -27,3 +27,11 @@ function checkIfCurrentlySelectedExists() {
     currentSelected.classList.remove("selected-playlist");
   }
 }
+
+function selectPlaylistAfterDeletion() {
+  const container = document.querySelector(".playlist-list");
+  const firstPlaylist = container.querySelector("li");
+  firstPlaylist ? selectPlaylist(firstPlaylist) : refreshPlaylists("");
+}
+
+export { selectPlaylist, selectPlaylistAfterDeletion }

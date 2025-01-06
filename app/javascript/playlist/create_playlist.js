@@ -117,9 +117,10 @@ function loadCreatePlaylistLogic() {
 
     playlistElement.addEventListener("click", selectPlaylist);
     // Automatically select the first playlist created for better UE
-    if (document.querySelectorAll(".playlist-items").length === 1) {
-      playlistElement.classList.add("selected-playlist");
-    }
+    // if (document.querySelectorAll(".playlist-items").length === 1) {
+    //   playlistElement.classList.add("selected-playlist");
+    // }
+    selectPlaylist(playlistElement);
   }
 
   function removeResponseTexts() {
