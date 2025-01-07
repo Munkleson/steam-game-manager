@@ -142,3 +142,11 @@
 
 - Fixed bugs where if you have a one playlist and you deleted it, any games in there would still appear in the playlist games section. Now correctly refreshes the content if you have no more playlists
 - Deleting a playlist also now selects the first playlist
+
+
+1/07
+
+- Did major refactoring to the owned_games_list
+- The methods and actions in the owned games controller are now a lot more modularized and the naming aligns with Rails conventions more compared to before
+- Some of the database was updated as well. Owned games no longer have any game-specific data linked to it, and instead things like image_url and developer will be solely held in the Game and Dlc models from now on
+- As a result of the refactoring, playlist functionality has broken for now

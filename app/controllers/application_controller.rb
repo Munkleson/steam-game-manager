@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_user_id
-    @user_id = 2
+    @user_id = 1
     @user = User.find(@user_id)
   end
 end

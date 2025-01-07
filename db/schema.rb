@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_02_103519) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_07_160932) do
   create_table "dlcs", force: :cascade do |t|
     t.integer "appid"
     t.string "name"
@@ -34,12 +34,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_02_103519) do
   end
 
   create_table "owned_games", force: :cascade do |t|
-    t.string "name"
-    t.string "developer"
-    t.integer "appid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "image_url"
     t.boolean "completed", default: false
     t.boolean "played", default: false
     t.integer "order", default: 0, null: false

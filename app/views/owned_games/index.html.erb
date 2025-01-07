@@ -1,33 +1,76 @@
-<%= javascript_include_tag 'search/search_function', 'data-turbo-track': 'reload', defer: true %>
-<%= stylesheet_link_tag "search_bar", "data-turbo-track": "reload" %>
+<%= javascript_include_tag 'owned_games/owned_games_list', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'owned_games/owned_games_filter_logic', 'data-turbo-track': 'reload', defer: true %>
+<%= stylesheet_link_tag "cards", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "games_list_header", "data-turbo-track": "reload" %>
 
-<%= link_to "Go to your games", owned_games_list_path, class: "go-to-games-link btn btn-primary position-absolute" %>
-
-<div class="search-page-container d-flex align-items-center flex-column">
-  <h1>Steam Games Manager</h1>
-  <h5>Manage and track your Steam games, and set solid goals for games to play that you have never touched!</h3>
-
-  <div class="search-container d-flex justify-content-center">
-    <form action="/add" method="POST" id="search-form">
-      <div id="search-div">
-        <div class="radio-button-container d-flex justify-content-center">
-          <label for="radio-games" class="search-radio-labels">
-            <input type="radio" id="radio-games" name="search-type" value="game" checked="checked" class="search-radios">
-            Games
-          </label>
-          <label for="radio-dlcs" class="search-radio-labels">
-            <input type="radio" id="radio-dlcs" name="search-type" value="dlc" class="search-radios">
-            DLCs
-          </label>
-        </div>
-        <div class="search-input-submit-container d-flex">
-          <input type="text" id="search-input" name="name" placeholder="Search for a game on Steam to add to your library" spellcheck="false" class="form-control me-2">
-          <input type="submit" class="submit-button btn btn-primary">
-        </div>
-        <p class="response-text response-text-opacity-zero"></p>
-        <div id="search-dropdown" class="mt-1"></div>
+<div class="games-list-header">
+  <div class="header-relative-container position-relative">
+    <div class="d-flex flex-column align-items-center">
+      <div class="col-3 mt-3 d-flex justify-content-center">
+        <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-5" %>
+        <%= link_to "Go to your playlists", playlists_path, class: "btn btn-primary col-5 ms-2" %>
       </div>
-      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    </form>
+      <div class="modify-display-container d-flex justify-content-between mt-3">
+        <%# Filter %>
+        <p class="filter-by-text m-0 me-2">Filtering by:</p>
+        <div class="filter-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between me-2">
+          <p class="m-0"><i class="filter-label-text">Select your filter</i></p>
+          <p class="caret m-0"></p>
+          <ul class="filter-dropdown-options position-absolute top-100 start-0 mt-2 ps-0 card d-none">
+            <% @filters.each do |filter| %>
+              <li class="dropdown-options d-flex align-items-center">
+                <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2"><%= filter %></p>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <button class="clear-filter-button pt-0 pb-0">Clear filter</button>
+        <%# Search bar %>
+        <div class="search-bar-container d-flex ms-4 justify-content-end">
+          <input type="text" class="search-bar form-control me-2 pt-0 pb-0" placeholder="Search games" spellcheck="false">
+          <button class="clear-search-button clear-filter-button pt-0 pb-0">Clear search</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="stats-bar library-stats-bar position-absolute top-0 d-flex flex-column justify-content-center align-items-end">
+      <% @stats.each do |stat| %>
+        <div class="stats-text-container d-flex flex-row justify-content-between">
+          <p>Games <%= stat %>:</p>
+          <p><strong class="<%= stat %>-percentage"><%= @owned_games_rates[stat.to_sym] %>%</strong></p>
+        </div>
+        <div class="rate-bar position-relative">
+          <div class="<%= stat %>-rate position-absolute"></div>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 </div>
+
+<ul class="library-container main-body-container list-unstyled d-flex justify-content-center row-12 flex-wrap">
+  <% @owned_games.each do |game| %>
+    <li class="game-card card col-md-4 col-10 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-order="<%= game[:order] %>">
+      <img src=<%= game.game ? game.game.image_url : game.dlc.image_url %> class="card-img img-fluid card-img-width" alt="...">
+      <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
+        <h6 class="card-info-item card-title m-0 p-0"><%= game.game ? game.game.name : game.dlc.name %></h6>
+
+        <div class="checkboxes-container d-flex justify-content-between mt-2" data-id="<%= game[:id] %>">
+          <div class="d-flex align-items-center card-info-item" >
+            <label for="completed<%= game[:id] %>" class="m-0 completed-text">Completed?</label>
+            <%= check_box_tag "completed#{game[:id]}", "t", game[:completed], class: "completed-checkbox ms-2", data: { id: game[:id] } %>
+          </div>
+          <div class="d-flex align-items-center card-info-item ">
+            <label for="played<%= game[:id] %>" class="m-0 played-text">Have you even touched it?</label>
+            <%= check_box_tag "played#{game[:id]}", "t", game[:played], class: "played-checkbox ms-2", data: { id: game[:id] } %>
+          </div>
+        </div>
+
+      </div>
+      <form action="/delete" class="delete-game-form d-flex justify-content-center align-items-center" data-id="<%= game[:id] %>">
+        <input type="submit" value="Remove" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
+        <%= hidden_field_tag :id, game.id %>
+      </form>
+    </li>
+  <% end %>
+</ul>

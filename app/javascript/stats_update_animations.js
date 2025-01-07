@@ -27,9 +27,20 @@ function updateWidth(progressBar, percentageNumber, duration, easingRate, interv
     currentValue += incrementalvalue;
     if ((currentValue >= percentageNumber && isIncreasing) || (currentValue <= percentageNumber && !isIncreasing)) {
       clearInterval(animation);
+      currentValue = formatWidthForEdgeCases(currentValue);
     }
     progressBar.style.width = `${currentValue}%`;
   }, interval);
+}
+
+function formatWidthForEdgeCases(currentValue) {
+  if (currentValue < 0) {
+    return 0;
+  } else if (currentValue > 100) {
+    return 100;
+  } else {
+    return currentValue;
+  }
 }
 
 function convertToNumber(string) {

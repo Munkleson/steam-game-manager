@@ -79,20 +79,31 @@ function loadSearchFunctionLogic() {
     const type = document.querySelector('input[name="search-type"]:checked').value;
 
     let input = element.value;
-    const params = new URLSearchParams({ input: input, type: type }).toString();
-
-    let searchRoute;
+    let searchType;
     if (input.length > 4) {
-      searchRoute = "search";
-      fetchFromDb(searchRoute, params);
+      searchType = "normal";
     } else if (input.length > 3) {
-       searchRoute = "short_search"
-      fetchFromDb(searchRoute, params);
+      searchType = "short";
+    }
+    const params = new URLSearchParams({ input: input, type: type, search_type: searchType }).toString();
+    if (input.length > 3) {
+      fetchFromDb(params)
     }
   }
 
-  function fetchFromDb(searchRoute, params) {
-    fetch(`/${searchRoute}?${params}`, {
+  //   let searchRoute;
+  //   if (input.length > 4) {
+  //     searchRoute = "search";
+  //     fetchFromDb(searchRoute, params);
+  //   } else if (input.length > 3) {
+  //      searchRoute = "short_search"
+  //     fetchFromDb(searchRoute, params);
+  //   }
+  // }
+  function fetchFromDb(params) {
+  // function fetchFromDb(searchRoute, params) {
+    // fetch(`/${searchRoute}?${params}`, {
+    fetch(`/search?${params}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -156,7 +167,7 @@ function loadSearchFunctionLogic() {
       return;
     }
 
-    const params = { appid: game.appid.toString() };
+    const params = { appid: game.appid.toString(), type: type };
 
     fetch(`/add`, {
       method: 'POST',
@@ -169,7 +180,7 @@ function loadSearchFunctionLogic() {
     .then(response => response.json())
     .then(data => {
       creationResponseDisplay(data, type);
-      input.value = data.name;
+      // input.value = data.name;
       submitButton.disabled = false;
       input.select();
     })
@@ -186,7 +197,7 @@ function loadSearchFunctionLogic() {
     responseTextElement.classList.remove("text-success");
     responseTextElement.classList.remove("text-danger");
     let responseText;
-    if (response.appid) {
+    if (response.ok) {
       responseText = `${type} successfully added to your library`;
       responseTextElement.classList.add("text-success"); // Bootstrap class
       setTimeout(() => {

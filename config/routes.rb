@@ -11,18 +11,18 @@ Rails.application.routes.draw do
 
   #owned games
 
-  get "/games", to: "owned_games#owned_games_list", as: :owned_games_list
-  get "/add", to: "owned_games#index", as: :add_games
+  get "/games", to: "owned_games#index", as: :owned_games_list
+  get "/add", to: "owned_games#new", as: :add_games
 
   get "/search", to: "owned_games#search"
   get "/short_search", to: "owned_games#short_search"
 
-  post "/add", to: "owned_games#create_game"
+  post "/add", to: "owned_games#create"
 
   patch "/update", to: "owned_games#update"
   patch "/update_order", to: "owned_games#update_order"
 
-  delete "/delete", to: "owned_games#delete"
+  delete "/destroy", to: "owned_games#destroy"
 
   # playlists
 

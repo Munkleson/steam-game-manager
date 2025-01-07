@@ -34,13 +34,21 @@ function deletePlaylist(event) {
   .then(data => {
     if (data.ok) {
       createCrudMessage("Playlist deleted");
-      playlist.remove();
-      selectPlaylistAfterDeletion();
+      deletePlaylistDomFunctions(playlist);
+
     } else {
       createCrudMessage("Failed to delete playlist");
     }
   })
   .catch(error => console.error('Error:', error));
+}
+
+function deletePlaylistDomFunctions(playlist) {
+  // If you have another playlist selected, deleting a playlist will not take you away from it. Edge case
+  if (playlist.classList.contains("selected-playlist")) {
+    selectPlaylistAfterDeletion();
+  }
+  playlist.remove();
 }
 
 addEventToDeletePlaylistForms();

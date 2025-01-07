@@ -1,10 +1,5 @@
 class PlaylistsController < ApplicationController
-
-
   def playlists_main_page
-    # user_id = 2
-    # user = User.find(user_id)
-
     # Also an ERB variable, but needs to be above the one below
     @playlists = @user.playlists.order(:order)
     starting_playlist = @playlists.first
@@ -23,14 +18,9 @@ class PlaylistsController < ApplicationController
 
     @progress_type = ["completed", "played"]
     @playlists_stats = playlist_rates(@playlists)
-    # @count = { all: user_owned_games.count, completed: completed_count, played: played_count }
-    puts @playlists_stats
   end
 
   def create_playlist
-    # user_id = 2
-    # user = User.find(@user_id)
-
     playlists = @user.playlists
 
     if playlists.where("LOWER(name) = ?", params[:name].downcase).exists?
@@ -46,9 +36,6 @@ class PlaylistsController < ApplicationController
   end
 
   def add_game_to_playlist
-    # user_id = 2
-    # user = User.find(@user_id)
-
     owned_game_id = params[:owned_game_id]
     owned_game = @user.owned_games.find(owned_game_id)
     begin
@@ -78,9 +65,6 @@ class PlaylistsController < ApplicationController
   end
 
   def refresh_playlists
-    # user_id = 2
-    # @user = User.find(user_id)
-
     unless @user.playlists.find_by(id: params[:playlist_id])
       render_empty_playlist
       return
@@ -111,7 +95,6 @@ class PlaylistsController < ApplicationController
   end
 
   def remove_game_from_playlist
-    # user_id = 2
     playlist = Playlist.find(params[:playlist_id])
 
     if playlist.user_id != @user_id
@@ -134,7 +117,6 @@ class PlaylistsController < ApplicationController
   end
 
   def delete_playlist
-    # user_id = 2
     playlist = Playlist.find(params[:playlist_id])
 
     if playlist.user_id != @user_id
@@ -159,7 +141,6 @@ class PlaylistsController < ApplicationController
   end
 
   def update_playlist_order
-    # user_id = 2
     playlists = User.find(user_id).playlists
 
     response = { success: 0, failure: 0 }
@@ -176,7 +157,6 @@ class PlaylistsController < ApplicationController
   end
 
   def update_playlist_games_order
-    # user_id = 2
     playlist = Playlist.find(params[:playlist_id])
     playlist_games = playlist.playlist_games
 
