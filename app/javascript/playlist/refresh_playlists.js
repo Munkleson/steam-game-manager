@@ -5,7 +5,7 @@ function refreshPlaylists(playlistId) {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   const params = new URLSearchParams({ playlist_id: playlistId }).toString();
 
-  fetch(`/refresh_playlists?${params}`, {
+  fetch(`/playlists/refresh_playlists?${params}`, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',

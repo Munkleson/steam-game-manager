@@ -9,38 +9,48 @@ Rails.application.routes.draw do
   # root "posts#index"
   # get "/", to: "owned_games#index"
 
-  #owned games
+  ##### owned games
+
+  resources :owned_games, only: [:create, :update, :destroy] do
+    collection do
+      get "search"
+      patch "update_order"
+    end
+  end
 
   get "/games", to: "owned_games#index", as: :owned_games_list
   get "/add", to: "owned_games#new", as: :add_games
+  # get "/owned_games/search", to: "owned_games#search"
+  # post "/owned_games", to: "owned_games#create"
+  # patch "/owned_games", to: "owned_games#update"
+  # patch "/owned_games/update_order", to: "owned_games#update_order"
+  # delete "/owned_games", to: "owned_games#destroy"
 
-  get "/search", to: "owned_games#search"
-  get "/short_search", to: "owned_games#short_search"
+  ##### playlists
 
-  post "/owned_games", to: "owned_games#create"
+  resources :playlists, only: [:create, :destroy] do
+    collection do
+      get "refresh_playlists"
+      patch "update_order"
+    end
+  end
 
-  patch "/owned_games", to: "owned_games#update"
-  patch "/owned_games_order", to: "owned_games#update_order"
+  get "/playlists", to: "playlists#playlists_main_page", as: :playlists_main_page
+  # get "/playlists/refresh_playlists", to: "playlists#refresh_playlists"
+  # post "/playlists", to: "playlists#create"
+  # patch "/playlists/update_order", to: "playlists#update_order"
+  # delete "/playlists", to: "playlists#destroy"
 
-  delete "/owned_games", to: "owned_games#destroy"
+  ##### playlist games
 
-  # playlists
+  resources :playlist_games, only: [:create, :destroy] do
+    collection do
+      patch "update_order"
+    end
+  end
 
-  get "/playlists", to: "playlists#playlists_main_page", as: :playlists
-  get "/refresh_playlists", to: "playlists#refresh_playlists"
-
-  post "/playlists", to: "playlists#create"
-
-  patch "/playlists_order", to: "playlists#update_order"
-
-  delete "/playlists", to: "playlists#destroy"
-
-  # playlist games
-
-  post "/playlist_games", to: "playlist_games#create"
-
-  patch "/playlist_games_order", to: "playlist_games#update_order"
-
-  delete "/playlist_games", to: "playlist_games#destroy"
+  # post "/playlist_games", to: "playlist_games#create"
+  # patch "/playlist_games/update_order", to: "playlist_games#update_order"
+  # delete "/playlist_games", to: "playlist_games#destroy"
 
 end

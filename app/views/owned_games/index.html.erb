@@ -1,5 +1,6 @@
 <%= javascript_include_tag 'owned_games/owned_games_list', 'data-turbo-track': 'reload', defer: true %>
 <%= javascript_include_tag 'owned_games/owned_games_filter_logic', 'data-turbo-track': 'reload', defer: true %>
+<%= javascript_include_tag 'owned_games/delete_owned_games', 'data-turbo-track': 'reload', defer: true %>
 <%= stylesheet_link_tag "cards", "data-turbo-track": "reload" %>
 <%= stylesheet_link_tag "games_list_header", "data-turbo-track": "reload" %>
 
@@ -8,7 +9,7 @@
     <div class="d-flex flex-column align-items-center">
       <div class="col-3 mt-3 d-flex justify-content-center">
         <%= link_to "Add a game", add_games_path, class: "btn btn-primary col-5" %>
-        <%= link_to "Go to your playlists", playlists_path, class: "btn btn-primary col-5 ms-2" %>
+        <%= link_to "Go to your playlists", playlists_main_page_path, class: "btn btn-primary col-5 ms-2" %>
       </div>
       <div class="modify-display-container d-flex justify-content-between mt-3">
         <%# Filter %>

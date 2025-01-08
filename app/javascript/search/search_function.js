@@ -109,7 +109,7 @@ function loadSearchFunctionLogic() {
   function fetchFromDb(params) {
   // function fetchFromDb(searchRoute, params) {
     // fetch(`/${searchRoute}?${params}`, {
-    fetch(`/search?${params}`, {
+    fetch(`/owned_games/search?${params}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

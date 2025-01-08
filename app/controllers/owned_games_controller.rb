@@ -95,7 +95,7 @@ class OwnedGamesController < ApplicationController
 
   def destroy
     game = @user.owned_games.find(params[:id])
-    if game.user_id == @user_id && game.destroy
+    if game.user == @user && game.destroy
       render json: { message: "success" }, status: :no_content
     else
       render json: { error: "failure" }, status: :unprocessable_entity

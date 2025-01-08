@@ -29,10 +29,8 @@ function loadPlaylistSortable() {
   new Sortable(document.querySelector(".playlist-list"), {
     animation: 150,
     ghostClass: 'blue-background-class',
-    onStart: function(event) {
+    onEnd: function(event) {
       selectPlaylist(event.item);
-    },
-    onEnd: function() {
       changePlaylistOrder();
     },
     scroll: true,

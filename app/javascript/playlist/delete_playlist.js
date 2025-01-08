@@ -21,15 +21,13 @@ function deletePlaylist(event) {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   const playlist = event.target.closest(".playlist-items");
   const id = playlist.dataset.playlistId;
-  const params = { playlist_id: id};
 
-  fetch('/playlists', {
+  fetch(`/playlists/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-Token': csrfToken,
     },
-    body: JSON.stringify(params)
   }).then(response => response.json())
   .then(data => {
     if (data.ok) {

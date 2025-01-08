@@ -1,4 +1,5 @@
 - Refactor views and css
+- Refactor all JS
 
 - Add sort_by for owned_games list
   - Logic is done. Just need to first figure out what it should sort by
