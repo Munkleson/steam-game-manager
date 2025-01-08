@@ -29,12 +29,18 @@ Rails.application.routes.draw do
   get "/playlists", to: "playlists#playlists_main_page", as: :playlists
   get "/refresh_playlists", to: "playlists#refresh_playlists"
 
-  post "/create_playlist", to: "playlists#create_playlist"
-  post "/add_game_to_playlist", to: "playlists#add_game_to_playlist"
+  post "/create_playlist", to: "playlists#create"
 
-  patch "/update_playlist_order", to: "playlists#update_playlist_order"
-  patch "/update_playlist_games_order", to: "playlists#update_playlist_games_order"
+  patch "/update_playlist_order", to: "playlists#update_order"
 
-  delete "/remove_game_from_playlist", to: "playlists#remove_game_from_playlist"
-  delete "/delete_playlist", to: "playlists#delete_playlist"
+  delete "/delete_playlist", to: "playlists#destroy"
+
+  # playlist games
+
+  post "/add_game_to_playlist", to: "playlist_games#create"
+
+  patch "/update_playlist_games_order", to: "playlist_games#update_order"
+
+  delete "/remove_game_from_playlist", to: "playlist_games#destroy"
+
 end

@@ -1,6 +1,4 @@
-- Add comments to the owned_games controller
-- Refactor the playlist controller and views
-
+- Refactor views and css
 
 - Add sort_by for owned_games list
   - Logic is done. Just need to first figure out what it should sort by

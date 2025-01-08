@@ -15,24 +15,28 @@ function loadSearchFunctionLogic() {
 
   const searchRadios = document.querySelectorAll(".search-radios");
 
+  const searchIneligibleKeys = ["Enter", "ArrowUp", "ArrowDown", "Tab", "Shift"];
+  const movementKeys = ["ArrowUp", "ArrowDown", "Tab", "Shift"];
+
   input.addEventListener("keyup", (event) => {
-    if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown" && event.key !== "Tab") {
+    // if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown" && event.key !== "Tab") {
+    if (!searchIneligibleKeys.includes(event.key)) {
       searchForGamesOrDlc(event.currentTarget)
     }
   });
 
   input.addEventListener("keydown", (event) => { // This is needed to stop the text position moving to the beginning or end of input
-    if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "Tab") {
+    if (movementKeys.includes(event.key)) {
       event.preventDefault();
-      dropDownArrowMovement(event.key);
+      dropDownArrowMovement(event.key, event.shiftKey);
     }
   });
 
-  function dropDownArrowMovement(key) {
+  function dropDownArrowMovement(key, shiftKey) {
     let previousSelected;
     let currentSelected;
     if (gameList) {
-      if (key === "ArrowDown" || key === "Tab") {
+      if (key === "ArrowDown" || (key === "Tab" && !shiftKey)) {
         if (currentArrowKeyPosition === gameList.length) {
           currentArrowKeyPosition = 1;
         } else {
@@ -46,7 +50,7 @@ function loadSearchFunctionLogic() {
         }
         currentSelected = document.querySelector(`[data-position="${currentArrowKeyPosition}"]`);
       }
-      if (key === "ArrowUp") {
+      if (key === "ArrowUp" || (key === "Tab" && shiftKey)) {
         if (currentArrowKeyPosition === 0 || currentArrowKeyPosition === 1) {
           currentArrowKeyPosition = gameList.length;
         } else {

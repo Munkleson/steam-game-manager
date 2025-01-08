@@ -57,7 +57,7 @@ class OwnedGamesController < ApplicationController
       order: owned_games.count + 1,
     }
     # Checking if it will enter a Game or DLC id into the new owned game and adds it to the new owned game details
-    type_check(new_owned_game_details, type, appid)
+    insert_game_or_dlc_id(new_owned_game_details, type, appid)
     new_owned_game = @user.owned_games.new(new_owned_game_details)
     if new_owned_game.save
       render json: { ok: true }, status: :created
@@ -119,7 +119,7 @@ class OwnedGamesController < ApplicationController
     return { developer:, image_url: }
   end
 
-  def type_check(game_details, type, appid)
+  def insert_game_or_dlc_id(game_details, type, appid)
     if type == "game"
       game_details[:game_id] = Game.find_by(appid: appid).id
     else

@@ -156,3 +156,9 @@
 
 - Playlist functionality is working again without noticable bugs, but refactoring has not been done
 - A lot of logic needed to be changed to accommodate for game details no longer being in owned_games. Had to link the game or dlc to the owned games themselves
+
+//
+- Added shift-tab for moving through the search dropdown list (moves up)
+- Created playlist games controller and moved a lot of the logic from playlist controller to there that relates to the games
+- Naming now aligns more with rails conventions
+- Did some refactoring (mostly useless lines) in the playlist and playlist games controllers, but not a significant amount. More optimized still
