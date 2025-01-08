@@ -2,7 +2,7 @@ const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
 function changePlaylistOrder() {
   const params = createPlaylistOrderParams();
-  sendOrderUpdateRequest("update_playlist_order", params)
+  sendOrderUpdateRequest("playlists_order", params)
 }
 
 function createPlaylistOrderParams() {
@@ -16,7 +16,7 @@ function createPlaylistOrderParams() {
 
 function changePlaylistGamesOrder() {
   const params = createPlaylistGamesOrderParams();
-  sendOrderUpdateRequest("update_playlist_games_order", params)
+  sendOrderUpdateRequest("playlist_games_order", params)
 }
 
 function createPlaylistGamesOrderParams() {
@@ -31,7 +31,7 @@ function createPlaylistGamesOrderParams() {
 
 function changeOwnedGameOrder() {
   const params = createOwnedGameOrderParams();
-  sendOrderUpdateRequest("update_order", params)
+  sendOrderUpdateRequest("owned_games_order", params)
 }
 
 function createOwnedGameOrderParams() {

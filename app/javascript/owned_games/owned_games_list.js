@@ -20,7 +20,7 @@ function initializeOwnedGameListLogic() {
       const id = event.target.dataset.id;
       const params = { id: id };
 
-      fetch('/destroy', {
+      fetch('/owned_games', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

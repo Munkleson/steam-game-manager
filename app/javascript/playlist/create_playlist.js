@@ -39,7 +39,7 @@ function loadCreatePlaylistLogic() {
     params.name = nameElement.value;
 
     removeResponseTexts();
-    fetch('/create_playlist', {
+    fetch('/playlists', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

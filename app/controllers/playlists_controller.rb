@@ -57,7 +57,7 @@ class PlaylistsController < ApplicationController
   end
 
   def destroy
-    playlist = Playlist.find(params[:playlist_id])
+    playlist = @user.playlists.find(params[:playlist_id])
     if playlist.user != @user
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return

@@ -67,7 +67,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def update
-    game = OwnedGame.find(params[:id])
+    game = @user.owned_games.find(params[:id])
     if game.user_id == @user_id && game.update(owned_game_params)
       render json: { message: 'Update successful' }, status: :ok
     else
@@ -79,7 +79,7 @@ class OwnedGamesController < ApplicationController
     games = params[:games]
     errors = []
     games.each do |item|
-      game = OwnedGame.find(item["id"])
+      game = @user.owned_games.find(item["id"])
       if game.user_id == @user_id && game.update({ order: item["order"] })
         next
       else
@@ -94,7 +94,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def destroy
-    game = OwnedGame.find(params[:id])
+    game = @user.owned_games.find(params[:id])
     if game.user_id == @user_id && game.destroy
       render json: { message: "success" }, status: :no_content
     else

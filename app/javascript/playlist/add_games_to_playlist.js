@@ -19,7 +19,7 @@ function addGameToPlaylist(event) {
 
   const playlistId = document.querySelector(".selected-playlist").dataset.playlistId;
 
-  fetch("/add_game_to_playlist", {
+  fetch("/playlist_games", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

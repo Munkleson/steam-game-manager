@@ -13,7 +13,7 @@ function checkCheckboxes(target, checkboxContainer) {
 function sendCheckboxChange(checkboxContainer, completed, played) {
   const id = checkboxContainer.dataset.id;
   const params = { id: id, completed: completed, played: played };
-  fetch('/update', {
+  fetch('/owned_games', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ class PlaylistGamesController < ApplicationController
       render json: { error: "!playlist", message: "what?" }, status: :not_found
       return
     end
-    
+
     playlist_games = playlist.owned_games
 
     if owned_game.user_id != @user_id
@@ -32,7 +32,7 @@ class PlaylistGamesController < ApplicationController
   end
 
   def destroy
-    playlist = Playlist.find(params[:playlist_id])
+    playlist = @user.playlists.find(params[:playlist_id])
 
     if playlist.user_id != @user_id
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
@@ -51,7 +51,7 @@ class PlaylistGamesController < ApplicationController
 
 
   def update_order
-    playlist_games = Playlist.find(params[:playlist_id]).playlist_games
+    playlist_games = @user.playlists.find(params[:playlist_id]).playlist_games
     response = { success: 0, failure: 0 }
     params[:playlist_games].each do |item|
       playlist_game = playlist_games.find_by(owned_game_id: item["playlist_game_id"])

@@ -23,7 +23,7 @@ function deletePlaylist(event) {
   const id = playlist.dataset.playlistId;
   const params = { playlist_id: id};
 
-  fetch('/delete_playlist', {
+  fetch('/playlists', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

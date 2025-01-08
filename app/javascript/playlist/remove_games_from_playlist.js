@@ -9,7 +9,7 @@ function removeGameFromPlaylist(event) {
   const id = event.target.dataset.id;
   const params = { id: id, playlist_id: selectedPlaylist };
 
-  fetch('/remove_game_from_playlist', {
+  fetch('/playlist_games', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

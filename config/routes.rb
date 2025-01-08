@@ -17,30 +17,30 @@ Rails.application.routes.draw do
   get "/search", to: "owned_games#search"
   get "/short_search", to: "owned_games#short_search"
 
-  post "/add", to: "owned_games#create"
+  post "/owned_games", to: "owned_games#create"
 
-  patch "/update", to: "owned_games#update"
-  patch "/update_order", to: "owned_games#update_order"
+  patch "/owned_games", to: "owned_games#update"
+  patch "/owned_games_order", to: "owned_games#update_order"
 
-  delete "/destroy", to: "owned_games#destroy"
+  delete "/owned_games", to: "owned_games#destroy"
 
   # playlists
 
   get "/playlists", to: "playlists#playlists_main_page", as: :playlists
   get "/refresh_playlists", to: "playlists#refresh_playlists"
 
-  post "/create_playlist", to: "playlists#create"
+  post "/playlists", to: "playlists#create"
 
-  patch "/update_playlist_order", to: "playlists#update_order"
+  patch "/playlists_order", to: "playlists#update_order"
 
-  delete "/delete_playlist", to: "playlists#destroy"
+  delete "/playlists", to: "playlists#destroy"
 
   # playlist games
 
-  post "/add_game_to_playlist", to: "playlist_games#create"
+  post "/playlist_games", to: "playlist_games#create"
 
-  patch "/update_playlist_games_order", to: "playlist_games#update_order"
+  patch "/playlist_games_order", to: "playlist_games#update_order"
 
-  delete "/remove_game_from_playlist", to: "playlist_games#destroy"
+  delete "/playlist_games", to: "playlist_games#destroy"
 
 end

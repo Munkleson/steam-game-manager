@@ -175,7 +175,7 @@ function loadSearchFunctionLogic() {
 
     const params = { appid: game.appid.toString(), type: type };
 
-    fetch(`/add`, {
+    fetch(`/owned_games`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
