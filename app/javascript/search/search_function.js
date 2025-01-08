@@ -1,6 +1,7 @@
 function loadSearchFunctionLogic() {
-  const input = document.querySelector("#search-input")
-  const form = document.querySelector("#search-form")
+  const input = document.querySelector("#search-input");
+  input.select();
+  const form = document.querySelector("#search-form");
 
   let gameList;
 
@@ -15,13 +16,13 @@ function loadSearchFunctionLogic() {
   const searchRadios = document.querySelectorAll(".search-radios");
 
   input.addEventListener("keyup", (event) => {
-    if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown") {
+    if (event.key !== "Enter" && event.key !== "ArrowUp" && event.key !== "ArrowDown" && event.key !== "Tab") {
       searchForGamesOrDlc(event.currentTarget)
     }
   });
 
   input.addEventListener("keydown", (event) => { // This is needed to stop the text position moving to the beginning or end of input
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+    if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "Tab") {
       event.preventDefault();
       dropDownArrowMovement(event.key);
     }
@@ -31,7 +32,7 @@ function loadSearchFunctionLogic() {
     let previousSelected;
     let currentSelected;
     if (gameList) {
-      if (key === "ArrowDown") {
+      if (key === "ArrowDown" || key === "Tab") {
         if (currentArrowKeyPosition === gameList.length) {
           currentArrowKeyPosition = 1;
         } else {
@@ -79,13 +80,14 @@ function loadSearchFunctionLogic() {
     const type = document.querySelector('input[name="search-type"]:checked').value;
 
     let input = element.value;
-    let searchType;
-    if (input.length > 4) {
-      searchType = "normal";
-    } else if (input.length > 3) {
-      searchType = "short";
-    }
-    const params = new URLSearchParams({ input: input, type: type, search_type: searchType }).toString();
+    // let searchType;
+    // if (input.length > 4) {
+    //   searchType = "normal";
+    // } else if (input.length > 3) {
+    //   searchType = "short";
+    // }
+    const params = new URLSearchParams({ input: input, type: type }).toString();
+    // const params = new URLSearchParams({ input: input, type: type, search_type: searchType }).toString();
     if (input.length > 3) {
       fetchFromDb(params)
     }
@@ -212,7 +214,7 @@ function loadSearchFunctionLogic() {
       } else if (response.error === "not out") {
         responseText = `${type} is not released yet`;
       } else {
-        responseText = `Failed to add game to your library at this time. Please check your connection and try again`;
+        responseText = `Failed to add game to your library at this time. Please try again`;
       }
       responseTextElement.classList.add("text-danger"); // Bootstrap class
       setTimeout(() => {

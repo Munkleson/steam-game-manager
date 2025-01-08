@@ -18,7 +18,6 @@ function refreshPlaylists(playlistId) {
     const addGamesSection = document.querySelector(".add-games-section");
     playlistContentContainers.innerHTML = "";
     addGamesSection.innerHTML = "";
-
     if (data.ok) {
       beginGameInsert(data.playlist_games, "playlist", playlistContentContainers, addGamesSection);
       beginGameInsert(data.owned_games, "owned", playlistContentContainers, addGamesSection);
@@ -31,20 +30,25 @@ function refreshPlaylists(playlistId) {
 }
 
 function beginGameInsert(games, type, playlistContentContainers, addGamesSection) {
-  games.forEach(game => {
-    const imageUrl = game.image_url;
-    const name = game.name;
-    const id = game.id;
-    const ownedGameOrder = game.order;
+  games.forEach(owned_game => {
+    let game_details;
+    if (owned_game.game) {
+      game_details = owned_game.game;
+    } else {
+      game_details = owned_game.dlc;
+    }
+    const imageUrl = game_details.image_url;
+    const name = game_details.name;
+    const id = owned_game.id;
+    const ownedGameOrder = owned_game.order;
     if (type === "playlist") {
       const playlistGame = insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder);
-      playlistGame.querySelector(".completed-checkbox").checked = game.completed;
-      playlistGame.querySelector(".played-checkbox").checked = game.played;
+      playlistGame.querySelector(".completed-checkbox").checked = owned_game.completed;
+      playlistGame.querySelector(".played-checkbox").checked = owned_game.played;
       playlistContentContainers.append(playlistGame);
     } else {
       addGamesSection.append(insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder));
     }
-    // type === "playlist" ? playlistContentContainers.append(insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder)) : addGamesSection.append(insertGameToPlaylistAddList(imageUrl, name, id, ownedGameOrder));
   });
 }
 
@@ -104,11 +108,11 @@ function insertGameToPlaylistBody(imageUrl, name, id, ownedGameOrder) {
         </div>
       </div>
     </div>
-    <form class="remove-game-from-playlist-form d-flex justify-content-center align-items-center" data-id="${id}">
+    <form class="remove-owned_game-from-playlist-form d-flex justify-content-center align-items-center" data-id="${id}">
       <input type="submit" value="Remove" class="btn btn-danger ps-1 pe-1 pt-1 pb-1">
     </form>
   `;
-  const playlistGameForm = playlistGame.querySelector(".remove-game-from-playlist-form");
+  const playlistGameForm = playlistGame.querySelector(".remove-owned_game-from-playlist-form");
   playlistGameForm.dataset.hasEvent = true;
   playlistGameForm.addEventListener("submit", removeGameFromPlaylist);
 

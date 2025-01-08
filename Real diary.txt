@@ -150,3 +150,9 @@
 - The methods and actions in the owned games controller are now a lot more modularized and the naming aligns with Rails conventions more compared to before
 - Some of the database was updated as well. Owned games no longer have any game-specific data linked to it, and instead things like image_url and developer will be solely held in the Game and Dlc models from now on
 - As a result of the refactoring, playlist functionality has broken for now
+
+
+1/08
+
+- Playlist functionality is working again without noticable bugs, but refactoring has not been done
+- A lot of logic needed to be changed to accommodate for game details no longer being in owned_games. Had to link the game or dlc to the owned games themselves

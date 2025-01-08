@@ -9,15 +9,16 @@ class OwnedGamesController < ApplicationController
 
   def search
     type = params[:type] == "game" ? Game : Dlc
-    input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
-    games = params[:search_type] == "normal" ? type.where("search_name LIKE ?", "%#{input}%") : type.where("LOWER(search_name) = ?", input.downcase)
-    @games = games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, input.downcase) }.slice(0, 10)
+    modified_input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
+    # This is to account for games where the length of the name is only 4 characters
+    games = modified_input.length > 4 ? type.where("search_name LIKE ?", "%#{modified_input}%") : type.where("LOWER(search_name) = ?", modified_input.downcase)
+    @games = games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, modified_input.downcase) }.slice(0, 10)
     render json: @games
   end
 
   def index
     owned_games = @user.owned_games.includes(:game, :dlc)
-    if @user.nil?
+    if !owned_games.any? # makes sure the view has something to "iterate" over
       @owned_games = []
     else
       @owned_games = owned_games.all.sort do |a, b|
@@ -35,14 +36,15 @@ class OwnedGamesController < ApplicationController
     type = params[:type].downcase
     game_data = parse_api_data(appid)
 
-    if !game_data["success"]
+    if !game_data["success"] # This is to check if the game in the API has details
       render json: { error: "not found" }, status: :not_found
       return
     end
 
-    game = game_data["data"]
-    type == "game" ? populate_game_details(game) : populate_dlc_details(game)
-    if release_check(game)
+    game_details = game_data["data"]
+    # This will fill in the details in the Game and Dlc tables, to have them gradually populated by users rather than on the dev side, as Steam limits API calls to 100k a day
+    type == "game" ? populate_game_details(game_details) : populate_dlc_details(game_details)
+    if release_check(game_details)
       return
     end
 
@@ -54,13 +56,13 @@ class OwnedGamesController < ApplicationController
     new_owned_game_details = {
       order: owned_games.count + 1,
     }
-    # Checking if it will enter a Game or DLC id into the new owned game
+    # Checking if it will enter a Game or DLC id into the new owned game and adds it to the new owned game details
     type_check(new_owned_game_details, type, appid)
     new_owned_game = @user.owned_games.new(new_owned_game_details)
     if new_owned_game.save
       render json: { ok: true }, status: :created
     else
-      render json: { errors: @game.errors.full_messages, error: "taken" }, status: :unprocessable_entity
+      render json: { errors: @game.errors.full_messages, error: "unsuccessful" }, status: :unprocessable_entity
     end
   end
 
@@ -78,7 +80,7 @@ class OwnedGamesController < ApplicationController
     errors = []
     games.each do |item|
       game = OwnedGame.find(item["id"])
-      if game.user_id == @user_id && game.update({ order: item["order"] })  # Check if update is successful
+      if game.user_id == @user_id && game.update({ order: item["order"] })
         next
       else
         errors << "Failed to update order of game with ID:#{item['id']}"
@@ -102,25 +104,13 @@ class OwnedGamesController < ApplicationController
 
   private
 
-  def owned_games_rates
+  def owned_games_rates # For the stats bar to display completion and played rates
     owned_games = @user.owned_games
     completed_rate = GameRateCalculator.calculate_rates(owned_games, :completed)
     played_rate = GameRateCalculator.calculate_rates(owned_games, :played)
     completed_rate = GameRateCalculator.format_rates(completed_rate)
     played_rate = GameRateCalculator.format_rates(played_rate)
     return { number_of_games: owned_games.count, completed: completed_rate, played: played_rate }
-  end
-
-  def populate_game_details(game)
-    game_details = get_game_details(game)
-    game = Game.find_by(appid: game["steam_appid"])
-    game.update(game_details)
-  end
-
-  def populate_dlc_details(game)
-    game_details = get_game_details(game)
-    dlc = Dlc.find_by(appid: game["steam_appid"])
-    dlc.update(game_details)
   end
 
   def get_game_details(game)
@@ -170,5 +160,17 @@ class OwnedGamesController < ApplicationController
 
   def dlc_params
     params.require(:dlc).permit(:developer, :image_url)
+  end
+
+  def populate_game_details(game)
+    game_details = get_game_details(game)
+    game = Game.find_by(appid: game["steam_appid"])
+    game.update(game_details)
+  end
+
+  def populate_dlc_details(game)
+    game_details = get_game_details(game)
+    dlc = Dlc.find_by(appid: game["steam_appid"])
+    dlc.update(game_details)
   end
 end

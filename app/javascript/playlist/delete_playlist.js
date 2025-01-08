@@ -46,6 +46,8 @@ function deletePlaylist(event) {
 function deletePlaylistDomFunctions(playlist) {
   // If you have another playlist selected, deleting a playlist will not take you away from it. Edge case
   if (playlist.classList.contains("selected-playlist")) {
+    // This needs to be called here too with how the select playlist after deletion function is called
+    playlist.remove();
     selectPlaylistAfterDeletion();
   }
   playlist.remove();

@@ -65,6 +65,8 @@ class PlaylistsController < ApplicationController
   end
 
   def refresh_playlists
+    @owned_games = @user.owned_games.includes(:game, :dlc)
+
     unless @user.playlists.find_by(id: params[:playlist_id])
       render_empty_playlist
       return
@@ -76,22 +78,20 @@ class PlaylistsController < ApplicationController
       return
     end
 
-    owned_games = @user.owned_games
-
     if !playlist.nil?
       # ERB variables
-      @playlist_games = owned_games.joins(:playlist_games).where("playlist_games.playlist_id = ?", playlist.id).order('playlist_games."order" ASC') # Games in current playlist
-      @owned_games = @user.owned_games.reject { |game| @playlist_games.include?(game) }.sort_by { |game| game[:order] } # Games in add games to playlist list
-      render json: { playlist_games: @playlist_games, owned_games: @owned_games, ok: true }
+      playlist_games = @owned_games.joins(:playlist_games).where("playlist_games.playlist_id = ?", playlist.id).order('playlist_games."order" ASC') # Games in current playlist
+      owned_games = @owned_games.reject { |game| playlist_games.include?(game) }.sort_by { |game| game[:order] } # Games in add games to playlist list
+      render json: { playlist_games: playlist_games.as_json(include: [:game, :dlc]), owned_games: owned_games.as_json(include: [:game, :dlc]), ok: true }
     else
       render_empty_playlist
     end
+  end
 
-    def render_empty_playlist
-      @playlist_games = []
-      @owned_games = @user.owned_games.sort_by { |game| game[:order] }
-      render json: { playlist_games: @playlist_games, owned_games: @owned_games, ok: true  }
-    end
+  def render_empty_playlist
+    playlist_games = []
+    owned_games = @owned_games.sort_by { |game| game[:order] }
+    render json: { playlist_games: playlist_games, owned_games: owned_games.as_json(include: [:game, :dlc]), ok: true  }
   end
 
   def remove_game_from_playlist
@@ -104,10 +104,6 @@ class PlaylistsController < ApplicationController
 
     owned_game_order = playlist.owned_games.find_by(id: params[:id])&.order
     playlist_game_to_remove = playlist.playlist_games.find_by(owned_game_id: params[:id])
-
-    puts "hi"
-    puts owned_game_order
-    puts playlist.playlist_games
 
     if playlist_game_to_remove.destroy
       render json: { message: "success", ok: true, owned_game_order: owned_game_order }
