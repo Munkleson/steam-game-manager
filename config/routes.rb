@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   get "/games", to: "owned_games#index", as: :owned_games_list
-  get "/add", to: "owned_games#new", as: :add_games
+  get "/add_games", to: "owned_games#new", as: :add_games
   # get "/owned_games/search", to: "owned_games#search"
   # post "/owned_games", to: "owned_games#create"
   # patch "/owned_games", to: "owned_games#update"
@@ -53,4 +53,12 @@ Rails.application.routes.draw do
   # patch "/playlist_games/update_order", to: "playlist_games#update_order"
   # delete "/playlist_games", to: "playlist_games#destroy"
 
+  ##### Steam authentication
+
+  get '/steam/authenticate', to: 'steam_auth#authenticate'
+  get '/steam/callback', to: 'steam_auth#callback'
+
+
+  ##### Sessions
+  delete '/logout', to: 'sessions#destroy', as: :logout
 end

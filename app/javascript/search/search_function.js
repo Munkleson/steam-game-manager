@@ -84,31 +84,13 @@ function loadSearchFunctionLogic() {
     const type = document.querySelector('input[name="search-type"]:checked').value;
 
     let input = element.value;
-    // let searchType;
-    // if (input.length > 4) {
-    //   searchType = "normal";
-    // } else if (input.length > 3) {
-    //   searchType = "short";
-    // }
     const params = new URLSearchParams({ input: input, type: type }).toString();
-    // const params = new URLSearchParams({ input: input, type: type, search_type: searchType }).toString();
     if (input.length > 3) {
       fetchFromDb(params)
     }
   }
 
-  //   let searchRoute;
-  //   if (input.length > 4) {
-  //     searchRoute = "search";
-  //     fetchFromDb(searchRoute, params);
-  //   } else if (input.length > 3) {
-  //      searchRoute = "short_search"
-  //     fetchFromDb(searchRoute, params);
-  //   }
-  // }
   function fetchFromDb(params) {
-  // function fetchFromDb(searchRoute, params) {
-    // fetch(`/${searchRoute}?${params}`, {
     fetch(`/owned_games/search?${params}`, {
       method: 'GET',
       headers: {
@@ -124,7 +106,7 @@ function loadSearchFunctionLogic() {
 
   function displayDropdown(filteredList) {
     // Needed here as sometimes pressing keys too quickly could lead to the same list being appended twice to the dropdown
-    searchDropdown.innerHTML = "";
+    // searchDropdown.innerHTML = "";
     const length = filteredList.length >= 10 ? 10 : filteredList.length;
     for (let index = 0; index < length; index++) {
       const dropdownOption = document.createElement("div");
@@ -243,8 +225,3 @@ function loadSearchFunctionLogic() {
 }
 
 loadSearchFunctionLogic();
-
-function sayHi() {
-  console.log("hi");
-
-}

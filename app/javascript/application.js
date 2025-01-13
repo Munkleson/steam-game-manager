@@ -6,3 +6,4 @@ import "./onload_event_listeners";
 import "./load_sortables";
 import "./sort_function";
 import "./search_games";
+import "./steam_login";

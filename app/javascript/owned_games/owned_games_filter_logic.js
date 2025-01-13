@@ -1,96 +1,111 @@
-function loadOwnedGamesFilterLogic() {
-  const filter = document.querySelector(".filter-dropdown");
+function filterOwnedGamesInitialize() {
+  // caret is the little arrow on the right of the select filter menu
   const caret = document.querySelector(".caret");
-  const filterText = document.querySelector(".filter-label-text")
-  const filterDropdown = document.querySelector(".filter-dropdown-options");
-  const filterByText = document.querySelector(".filter-by-text");
-  const dropdownOptions = document.querySelectorAll(".dropdown-options");
+  const filter = document.querySelector(".filter-dropdown");
+
+  clearFilter();
+  selectFilter();
+  closeDropdown(caret, filter);
+  openDropdown(caret, filter);
+}
+
+function clearFilter() {
   const clearFilterButton = document.querySelector(".clear-filter-button");
+  clearFilterButton.removeEventListener("click", setDropdownText);
+  clearFilterButton.addEventListener("click", setDropdownText);
+}
 
-  // completed, not completed, played, not played, clear
-
-  filter.addEventListener("click", (event) => {
-    caret.classList.toggle("caret-rotate");
-    toggleDropdownMenu();
-  });
-
-  // Closing drop down menu and rotating caret again
-  document.addEventListener("click", (event) => {
-    if (event.target.closest(".filter-dropdown") !== filter) {
-      caret.classList.remove("caret-rotate");
-      toggleDropdownMenu();
-    }
-  })
-
-  function toggleDropdownMenu() {
-    if (caret.classList.contains("caret-rotate")) {
-      filterDropdown.classList.remove("d-none");
-      // Leaving the opacity logic here, which would need to be changed in the erb file, if I wanted a transition time. Would need to change filter clicking logic too
-      // filterDropdown.classList.add("opacity-100");
-    } else {
-      // filterDropdown.classList.remove("opacity-100");
-      filterDropdown.classList.add("d-none");
-    }
-  }
-
+function selectFilter() {
+  const dropdownOptions = document.querySelectorAll(".dropdown-options");
   dropdownOptions.forEach((option) => {
-    option.addEventListener("click", (event) => {
-      dropdownText(event);
-    });
+    option.removeEventListener("click", setDropdownText)
+    option.addEventListener("click", setDropdownText);
   });
+}
 
-  clearFilterButton.addEventListener("click", (event) => {
-    event.target.blur();
-    dropdownText(event)
-  });
+function openDropdown(caret, filter) {
+  filter.removeEventListener("click", openDropdownCallback);
+  filter.addEventListener("click", () => openDropdownCallback(caret));
+}
 
-  function dropdownText(event) {
-    if (event.target.innerText === "Clear filter") {
-      filterText.innerText = "Select your filter";
-      // filterByText.innerText = "Filter by:"
-    } else {
-      filterText.innerText = event.target.innerText;
-      filterByText.innerText = "Filtering by:";
+function openDropdownCallback(caret) {
+  caret.classList.toggle("caret-rotate");
+  toggleDropdownMenu(caret);
+}
+
+function closeDropdown(caret, filter) {
+  document.removeEventListener("click", closeDropdownCallback);
+  document.addEventListener("click", (event) => closeDropdownCallback(event, caret, filter));
+}
+
+function closeDropdownCallback(event, caret, filter) {
+  if (event.target.closest(".filter-dropdown") !== filter) {
+    // This location check is needed because it's attached to the document itself, and works weirdly with turbo loading
+    if (window.location.pathname === "/games") {
+      caret.classList.remove("caret-rotate");
+      toggleDropdownMenu(caret);
     }
-    filterGames(event.target.innerText);
-  }
-
-  function filterGames(selection) {
-    const games = document.querySelectorAll(".game-card");
-
-    games.forEach((game) => {
-      game.classList.remove("d-none");
-      if (selection === "Clear filter") {
-        return;
-      }
-      const completedCheckbox = game.querySelector(".completed-checkbox");
-      const playedCheckbox = game.querySelector(".played-checkbox");
-
-      switch (selection) {
-        case "Completed":
-          if (!completedCheckbox.checked) {
-            game.classList.add("d-none");
-          }
-          break;
-        case "Not completed":
-          if (completedCheckbox.checked) {
-            game.classList.add("d-none");
-          }
-          break;
-        case "Played":
-          if (!playedCheckbox.checked) {
-            game.classList.add("d-none");
-          }
-          break;
-        case "Not played":
-          if (playedCheckbox.checked) {
-            game.classList.add("d-none");
-          }
-          break;
-      }
-
-    })
   }
 }
 
-loadOwnedGamesFilterLogic();
+function toggleDropdownMenu(caret) {
+  const filterDropdown = document.querySelector(".filter-dropdown-options");
+  // Doing toggle doesn't work with how closeDropdown is set up
+  if (caret.classList.contains("caret-rotate")) {
+    filterDropdown.classList.remove("d-none");
+  } else {
+    filterDropdown.classList.add("d-none");
+  }
+}
+
+function setDropdownText(event) {
+  const filterText = document.querySelector(".filter-label-text");
+  if (event.target.innerText === "Clear filter") {
+    filterText.innerText = "Select your filter";
+  } else {
+    filterText.innerText = event.target.innerText;
+  }
+  filterGames(event.target.innerText);
+}
+
+function filterGames(selection) {
+  const games = document.querySelectorAll(".game-card");
+
+  games.forEach((game) => {
+    game.classList.remove("d-none");
+    if (selection === "Clear filter") {
+      return;
+    }
+    const completedCheckbox = game.querySelector(".completed-checkbox");
+    const playedCheckbox = game.querySelector(".played-checkbox");
+
+    switch (selection) {
+      case "Completed":
+        if (!completedCheckbox.checked) {
+          game.classList.add("d-none");
+        }
+        break;
+      case "Not completed":
+        if (completedCheckbox.checked) {
+          game.classList.add("d-none");
+        }
+        break;
+      case "Played":
+        if (!playedCheckbox.checked) {
+          game.classList.add("d-none");
+        }
+        break;
+      case "Not played":
+        if (playedCheckbox.checked) {
+          game.classList.add("d-none");
+        }
+        break;
+    }
+  })
+}
+
+document.addEventListener("turbo:load", () => {
+  if (window.location.pathname === "/games") {
+    filterOwnedGamesInitialize();
+  }
+});

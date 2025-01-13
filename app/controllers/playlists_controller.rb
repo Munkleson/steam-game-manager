@@ -48,7 +48,7 @@ class PlaylistsController < ApplicationController
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
-
+    # includes is needed here to pass the data of the game/dlc to the frontend
     @owned_games = @user.owned_games.includes(:game, :dlc)
     # ERB variables
     playlist_games = @owned_games.joins(:playlist_games).where("playlist_games.playlist_id = ?", playlist.id).order('playlist_games."order" ASC') # Games in current playlist

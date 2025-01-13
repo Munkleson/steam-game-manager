@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_07_160932) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_13_112630) do
   create_table "dlcs", force: :cascade do |t|
     t.integer "appid"
     t.string "name"
@@ -70,6 +70,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_07_160932) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "steam_id"
+    t.string "persona_name"
+    t.string "profile_url"
+    t.string "avatar_url"
+    t.integer "last_logoff"
+    t.integer "game_count"
   end
 
   add_foreign_key "owned_games", "dlcs"

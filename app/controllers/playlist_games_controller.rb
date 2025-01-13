@@ -11,7 +11,7 @@ class PlaylistGamesController < ApplicationController
 
     playlist_games = playlist.owned_games
 
-    if owned_game.user_id != @user_id
+    if owned_game.user != @user
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
@@ -34,11 +34,11 @@ class PlaylistGamesController < ApplicationController
   def destroy
     playlist = @user.playlists.find(params[:playlist_id])
 
-    if playlist.user_id != @user_id
+    if playlist.user != @user
       render json: { error: "unsuccessful" }, status: :unprocessable_entity
       return
     end
-
+    # The owned game order is needed in order to insert it back into the correct slot in the add games section
     owned_game_order = playlist.owned_games.find_by(id: params[:id])&.order
     playlist_game_to_remove = playlist.playlist_games.find_by(owned_game_id: params[:id])
 
@@ -55,7 +55,7 @@ class PlaylistGamesController < ApplicationController
     response = { success: 0, failure: 0 }
     params[:playlist_games].each do |item|
       playlist_game = playlist_games.find_by(owned_game_id: item["playlist_game_id"])
-      if playlist_game.owned_game.user_id == @user_id && playlist_game.update({ order: item["order"] })
+      if playlist_game.owned_game.user == @user && playlist_game.update({ order: item["order"] })
         response[:success] += 1
       else
         response[:failure] += 1

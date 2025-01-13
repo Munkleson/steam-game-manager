@@ -163,3 +163,16 @@
 - Did some refactoring (mostly useless lines) in the playlist and playlist games controllers, but not a significant amount. More optimized still
 
 - Refactored all the routes and fetch requests to align with Rails conventions. Resources is a possibility with some modification for custom routes now
+
+- Refactored the routes and fetch requests to actually follow Rails conventions to the letter. Resources and collections are now used
+
+
+1/09
+
+- Refactored filter owned games logic to be a bit better with SRP
+
+
+1/13
+
+- Made a steam login authentication function. This will create a user if one is not found already, and import all their games from the steam API into their account on this app
+- Added some other columns in the user table to adjust to steam integration

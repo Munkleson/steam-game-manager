@@ -68,7 +68,7 @@ class OwnedGamesController < ApplicationController
 
   def update
     game = @user.owned_games.find(params[:id])
-    if game.user_id == @user_id && game.update(owned_game_params)
+    if game.user == @user && game.update(owned_game_params)
       render json: { message: 'Update successful' }, status: :ok
     else
       render json: { error: game.errors.full_messages }, status: :unprocessable_entity
@@ -80,7 +80,7 @@ class OwnedGamesController < ApplicationController
     errors = []
     games.each do |item|
       game = @user.owned_games.find(item["id"])
-      if game.user_id == @user_id && game.update({ order: item["order"] })
+      if game.user == @user && game.update({ order: item["order"] })
         next
       else
         errors << "Failed to update order of game with ID:#{item['id']}"
