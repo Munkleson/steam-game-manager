@@ -1,0 +1,69 @@
+.profile-section {
+  position: absolute;
+  top: 1vh;
+  right: 1vh;
+  z-index: 1000;
+}
+
+.profile-section * {
+  color: white !important;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  height: 5vh;
+  width: 5vh;
+  transition: 0.15s;
+}
+
+.profile-pic:hover {
+  transition: 0.15s;
+  transform: scale(1.1, 1.1);
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 1vh;
+  right: 0;
+  border-radius: 5px;
+  width: 200px;
+  background-color: #323942;
+  border: 1px solid rgb(153, 148, 148);
+}
+
+.profile-link-container {
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  /* position relative needed here for the ::after */
+  position: relative;
+}
+
+.profile-link {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 5px;
+}
+
+.profile-link-container::after {
+  /* Content needed to actually make the bar appear */
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 80%;
+  border-bottom: grey solid 0.5px;
+}
+
+.profile-link-container:hover {
+  background-color: #434e58;
+}
+
+.logout-button-container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

@@ -13,6 +13,9 @@
  *= require_tree .
  *= require_self
  */
+:root {
+  --main-bg-color: #23282f;
+}
 
 p {
   margin: 0;
@@ -30,6 +33,7 @@ html {
     font-size: 1vh;
   }
 } */
+
 
 body {
   overflow-x: hidden;

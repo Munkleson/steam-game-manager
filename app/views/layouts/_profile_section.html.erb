@@ -1,0 +1,22 @@
+<% if session[:user_id] %>
+  <div class="profile-section">
+    <%= image_tag @user.avatar_url, class: "profile-pic" %>
+    <div class="profile-dropdown-relative position-relative">
+      <div class="profile-dropdown d-none">
+        <% @profile_dropdown_options.each do |profile| %>
+          <div class="profile-link-container">
+            <%= link_to profile[:text], profile[:link], target: "_blank", class: "profile-link text-decoration-none" %>
+          </div>
+        <% end %>
+        <div class="logout-button-container d-flex justify-content-center">
+          <%= link_to "Logout", logout_path, class: "btn btn-danger", data: { turbo_method: :delete } %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <button class="steam-login-button btn btn-success d-flex align-items-center">
+    <%= image_tag "steam-icon.png", class: "steam-icon me-2" %>
+    Log in through Steam
+  </button>
+<% end %>

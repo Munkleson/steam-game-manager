@@ -176,3 +176,11 @@
 
 - Made a steam login authentication function. This will create a user if one is not found already, and import all their games from the steam API into their account on this app
 - Added some other columns in the user table to adjust to steam integration
+
+1/15
+
+- Changed some naming around to be more intuitive.
+- Created an empty home page for now, where all login functions would happen from and not the add games path
+
+- When logging in, the database will be populated with any new games you have purchased since the last log in, or any you've deleted and forgot to add back yet
+- Home page has some minor styling, mostly placeholder divs and other elements

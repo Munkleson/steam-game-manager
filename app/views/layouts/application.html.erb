@@ -8,16 +8,16 @@
     <%= csp_meta_tag %>
     <%= javascript_importmap_tags %>
 
-
+    <%= javascript_include_tag 'global/profile_dropdown', 'data-turbo-track': 'reload', defer: true %>
     <%= javascript_include_tag 'crud_message', 'data-turbo-track': 'reload', defer: true %>
     <%= javascript_include_tag 'checkbox_mark', 'data-turbo-track': 'reload', defer: true %>
-        <%= javascript_include_tag 'stats_update_animations', 'data-turbo-track': 'reload', defer: true%>
+    <%= javascript_include_tag 'stats_update_animations', 'data-turbo-track': 'reload', defer: true%>
     <%= javascript_include_tag 'stats_update', 'data-turbo-track': 'reload', defer: true %>
-
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
   <body>
+    <%= render "layouts/profile_section" %>
     <%= yield %>
   </body>
 </html>

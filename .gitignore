@@ -36,3 +36,4 @@
 /config/master.key
 
 /zPotential api.txt
+/heroku credentials.txt
