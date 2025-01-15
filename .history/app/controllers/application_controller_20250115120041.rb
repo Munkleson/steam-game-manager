@@ -11,6 +11,4 @@ class ApplicationController < ActionController::Base
       redirect_to add_games_path, alert: "Your session has expired. Please log in again"
     end
   end
-
-
 end

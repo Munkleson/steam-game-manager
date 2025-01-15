@@ -56,6 +56,8 @@ Rails.application.routes.draw do
 
   get '/steam/authenticate', to: 'steam_auth#authenticate'
   get '/steam/callback', to: 'steam_auth#callback'
+  
+
 
   ##### Sessions
 

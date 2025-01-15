@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   get '/steam/authenticate', to: 'steam_auth#authenticate'
   get '/steam/callback', to: 'steam_auth#callback'
 
-  ##### Sessions
 
+  ##### Sessions
   delete '/logout', to: 'sessions#destroy', as: :logout
 end

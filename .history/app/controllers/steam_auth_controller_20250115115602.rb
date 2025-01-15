@@ -16,7 +16,9 @@ class SteamAuthController < ApplicationController
   end
 
   def callback
+    # Ensure Steam sent back the required parameters
     if params['openid.mode'] == 'id_res' && params['openid.claimed_id'].present?
+      # Verify the response with Steam
       verification_params = {
         "openid.ns" => params['openid.ns'],
         "openid.mode" => "check_authentication",
@@ -30,11 +32,16 @@ class SteamAuthController < ApplicationController
         "openid.sig" => params['openid.sig']
       }
 
+      # Make the request to Steam
       uri = URI.parse("https://steamcommunity.com/openid/login")
       response = Net::HTTP.post_form(uri, verification_params)
+      # Check the response
       if response.body.include?("is_valid:true")
+        # Extract SteamID from the claimed ID
         steam_id = params['openid.claimed_id'].match(/\d+$/)[0]
 
+        # Find or create the user in your database
+        # user = User.find_or_create_by(steam_id: steam_id)
         user = User.find_by(steam_id: steam_id)
         if !user
           user = new_user(steam_id)

@@ -16,6 +16,7 @@ class SteamAuthController < ApplicationController
   end
 
   def callback
+    # Ensure Steam sent back the required parameters
     if params['openid.mode'] == 'id_res' && params['openid.claimed_id'].present?
       verification_params = {
         "openid.ns" => params['openid.ns'],

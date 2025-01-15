@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  root "homepage#index"
+  # root "posts#index"
+  # get "/", to: "owned_games#index"
 
   ##### owned games
 
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/games", to: "owned_games#index", as: :library
+  get "/games", to: "owned_games#index", as: :owned_games_list
   get "/add_games", to: "owned_games#new", as: :add_games
   # get "/owned_games/search", to: "owned_games#search"
   # post "/owned_games", to: "owned_games#create"
@@ -57,7 +58,7 @@ Rails.application.routes.draw do
   get '/steam/authenticate', to: 'steam_auth#authenticate'
   get '/steam/callback', to: 'steam_auth#callback'
 
-  ##### Sessions
 
+  ##### Sessions
   delete '/logout', to: 'sessions#destroy', as: :logout
 end

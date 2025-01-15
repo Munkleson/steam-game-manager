@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :check_session
+  before_action :set_user_id
 
   private
 
@@ -12,5 +12,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # helper_method :current_user
 
+  # def current_user
+  #   @current_user ||= User.find_by(id: session[:user_id])
+  # end
 end

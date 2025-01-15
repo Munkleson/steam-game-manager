@@ -10,7 +10,4 @@ class ApplicationController < ActionController::Base
     elsif !request.path.include?("/add_games") && !request.path.include?("/steam")
       redirect_to add_games_path, alert: "Your session has expired. Please log in again"
     end
-  end
-
-
-end
+  endend

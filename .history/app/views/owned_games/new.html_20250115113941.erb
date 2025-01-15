@@ -1,13 +1,13 @@
 <%= javascript_include_tag 'search/search_function', 'data-turbo-track': 'reload', defer: true %>
 <%= stylesheet_link_tag "search_bar", "data-turbo-track": "reload" %>
 
-<%= link_to "Go to your games", library_path, class: "go-to-games-link btn btn-primary position-absolute", data: { turbo: "false" } %>
+<%= link_to "Go to your games", owned_games_list_path, class: "go-to-games-link btn btn-primary position-absolute", data: { turbo: "false" } %>
 
 <% if session[:user_id] %>
   <p>Welcome, <%= @user.persona_name %>!</p>
   <%= link_to "Logout", logout_path, class: "btn btn-primary", data: { turbo_method: :delete } %>
 <% else %>
-  <%= link_to "Sign in with Steam", "/steam/authenticate", class: "steam-login-button btn btn-primary", rel: "noopener noreferrer" %>
+  <%= link_to "Sign in with Steam", "#", class: "steam-login-button btn btn-primary", rel: "noopener noreferrer" %>
 <% end %>
 
 <div class="search-page-container d-flex align-items-center flex-column">
