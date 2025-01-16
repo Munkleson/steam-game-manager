@@ -177,6 +177,7 @@
 - Made a steam login authentication function. This will create a user if one is not found already, and import all their games from the steam API into their account on this app
 - Added some other columns in the user table to adjust to steam integration
 
+
 1/15
 
 - Changed some naming around to be more intuitive.
@@ -184,3 +185,10 @@
 
 - When logging in, the database will be populated with any new games you have purchased since the last log in, or any you've deleted and forgot to add back yet
 - Home page has some minor styling, mostly placeholder divs and other elements
+- There is a dropdown when you click the profile icon, which allows you to log out
+- Logging out or forcefully being logged out now redirects you to the home page
+
+
+1/16
+
+- Added ordering updates when deleting games. When games get added then, there will no longer be any overlap as they will all technically be unique.

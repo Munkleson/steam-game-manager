@@ -1,3 +1,5 @@
+import { changeOwnedGameOrder } from "../change_order";
+
 function deleteOwnedGamesInitialize() {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   const deleteGameForm = document.querySelectorAll(".delete-game-form");
@@ -32,6 +34,7 @@ function afterOwnedGameDeletion(data, game) {
     deletedGameCard.remove();
     refreshStats();
     createCrudMessage("Game removed from your library");
+    changeOwnedGameOrder();
   } else {
     createCrudMessage("Failed to remove game from your library at this time. Please try again");
   }

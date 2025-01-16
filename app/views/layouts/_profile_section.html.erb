@@ -3,6 +3,7 @@
     <%= image_tag @user.avatar_url, class: "profile-pic" %>
     <div class="profile-dropdown-relative position-relative">
       <div class="profile-dropdown d-none">
+        <p class="profile-name-section ps-2 pe-2 text-center fw-bolder">Welcome, <%= @user.persona_name %></p>
         <% @profile_dropdown_options.each do |profile| %>
           <div class="profile-link-container">
             <%= link_to profile[:text], profile[:link], target: "_blank", class: "profile-link text-decoration-none" %>
