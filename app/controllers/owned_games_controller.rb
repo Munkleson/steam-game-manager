@@ -25,7 +25,6 @@ class OwnedGamesController < ApplicationController
           a[:order] <=> b[:order]
         end
     end
-    @owned_games.each { |game| puts game.order }
 
     @filters = ["Completed", "Not completed", "Played", "Not played"]
     @stats = ["completed", "played"]
