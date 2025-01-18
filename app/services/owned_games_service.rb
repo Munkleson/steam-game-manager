@@ -9,7 +9,7 @@ class OwnedGamesService
     user.update(game_count: user.owned_games.count)
   end
 
-  #### Unfinished - Need to check for time since last updated 
+  #### Unfinished - Need to check for time since last updated
   def self.check_changes_to_owned_games_for_existing_user(user)
     owned_games = retrieve_owned_games(user)
     owned_games.each { |game| check_changes_to_owned_games(game, user) }
@@ -46,10 +46,10 @@ class OwnedGamesService
     game_response = JSON.parse(game_json)["#{appid}"]
     if game_response["success"]
       game_data = game_response["data"]
-      developer = game_data["developers"].first
+      # developer = game_data["developers"][0]
       image_url = game_data["header_image"]
       game = Game.find_by(appid: appid)
-      game.update(image_url:, developer:)
+      game.update(image_url:)
     end
   end
 

@@ -1,4 +1,4 @@
-<% if session[:user_id] %>
+<% if @user %>
   <div class="profile-section">
     <%= image_tag @user.avatar_url, class: "profile-pic" %>
     <div class="profile-dropdown-relative position-relative">

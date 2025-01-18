@@ -45,6 +45,7 @@ class SteamAuthController < ApplicationController
           # This will create a new user and populate the owned games database with their details
           user = new_user(steam_id)
           populate_new_user_details(user)
+          OwnedGamesService.insert_owned_games_for_new_user(user)
         end
 
         session[:user_id] = user.id
@@ -63,7 +64,7 @@ class SteamAuthController < ApplicationController
     # GetPlayerSummaries
     player_summaries_url = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=#{ENV["STEAM_API_KEY"]}&steamids=#{steam_id}"
     player_summaries_json = URI.parse(player_summaries_url).read
-    player_summaries =  JSON.parse(player_summaries_json)["response"]["players"].first
+    player_summaries = JSON.parse(player_summaries_json)["response"]["players"].first
     persona_name = player_summaries["personaname"]
     profile_url = player_summaries["profileurl"]
     avatar_url = player_summaries["avatarfull"]

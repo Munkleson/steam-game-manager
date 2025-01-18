@@ -7,15 +7,16 @@ class ApplicationController < ActionController::Base
 
   def check_session
     @user_id = session[:user_id]
-    if @user_id
-      @user = User.find(@user_id)
-    elsif request.path != "/" && !request.path.include?("/steam")
-      redirect_to root_path, alert: "Your session has expired. Please log in again"
+    @user = User.find_by(id: @user_id)
+    if !@user
+      if request.path != "/" && !request.path.include?("/steam")
+        redirect_to root_path, alert: "Your session has expired. Please log in again"
+      end
     end
   end
 
   def profile_dropdown
-    if @user_id
+    if @user
       @profile_dropdown_options = [
         {
           text: "Steam profile",

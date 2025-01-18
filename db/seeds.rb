@@ -24,6 +24,7 @@ steam_games.each do |games_list_url|
   end
 end
 
+#########
 
 # Game.find_each do |game|
 #   game.update(search_name: game[:name].gsub(/[^a-zA-Z0-9]/, ''))
