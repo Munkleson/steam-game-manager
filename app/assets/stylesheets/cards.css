@@ -71,3 +71,7 @@
 .caret-rotate {
   transform: rotate(180deg);
 }
+
+.playtime-text {
+  font-size: 0.8rem !important;
+}

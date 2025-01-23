@@ -3,6 +3,8 @@
 - Add logic to check if last played time has increased since the last check
   - Or decide if you should just update everything. Checking if played time has increased could help if you wanted to track other changes like potential achievements rather than just flat updating
 
+- Launch games from app
+
 - Refactor views and css
 - Refactor all JS
 

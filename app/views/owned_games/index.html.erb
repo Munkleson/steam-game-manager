@@ -51,6 +51,7 @@
     <li class="game-card card col-md-4 col-10 m-2 p-0 align-items-center d-flex flex-row" data-id="<%= game[:id] %>" data-order="<%= game[:order] %>">
       <img src=<%= game.game ? game.game.image_url : game.dlc.image_url %> class="card-img img-fluid card-img-width" alt="...">
       <div class="d-flex m-0 p-0 ps-3 pe-2 flex-column card-info-dimensions ">
+
         <h6 class="card-info-item card-title m-0 p-0"><%= game.game ? game.game.name : game.dlc.name %></h6>
 
         <div class="checkboxes-container d-flex justify-content-between mt-2" data-id="<%= game[:id] %>">
@@ -62,6 +63,16 @@
             <label for="played<%= game[:id] %>" class="m-0 played-text">Have you even touched it?</label>
             <%= check_box_tag "played#{game[:id]}", "t", game[:played], class: "played-checkbox ms-2", data: { id: game[:id] } %>
           </div>
+        </div>
+
+        <div class="playtime-stats-container d-flex <%= (game.playtime / 60).round(1) > 0.0 ? "justify-content-between" : "justify-content-start" %>">
+          <p class="playtime-text" style="font-size: 0.8rem;"><strong>Playtime: </strong><%= (game.playtime / 60).round(1) == 0.0 ? 0 : (game.playtime / 60).round(1) %> hours</p>
+          <% if (game.playtime / 60).round(1) > 0.0 %>
+            <p class="playtime-text" style="font-size: 0.8rem;">
+              <strong>Last played: </strong>
+              <span data-controller="playtime" data-playtime-target="lastPlayed" data-playtime-playtime-value="<%= game.last_played %>"></span>
+            </p>
+          <% end %>
         </div>
 
       </div>

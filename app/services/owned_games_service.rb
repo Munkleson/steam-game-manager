@@ -3,8 +3,8 @@ class OwnedGamesService
     owned_games = retrieve_owned_games(user)
     owned_games.each do |game|
       appid = game["appid"]
-      check_if_game_in_db(appid)
-      add_to_owned_games(appid, user)
+      check_if_game_details_in_db(appid)
+      add_to_owned_games(appid, user, game)
     end
     user.update(game_count: user.owned_games.count)
   end
@@ -12,16 +12,35 @@ class OwnedGamesService
   #### Unfinished - Need to check for time since last updated
   def self.check_changes_to_owned_games_for_existing_user(user)
     owned_games = retrieve_owned_games(user)
-    owned_games.each { |game| check_changes_to_owned_games(game, user) }
+    owned_games.each { |game| check_owned_games_existence(game, user) }
     user.update(game_count: user.owned_games.count)
   end
 
-  def self.check_changes_to_owned_games(game, user)
+  def self.check_owned_games_existence(game, user)
     appid = game["appid"]
     if !user.games.find_by(appid: appid)
-      check_if_game_in_db(appid)
-      add_to_owned_games(appid, user)
+      check_if_game_details_in_db(appid)
+      add_to_owned_games(appid, user, game)
+    else
+      game_to_update = user.owned_games.joins(:game).find_by(games: {appid: game["appid"]})
+      changes = check_changes_to_owned_games(game, user, game_to_update)
+      if changes
+        update_owned_games(game, user, game_to_update)
+      end
     end
+  end
+
+  def self.check_changes_to_owned_games(game, user, game_to_update)
+    if game["playtime_forever"] == game_to_update[:playtime] || game["rtime_last_played"] == game_to_update[:last_played]
+      return false
+    end
+    return true
+  end
+
+  def self.update_owned_games(game, user, game_to_update)
+    last_played = game["rtime_last_played"]
+    playtime = game["playtime_forever"]
+    game_to_update.update(last_played:, playtime:)
   end
 
   def self.retrieve_owned_games(user)
@@ -32,7 +51,7 @@ class OwnedGamesService
   end
 
   # This is meant to populate the game's details in the Games table so it gradually fills the table with data rather than having to fetch from each individual game's api endpoint (which would be impossible in a day anyway, as steam only allows 100k api calls a day)
-  def self.check_if_game_in_db(appid)
+  def self.check_if_game_details_in_db(appid)
     # Image url will be empty in the Games table if no user on this app has owned it before this user's creation
     db_game = Game.find_by(appid: appid)
     if db_game && !db_game[:image_url]
@@ -48,12 +67,13 @@ class OwnedGamesService
       game_data = game_response["data"]
       developer = game_data["developers"] ? game_data["developers"][0] : "Unknown developer"
       image_url = game_data["header_image"]
+
       game = Game.find_by(appid: appid)
-      game.update(image_url:)
+      game.update(image_url:, developer:)
     end
   end
 
-  def self.add_to_owned_games(appid, user)
+  def self.add_to_owned_games(appid, user, game)
     db_game = Game.find_by(appid: appid)
     if db_game && (db_game.name.downcase.end_with?(" test") || db_game.name.downcase.end_with?(" demo") || db_game.name.downcase.end_with?(" prologue"))
       return
@@ -61,8 +81,14 @@ class OwnedGamesService
 
     if db_game
       order_count = user.owned_games.count + 1
-      game = user.owned_games.new(game_id: db_game.id, order: order_count)
-      game.save
+      last_played = game["rtime_last_played"]
+      playtime = game["playtime_forever"]
+
+      game = user.owned_games.new(order: order_count, last_played:, playtime:)
+      game.game = db_game
+      if !game.save
+        puts game.errors.full_messages
+      end
     end
   end
 end

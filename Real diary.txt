@@ -197,3 +197,7 @@
 1/23
 
 - Changed some table columns to bigint rather that integer to fit with postgres 4 byte size limitation for int
+
+- Added new columns to some models: playtime, last played, and hidden for owned games, and last updated for Users
+- Playtime and last played now show on the owned games index
+- Stimulus is now used to display the last played time of games

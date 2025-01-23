@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_23_033206) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_23_072518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,6 +45,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_23_033206) do
     t.bigint "user_id"
     t.bigint "dlc_id"
     t.bigint "game_id"
+    t.boolean "hidden", default: false, null: false
+    t.boolean "will_never_play", default: false, null: false
+    t.bigint "last_played"
+    t.float "playtime", default: 0.0, null: false
     t.index ["user_id"], name: "index_owned_games_on_user_id"
   end
 
@@ -79,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_23_033206) do
     t.string "avatar_url"
     t.bigint "last_logoff"
     t.integer "game_count"
+    t.bigint "last_updated"
   end
 
   add_foreign_key "owned_games", "dlcs"
