@@ -20,7 +20,7 @@ steam_games.each do |games_list_url|
     appid = game["appid"]
     name = game["name"]
     # search_name = name.gsub(/[^a-zA-Z0-9]/, '').downcase
-    Game.create!({appid:, name:, search_name:})
+    Game.create!({appid:, name:})
   end
 end
 

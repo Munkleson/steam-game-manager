@@ -192,3 +192,8 @@
 1/16
 
 - Added ordering updates when deleting games. When games get added then, there will no longer be any overlap as they will all technically be unique.
+
+
+1/23
+
+- Changed some table columns to bigint rather that integer to fit with postgres 4 byte size limitation for int
