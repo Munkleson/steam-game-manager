@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_01_13_112630) do
+ActiveRecord::Schema[7.1].define(version: 2025_01_23_033206) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "dlcs", force: :cascade do |t|
     t.integer "appid"
     t.string "name"
@@ -39,17 +42,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_13_112630) do
     t.boolean "completed", default: false
     t.boolean "played", default: false
     t.integer "order", default: 0, null: false
-    t.integer "user_id"
-    t.integer "dlc_id"
-    t.integer "game_id"
+    t.bigint "user_id"
+    t.bigint "dlc_id"
+    t.bigint "game_id"
     t.index ["user_id"], name: "index_owned_games_on_user_id"
   end
 
   create_table "playlist_games", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "playlist_id"
-    t.integer "owned_game_id"
+    t.bigint "playlist_id"
+    t.bigint "owned_game_id"
     t.boolean "completed", default: false
     t.boolean "played", default: false
     t.integer "order"
@@ -61,7 +64,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_13_112630) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "order"
     t.index ["user_id"], name: "index_playlists_on_user_id"
   end
@@ -70,11 +73,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_01_13_112630) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "steam_id"
+    t.bigint "steam_id"
     t.string "persona_name"
     t.string "profile_url"
     t.string "avatar_url"
-    t.integer "last_logoff"
+    t.bigint "last_logoff"
     t.integer "game_count"
   end
 

@@ -46,7 +46,7 @@ class OwnedGamesService
     game_response = JSON.parse(game_json)["#{appid}"]
     if game_response["success"]
       game_data = game_response["data"]
-      # developer = game_data["developers"][0]
+      developer = game_data["developers"] ? game_data["developers"][0] : "Unknown developer"
       image_url = game_data["header_image"]
       game = Game.find_by(appid: appid)
       game.update(image_url:)

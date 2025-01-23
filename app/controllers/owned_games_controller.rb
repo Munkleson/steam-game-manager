@@ -9,9 +9,9 @@ class OwnedGamesController < ApplicationController
 
   def search
     type = params[:type] == "game" ? Game : Dlc
-    modified_input = params[:input].gsub(/[^a-zA-Z0-9]/, '')
+    modified_input = params[:input].gsub(/[^a-zA-Z0-9]/, '').downcase
     # This is to account for games where the length of the name is only 4 characters
-    games = modified_input.length > 4 ? type.where("search_name LIKE ?", "%#{modified_input}%") : type.where("LOWER(search_name) = ?", modified_input.downcase)
+    games = modified_input.length > 4 ? type.where("search_name ILIKE ?", "%#{modified_input}%") : type.where("LOWER(search_name) = ?", modified_input.downcase)
     @games = games.sort_by { |game| Text::Levenshtein.distance(game[:search_name].downcase, modified_input.downcase) }.slice(0, 10)
     render json: @games
   end
@@ -114,7 +114,7 @@ class OwnedGamesController < ApplicationController
   end
 
   def get_game_details(game)
-    developer = game["developers"] ? game["developers"][0] : "No developer"
+    developer = game["developers"] ? game["developers"][0] : "Unknown developer"
     image_url = game["header_image"]
     return { developer:, image_url: }
   end
