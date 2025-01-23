@@ -36,7 +36,7 @@ gem 'levenshtein', '~> 0.2.2'
 
 gem 'text'
 
-
+gem 'pg'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
