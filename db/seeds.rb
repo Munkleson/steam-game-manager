@@ -7,7 +7,7 @@ require "json"
 # Game.destroy_all
 
 steam_games = [
-  # "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=#{ENV["STEAM_API_KEY"]}&include_games=true&max_results=50000",
+  "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=#{ENV["STEAM_API_KEY"]}&include_games=true&max_results=50000",
   "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=#{ENV["STEAM_API_KEY"]}&include_games=true&last_appid=1530250&max_results=50000",
   "https://api.steampowered.com/IStoreService/GetAppList/v1/?key=#{ENV["STEAM_API_KEY"]}&include_games=true&last_appid=2810250&max_results=50000"
 ]
