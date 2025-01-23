@@ -81,13 +81,16 @@ class OwnedGamesService
 
     if db_game
       order_count = user.owned_games.count + 1
+      puts '***********'
+      puts game
+      puts game["rtime_last_played"]
       last_played = game["rtime_last_played"]
       playtime = game["playtime_forever"]
 
-      game = user.owned_games.new(order: order_count, last_played:, playtime:)
-      game.game = db_game
-      if !game.save
-        puts game.errors.full_messages
+      new_game = user.owned_games.new(order: order_count, last_played:, playtime:)
+      new_game.game = db_game
+      if new_game.save
+        puts new_game.errors.full_messages
       end
     end
   end
