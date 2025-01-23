@@ -40,40 +40,40 @@
   border-radius: 10px;
 }
 
-input, label, .filter-dropdown:hover {
+input, label, .filter-dropdown:hover, .sort-dropdown:hover {
   cursor: pointer;
 }
 
-.filter-dropdown {
+.filter-dropdown, .sort-dropdown {
   transition: 0.3s;
   width: 10vw;
 }
 
-.filter-dropdown:hover {
+.filter-dropdown:hover, .sort-dropdown:hover {
   background-color: rgb(240, 242, 243);
   transition: 0.3s;
 }
 
-.filter-dropdown-options {
+.filter-dropdown-options, .sort-dropdown-options {
   width: 100%;
   background-color: white;
   transition: 0.3s;
 }
 
-.dropdown-options {
+.dropdown-options, .sort-dropdown-options {
   transition: 0.3s;
 }
 
-.dropdown-options-text {
+.dropdown-options-text, .dropdown-options-text {
   width: 100%;
 }
 
-.dropdown-options:hover {
+.dropdown-options:hover, .sort-dropdown-options:hover {
   transition: 0.3s;
   background-color: rgb(184, 182, 182);
 }
 
-.clear-filter-button {
+.clear-filter-button, .clear-sort-button {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d;

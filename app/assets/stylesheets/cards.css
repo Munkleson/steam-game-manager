@@ -59,7 +59,7 @@
   box-sizing: border-box;
 }
 
-.caret {
+.caret, .sort-caret {
   /* width: 0;
   height: 0; */
   border-left: 0.3125em solid transparent;

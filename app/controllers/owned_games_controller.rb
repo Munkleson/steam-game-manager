@@ -27,6 +27,7 @@ class OwnedGamesController < ApplicationController
     end
 
     @filters = ["Completed", "Not completed", "Played", "Not played"]
+    @sort = ["Alphabetical order", "Playtime (High to low)", "Playtime (Low to high)"]
     @stats = ["completed", "played"]
     @owned_games_rates = owned_games_rates
   end

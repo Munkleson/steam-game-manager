@@ -10,24 +10,45 @@
       </div>
       <div class="modify-display-container d-flex justify-content-between mt-3">
         <%# Filter %>
-        <p class="filter-by-text m-0 me-2">Filtering by:</p>
-        <div class="filter-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between me-2">
-          <p class="m-0"><i class="filter-label-text">Select your filter</i></p>
-          <p class="caret m-0"></p>
-          <ul class="filter-dropdown-options position-absolute top-100 start-0 mt-2 ps-0 card d-none">
-            <% @filters.each do |filter| %>
-              <li class="dropdown-options d-flex align-items-center">
-                <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2"><%= filter %></p>
-              </li>
-            <% end %>
-          </ul>
+        <div class="filter-container d-flex mx-2">
+          <p class="filter-by-text m-0 me-2">Filtering by:</p>
+          <div class="filter-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between me-2">
+            <p class="m-0"><i class="filter-label-text">Select your filter</i></p>
+            <p class="caret m-0"></p>
+            <ul class="filter-dropdown-options position-absolute top-100 start-0 mt-2 ps-0 card d-none">
+              <% @filters.each do |filter| %>
+                <li class="dropdown-options d-flex align-items-center">
+                  <p class="dropdown-options-text m-0 pt-1 pb-1 ps-2"><%= filter %></p>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <button class="clear-filter-button pt-0 pb-0">Clear filter</button>
         </div>
-        <button class="clear-filter-button pt-0 pb-0">Clear filter</button>
+
         <%# Search bar %>
-        <div class="search-bar-container d-flex ms-4 justify-content-end">
+        <div class="search-bar-container d-flex mx-2 justify-content-end">
           <input type="text" class="search-bar form-control me-2 pt-0 pb-0" placeholder="Search games" spellcheck="false">
           <button class="clear-search-button clear-filter-button pt-0 pb-0">Clear search</button>
         </div>
+
+        <%# Sort function %>
+        <div class="sort-container d-flex mx-2">
+          <p class="sort-by-text m-0 me-2">Sort by:</p>
+          <div class="sort-dropdown card ps-2 pe-2 d-flex flex-row align-items-center position-relative justify-content-between me-2">
+            <p class="m-0"><i class="sort-label-text">Select your sort method</i></p>
+            <p class="sort-caret m-0"></p>
+            <ul class="sort-dropdown-options position-absolute top-100 start-0 mt-2 ps-0 card d-none">
+              <% @sort.each do |sort| %>
+                <li class="sort-dropdown-options d-flex align-items-center">
+                  <p class="sort-dropdown-options-text m-0 pt-1 pb-1 ps-2"><%= sort %></p>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <button class="clear-sort-button pt-0 pb-0">Clear sort</button>
+        </div>
+
       </div>
 
     </div>
@@ -66,11 +87,14 @@
         </div>
 
         <div class="playtime-stats-container d-flex <%= (game.playtime / 60).round(1) > 0.0 ? "justify-content-between" : "justify-content-start" %>">
-          <p class="playtime-text" style="font-size: 0.8rem;"><strong>Playtime: </strong><%= (game.playtime / 60).round(1) == 0.0 ? 0 : (game.playtime / 60).round(1) %> hours</p>
+          <p class="playtime-text" style="font-size: 0.8rem;">
+            <strong>Playtime: </strong>
+            <span class="playtime"><%= (game.playtime / 60).round(1) == 0.0 ? 0 : (game.playtime / 60).round(1) %> hours</span>
+          </p>
           <% if (game.playtime / 60).round(1) > 0.0 %>
             <p class="playtime-text" style="font-size: 0.8rem;">
               <strong>Last played: </strong>
-              <span data-controller="playtime" data-playtime-target="lastPlayed" data-playtime-playtime-value="<%= game.last_played %>"></span>
+              <span class="last-played" data-controller="playtime" data-playtime-target="lastPlayed" data-playtime-playtime-value="<%= game.last_played %>"></span>
             </p>
           <% end %>
         </div>
